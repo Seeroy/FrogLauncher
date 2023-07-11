@@ -1,8 +1,17 @@
 .window-frame,
 .preloader-container,
-.main-bg {
-  border-radius: 16px;
+.main-bg,
+#drawer-toasts-list {
   border: 1px solid rgb(50, 50, 50);
+}
+
+.window-frame,
+.preloader-container,
+.main-bg,
+#drawer-toasts-list,
+body,
+html {
+  border-radius: 16px;
 }
 
 .sidebar {
@@ -77,6 +86,10 @@
   z-index: -1000;
   margin: auto;
   filter: blur(1px) brightness(40%);
+  background-image: url("../assets/backgrounds/1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* Invisible bar for dragging */
@@ -128,5 +141,5 @@
 }
 
 .dragbar .actions .btn:hover {
-  background: rgb(255,255,255,0.11);
+  background: rgb(255, 255, 255, 0.11);
 }

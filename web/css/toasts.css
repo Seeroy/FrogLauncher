@@ -1,0 +1,32 @@
+/* Toasts styling */
+#toasts-list {
+  position: absolute;
+  height: max-content;
+  width: max-content;
+  overflow: hidden;
+  z-index: 51;
+}
+
+#toasts-list.left-top {
+  top: 16px;
+  left: 16px;
+}
+
+#toasts-list.right-top {
+  top: 16px;
+  right: 16px;
+}
+
+#toasts-list.left-bottom {
+  bottom: 16px;
+  left: 16px;
+}
+
+#toasts-list.right-bottom {
+  bottom: 16px;
+  right: 16px;
+}
+
+#drawer-toasts-list .material-symbols-rounded {
+  font-size: 10pt;
+}

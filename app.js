@@ -48,8 +48,12 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("log-browser-console", ipcHandlers.handleBrowserLog);
-  ipcMain.on("close-main-window", app.quit);
-  ipcMain.on("hide-main-window", mainWindowObject.minimize);
+  ipcMain.on("close-main-window", () => {
+    app.quit();
+  });
+  ipcMain.on("hide-main-window", () => {
+    mainWindowObject.minimize();
+  });
   ipcMain.on("focus-fix", () => {
     mainWindowObject.blur();
     mainWindowObject.focus();

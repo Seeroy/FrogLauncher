@@ -14,7 +14,10 @@ exports.default = function (category = "", text) {
 exports.inverse = function (text) {
   // console.log с обратным цветом
   console.log(colors.inverse(text));
-  fs.appendFileSync("./logs/" + this.getTodayDate() + ".log", text + "\n");
+  fs.appendFileSync(
+    "./logs/" + this.getTodayDate() + ".log",
+    this.getLogTimestamp() + " " + text + "\n"
+  );
 };
 
 exports.error = function (category = "", text) {
@@ -38,15 +41,16 @@ exports.writeLogFile = (category, text, isError = false) => {
   } else {
     resText = "[" + category + "]" + " " + text + "\n";
   }
+  resText = this.getLogTimestamp() + " " + resText;
   fs.appendFileSync("./logs/" + this.getTodayDate() + ".log", resText);
 };
 
 exports.getTodayDate = () => {
   var todayDate = new Date();
   todayDate =
-    todayDate.getDate() +
+    this.padZero(todayDate.getDate()) +
     "-" +
-    todayDate.getMonth() +
+    this.padZero(todayDate.getMonth() + 1) +
     "-" +
     todayDate.getFullYear();
   return todayDate;
@@ -55,12 +59,36 @@ exports.getTodayDate = () => {
 exports.browserLog = (category = "", text) => {
   if (category == "") {
     console.log(colors.green("[BROWSER]"), text);
+    fs.appendFileSync(
+      "./logs/" + this.getTodayDate() + ".log",
+      this.getLogTimestamp() + " [BROWSER] " + text + "\n"
+    );
   } else {
     console.log(
       colors.green("[BROWSER]"),
       colors.brightBlue("[" + category + "]"),
       text
     );
+    fs.appendFileSync(
+      "./logs/" + this.getTodayDate() + ".log",
+      this.getLogTimestamp() + " [BROWSER] [" + category + "] " + text + "\n"
+    );
   }
-  this.writeLogFile(category, text, false);
+};
+
+exports.getLogTimestamp = () => {
+  var logTimestampDate = new Date();
+  logTimestampDate =
+    this.padZero(logTimestampDate.getHours()) +
+    ":" +
+    this.padZero(logTimestampDate.getMinutes()) +
+    ":" +
+    this.padZero(logTimestampDate.getSeconds()) +
+    "." +
+    this.padZero(logTimestampDate.getMilliseconds());
+  return "[" + logTimestampDate + "]";
+};
+
+exports.padZero = (n) => {
+  return n < 10 ? "0" + n : n;
 };

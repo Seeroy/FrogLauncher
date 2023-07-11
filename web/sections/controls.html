@@ -1,0 +1,70 @@
+<div
+  class="controls bg-primary-transparent p-3 animate__animated animate__fadeInUp animate__faster"
+>
+  <button
+    type="button"
+    id="show-users-select"
+    class="py-2.5 px-5 text-sm text-white font-medium focus:outline-none rounded-lg focus:z-10 bg-gray-800 hover:bg-gray-700"
+  >
+    <div class="flex rounded items-center justify-center">
+      <img src="https://minotar.net/avatar/Steve/24" />
+      <div class="ml-3">Seeroy</div>
+    </div>
+  </button>
+</div>
+
+<div
+  class="users-select-modal hidden flex-col items-center justify-center bg-primary-1100"
+>
+  <div class="flex p-2 rounded hover:bg-gray-600 cursor-pointer">
+    <div class="flex items-center h-5">
+      <img src="https://minotar.net/avatar/Steve/24" />
+    </div>
+    <div class="ml-2 text-sm">
+      <div>Seeroy</div>
+      <p class="text-xs font-normal text-gray-300">Локальный аккаунт</p>
+    </div>
+  </div>
+  <div class="flex p-2 rounded hover:bg-gray-600 mt-2">
+    <div class="flex items-center h-5">
+      <img src="https://minotar.net/avatar/seeeroy/24" />
+    </div>
+    <div class="ml-2 text-sm">
+      <div>seeeroy</div>
+      <p class="text-xs font-normal text-gray-300">Аккаунт Microsoft</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(".users-select-modal").click(() => {
+    $(".users-select-modal").addClass("hidden");
+  });
+
+  $("#show-users-select").click(() => {
+    if ($(".users-select-modal").hasClass("hidden")) {
+      $(".users-select-modal").removeClass("hidden");
+      FrogUI.refreshAbsoluteElementsPositions();
+    } else {
+      $(".users-select-modal").addClass("hidden");
+    }
+  });
+</script>
+
+<style>
+  .users-select-modal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: max-content;
+    width: max-content;
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .users-select-modal * {
+    color: white;
+  }
+</style>
