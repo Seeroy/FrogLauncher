@@ -1,18 +1,18 @@
 var path = require('path');
 const { BrowserWindow } = require("electron");
 
-const MW_OPTIONS = {
+const CW_OPTIONS = {
   width: 1024,
   height: 640,
-  minWidth: 960,
-  minHeight: 540,
+  minWidth: 830,
+  minHeight: 560,
   maxWidth: 1600,
   maxHeight: 900,
   hasShadow: true,
   show: false,
   icon: "resources/icon.ico",
   resizable: true,
-  maximizable: false,
+  maximizable: true,
   autoHideMenuBar: true,
   frame: false,
   transparent: true,
@@ -22,15 +22,15 @@ const MW_OPTIONS = {
     contextIsolation: false,
   },
 };
-const MW_URL = "web/index.html";
+const CW_URL = "web/console.html";
 
-exports.create = (cb) => {
-  mainWindowObject = new BrowserWindow(MW_OPTIONS);
+exports.create = (cb = function(){}) => {
+  consoleWindowObject = new BrowserWindow(CW_OPTIONS);
 
-  mainWindowObject.loadFile(MW_URL);
+  consoleWindowObject.loadFile(CW_URL);
 
-  mainWindowObject.once("ready-to-show", () => {
-    mainWindowObject.show();
+  consoleWindowObject.once("ready-to-show", () => {
+    consoleWindowObject.show();
     cb();
   });
 };

@@ -4,11 +4,11 @@
   <button
     type="button"
     id="show-users-select"
-    class="py-2.5 px-5 text-sm text-white font-medium focus:outline-none rounded-lg focus:z-10 bg-gray-800 hover:bg-gray-700"
+    class="py-2.5 px-5 text-sm text-white font-medium focus:outline-none rounded-lg focus:z-10"
   >
-    <div class="flex rounded items-center justify-center">
+    <div class="flex rounded items-center">
       <img src="https://minotar.net/avatar/Steve/24" />
-      <div class="ml-3">Seeroy</div>
+      <div class="ml-3">TestUser</div>
     </div>
   </button>
 </div>
@@ -16,22 +16,22 @@
 <div
   class="users-select-modal hidden flex-col items-center justify-center bg-primary-1100"
 >
-  <div class="flex p-2 rounded hover:bg-gray-600 cursor-pointer">
-    <div class="flex items-center h-5">
+  <div class="flex p-2 rounded user-item">
+    <div class="flex items-center h-8">
       <img src="https://minotar.net/avatar/Steve/24" />
     </div>
-    <div class="ml-2 text-sm">
+    <div class="ml-2 text-sm text-white">
       <div>Seeroy</div>
-      <p class="text-xs font-normal text-gray-300">Локальный аккаунт</p>
+      <p class="text-xs font-normal text-gray-400">Локальный аккаунт</p>
     </div>
   </div>
-  <div class="flex p-2 rounded hover:bg-gray-600 mt-2">
-    <div class="flex items-center h-5">
+  <div class="flex p-2 rounded mt-2 user-item">
+    <div class="flex items-center h-8">
       <img src="https://minotar.net/avatar/seeeroy/24" />
     </div>
-    <div class="ml-2 text-sm">
+    <div class="ml-2 text-sm text-white">
       <div>seeeroy</div>
-      <p class="text-xs font-normal text-gray-300">Аккаунт Microsoft</p>
+      <p class="text-xs font-normal text-gray-400">Аккаунт Microsoft</p>
     </div>
   </div>
 </div>
@@ -62,9 +62,23 @@
     width: max-content;
     padding: 8px;
     border-radius: 12px;
+    width: 224px;
   }
 
-  .users-select-modal * {
-    color: white;
+  .users-select-modal .user-item {
+    cursor: pointer;
+  }
+
+  .users-select-modal .user-item:hover {
+    background: var(--bg-primary-900);
+  }
+
+  #show-users-select {
+    width: 224px;
+    background: var(--bg-primary-1100);
+  }
+
+  #show-users-select:hover {
+    background: var(--bg-primary-900);
   }
 </style>

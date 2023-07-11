@@ -84,6 +84,11 @@ class FrogUI {
       usmb_boundings.y - usm_boundings.height - 24
     );
     $(".users-select-modal").css("left", usmb_boundings.x);
+
+    var memtb_boundings = $("#showMemTooltip")[0].getBoundingClientRect();
+    var memt_boundings = $("#memTooltip")[0].getBoundingClientRect();
+    $("#memTooltip").css("top", memtb_boundings.y + 4);
+    $("#memTooltip").css("left", memtb_boundings.x + memt_boundings.width + 8);
   };
 }
 

@@ -125,7 +125,8 @@ html {
   justify-content: end;
 }
 
-.dragbar .actions .btn {
+.dragbar .actions .btn,
+.titlebar .titlebar-buttons .btn {
   background: transparent;
   border-radius: 8px;
   padding: 6px;
@@ -136,10 +137,12 @@ html {
   justify-content: center;
 }
 
-.dragbar .actions .btn * {
+.dragbar .actions .btn *,
+.titlebar .titlebar-buttons .btn * {
   color: white;
 }
 
-.dragbar .actions .btn:hover {
+.dragbar .actions .btn:hover,
+.titlebar .titlebar-buttons .btn:hover {
   background: rgb(255, 255, 255, 0.11);
 }

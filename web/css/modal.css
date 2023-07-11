@@ -18,12 +18,12 @@
 .modal-bg .modal-window {
   width: 90%;
   height: 90%;
-  padding: 32px;
+  padding: 26px;
   border-radius: 16px;
 }
 
 .modal-bg .modal-window .modal-caption {
-  font-size: 24pt;
+  font-size: 20pt;
   font-family: "Minecraft Rus";
 }
 
