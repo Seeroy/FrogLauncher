@@ -14,7 +14,7 @@ exports.default = function (category = "", text) {
 exports.inverse = function (text) {
   // console.log с обратным цветом
   console.log(colors.inverse(text));
-  this.writeLogFile("INVERSE", text, false);
+  fs.appendFileSync("./logs/" + this.getTodayDate() + ".log", text + "\n");
 };
 
 exports.error = function (category = "", text) {
@@ -32,12 +32,35 @@ exports.writeLogFile = (category, text, isError = false) => {
     fs.mkdirSync("./logs");
   }
   var resText = "";
-  var todayDate = new Date();
-  todayDate = todayDate.getDate() + "-" + todayDate.getMonth() + "-" + todayDate.getFullYear();
+
   if (isError == true) {
     resText = "[" + category + "] (ERROR)" + " " + text + "\n";
   } else {
     resText = "[" + category + "]" + " " + text + "\n";
   }
-  fs.appendFileSync("./logs/" + todayDate + ".log", resText);
+  fs.appendFileSync("./logs/" + this.getTodayDate() + ".log", resText);
+};
+
+exports.getTodayDate = () => {
+  var todayDate = new Date();
+  todayDate =
+    todayDate.getDate() +
+    "-" +
+    todayDate.getMonth() +
+    "-" +
+    todayDate.getFullYear();
+  return todayDate;
+};
+
+exports.browserLog = (category = "", text) => {
+  if (category == "") {
+    console.log(colors.green("[BROWSER]"), text);
+  } else {
+    console.log(
+      colors.green("[BROWSER]"),
+      colors.brightBlue("[" + category + "]"),
+      text
+    );
+  }
+  this.writeLogFile(category, text, false);
 };

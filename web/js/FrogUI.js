@@ -1,17 +1,20 @@
 class FrogUI {
-  static loadSection = function(selector, section) {
-    $.get("sections/" + section + ".html", function(sectionCode){
+  static loadSection = (selector, section) => {
+    FrogBackendCommunicator.logBrowserConsole("[UI]", "Loading section:", section);
+    $.get("sections/" + section + ".html", (sectionCode) => {
       $(selector).append(sectionCode);
     });
   }
 
-  static addSectionIntoBody = function(section) {
-    $.get("sections/" + section + ".html", function(sectionCode){
+  static addSectionIntoBody = (section) => {
+    FrogBackendCommunicator.logBrowserConsole("[UI]", "Loading section:", section);
+    $.get("sections/" + section + ".html", (sectionCode) => {
       $(".window-frame").append(sectionCode);
     });
   }
 
-  static showPreloader = function(text = ""){
+  static showPreloader = (text = "") => {
+    FrogBackendCommunicator.logBrowserConsole("[UI]", "Show preloader");
     if(text != ""){
       $(".preloader-container .preloader-desc").text(text);
     }
@@ -19,10 +22,46 @@ class FrogUI {
     animateCSS(".preloader-container", "fadeIn", true);
   }
 
-  static hidePreloader = function(){
+  static hidePreloader = () => {
+    FrogBackendCommunicator.logBrowserConsole("[UI]", "Hide preloader");
     animateCSS(".preloader-container", "fadeOut", true).then(() => {
       $(".preloader-container").addClass("hidden");
     });
+  }
+
+  static showMenuModal = (menu) => {
+    $("#" + menu + "-mmodal").removeClass("hidden");
+    animateCSS("#" + menu + "-mmodal", "fadeIn", true);
+    FrogBackendCommunicator.logBrowserConsole("[UI]", "Show menu modal:", menu);
+  }
+
+  static hideMenuModal = (menu) => {
+    animateCSS("#" + menu + "-mmodal", "fadeOut", true).then(() => {
+      $("#" + menu + "-mmodal").addClass("hidden");
+      FrogBackendCommunicator.logBrowserConsole("[UI]", "Hide menu modal:", menu);
+    });
+  }
+
+  static goHomeSection = () => {
+    FrogUI.setSidebarActiveItemByModalData("home");
+    $(".modal-bg:not(.hidden)").each(function (i, elem) {
+      var cleanId = $(elem)[0].id.split("-")[0];
+      FrogUI.hideMenuModal(cleanId);
+    });
+  }
+
+  static setSidebarActiveItemByModalData = (modalName) => {
+    FrogUI.setUnactiveActivatedSidebarItem();
+    $(".sidebar .sidebar-item").each(function (i, elem) {
+      var modalData = $(elem).data("modal");
+      if(modalData == modalName){
+        $(this).addClass("bg-primary-600 active");
+      }
+    });
+  }
+
+  static setUnactiveActivatedSidebarItem = () => {
+    $(".sidebar .sidebar-item.active").removeClass("active bg-primary-600");
   }
 }
 

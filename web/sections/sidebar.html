@@ -1,25 +1,25 @@
-<div class="sidebar h-full bg-primary-transparent h-full p-3 animate__animated animate__fadeInLeft animate__faster">
+<div class="sidebar h-full bg-primary-transparent p-3 animate__animated animate__fadeInLeft animate__faster">
   <img src="assets/icon-foreground.png" class="logo" />
   <div class="flex flex-col items-center justify-center grow">
     <div
       class="sidebar-item active bg-primary-600 flex items-center"
-      data-tooltip="Домашняя страница"
+      data-tooltip="Домашняя страница" data-modal="home"
     >
       <span class="material-symbols-rounded"> home </span>
     </div>
-    <div class="sidebar-item flex items-center" data-tooltip="Сборки">
+    <div class="sidebar-item flex items-center" data-tooltip="Сборки" data-modal="packs">
       <span class="material-symbols-rounded"> grid_view </span>
     </div>
-    <div class="sidebar-item flex items-center" data-tooltip="Сервера">
+    <div class="sidebar-item flex items-center" data-tooltip="Сервера" data-modal="servers">
       <span class="material-symbols-rounded"> dns </span>
     </div>
-    <div class="sidebar-item flex items-center" data-tooltip="Настройки">
+    <div class="sidebar-item flex items-center" data-tooltip="Настройки" data-modal="settings">
       <span class="material-symbols-rounded"> settings </span>
     </div>
-    <div class="sidebar-item flex items-center" data-tooltip="Консоль разработчика">
+    <div class="sidebar-item flex items-center" data-tooltip="Консоль разработчика" data-modal="console">
       <span class="material-symbols-rounded"> terminal </span>
     </div>
-    <div class="sidebar-item flex items-center" data-tooltip="Темы и персонализация">
+    <div class="sidebar-item flex items-center" data-tooltip="Темы и персонализация" data-modal="themes">
       <span class="material-symbols-rounded"> palette </span>
     </div>
   </div>
@@ -80,6 +80,15 @@
 
   $(".sidebar-item:not(.active)").mouseleave(function () {
     hideSidebarTooltip();
+  });
+
+  $(".sidebar-item:not(.active)").click(function () {
+    hideSidebarTooltip();
+    var modalData = $(this).data("modal");
+    if(modalData !== "" && $("#" + modalData + "-mmodal").length > 0){
+      FrogUI.setSidebarActiveItemByModalData(modalData);
+      FrogUI.showMenuModal(modalData);
+    }
   });
 
   function showSidebarTooltip(sbItem) {

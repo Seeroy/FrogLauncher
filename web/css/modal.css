@@ -1,0 +1,32 @@
+.modal-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  background: rgb(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.modal-bg .modal-window {
+  width: 90%;
+  height: 90%;
+  padding: 32px;
+  border-radius: 16px;
+}
+
+.modal-bg .modal-window .modal-caption {
+  font-size: 24pt;
+  font-family: "Minecraft Rus";
+}
+
+.modal-bg .modal-window * {
+  color: white;
+}

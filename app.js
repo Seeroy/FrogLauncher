@@ -1,19 +1,22 @@
 // Загрузка модулей
-const { app, ipcMain, BrowserWindow } = require("electron");
+const { app, ipcMain } = require("electron");
 require("console-stamp")(console, {
   format: ":date(HH:MM:ss.l)",
 });
 const os = require("os");
-const colors = require("colors");
-const path = require("path");
 
 var pjson = require("./package.json");
-var win;
 const APPVER = pjson.version; // Версия из package.json
+
+global.mainWindowObject;
 
 // Кастомные модули
 var startTimer = require("./modules/starttimer"); // Модуль для получения времени запуска оболочки
 var logging = require("./modules/logging"); // Модуль для стилизации логов
+var ipcHandlers = require("./modules/ipc"); // Модуль с хэндлерами IPC
+var mainWindow = require("./windows/mainWindow"); // Модуль для создания главного окна
+
+logging.default("Debug", "Starting FrogLauncher at " + Date.now());
 
 logging.inverse(
   "FrogLauncher " +
@@ -31,44 +34,24 @@ logging.default("Debug", "node version: " + process.versions["node"]);
 logging.default("Debug", "chrome version: " + process.versions["chrome"]);
 logging.default("Debug", "electron version: " + process.versions["electron"]);
 
-function createWindow() {
-  win = new BrowserWindow({
-    width: 1024,
-    height: 640,
-    minWidth: 1024,
-    minHeight: 640,
-    hasShadow: true,
-    show: false,
-    icon: "resources/icon.ico",
-    resizable: false,
-    maximizable: false,
-    autoHideMenuBar: true,
-    frame: false,
-    transparent: true,
-    webPreferences: {
-      preload: path.join(__dirname, "web/preload.js"),
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  });
-
-  win.loadFile("web/index.html");
-
-  win.once("ready-to-show", () => {
-    win.show();
-    if (startTimer.ifStartCompleted() == false) {
-      time = startTimer.startCompleted();
-      logging.default("Debug", "Started. Time: " + time + " sec")
-    }
-  });
-}
-
 app.whenReady().then(() => {
-  createWindow();
+  mainWindow.create(function () {
+    startTimer.checkStartTimer();
+  });
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+      mainWindow.create(function () {
+        startTimer.checkStartTimer();
+      });
     }
+  });
+
+  ipcMain.on("log-browser-console", ipcHandlers.handleBrowserLog);
+  ipcMain.on("close-main-window", app.quit);
+  ipcMain.on("hide-main-window", mainWindowObject.minimize);
+  ipcMain.on("focus-fix", () => {
+    mainWindowObject.blur();
+    mainWindowObject.focus();
   });
 });
