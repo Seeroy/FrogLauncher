@@ -1,0 +1,40 @@
+.bg-primary-100 {
+  background: #e5edff;
+}
+.bg-primary-200 {
+  background: #cddbfe;
+}
+.bg-primary-300 {
+  background: #b4c6fc;
+}
+.bg-primary-400 {
+  background: #8da2fb;
+}
+.bg-primary-500 {
+  background: #6875f5;
+}
+.bg-primary-600 {
+  background: #5850ec;
+}
+.bg-primary-700 {
+  background: #5145cd;
+}
+.bg-primary-800 {
+  background: #42389d;
+}
+.bg-primary-900 {
+  background: #362f78;
+}
+.bg-primary-1000 {
+  background: #131129;
+}
+.bg-primary-1100 {
+  background: #080613;
+}
+.bg-primary-transparent {
+  background: rgba(39, 35, 68, 0.4);
+}
+
+:root {
+  --nav-width: 68px;
+}

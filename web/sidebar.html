@@ -1,0 +1,101 @@
+<div class="sidebar h-full bg-primary-transparent h-full p-3">
+  <img src="assets/icon-foreground.png" class="logo" />
+  <div class="flex flex-col items-center justify-center grow">
+    <div
+      class="sidebar-item active bg-primary-600 flex items-center"
+      data-tooltip="Домашняя страница"
+    >
+      <span class="material-symbols-rounded"> home </span>
+    </div>
+    <div class="sidebar-item flex items-center" data-tooltip="Сборки">
+      <span class="material-symbols-rounded"> grid_view </span>
+    </div>
+    <div class="sidebar-item flex items-center" data-tooltip="Сервера">
+      <span class="material-symbols-rounded"> dns </span>
+    </div>
+    <div class="sidebar-item flex items-center" data-tooltip="Настройки">
+      <span class="material-symbols-rounded"> settings </span>
+    </div>
+    <div class="sidebar-item flex items-center" data-tooltip="Консоль разработчика">
+      <span class="material-symbols-rounded"> terminal </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .sidebar {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .sidebar .logo {
+    width: 48px;
+  }
+
+  .sidebar .sidebar-item:not(.active) {
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+  }
+
+  .sidebar .sidebar-item:not(.active):hover {
+    background: rgba(65, 65, 65, 0.5) !important;
+  }
+
+  .sidebar .sidebar-item {
+    margin: 8px 0;
+    color: white;
+  }
+
+  .sidebar .sidebar-item {
+    padding: 10px;
+    border-radius: 50%;
+  }
+
+  .sb-tooltip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: white;
+    padding: 6px;
+    text-align: center;
+    border-radius: 4px;
+    width: max-content;
+    height: max-content;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  $(".sidebar-item:not(.active)").hover(function () {
+    showSidebarTooltip(this);
+  });
+
+  $(".sidebar-item:not(.active)").mouseleave(function () {
+    hideSidebarTooltip();
+  });
+
+  function showSidebarTooltip(sbItem) {
+    tooltipText = $(sbItem).data("tooltip");
+    sbItemBoundings = $(sbItem)[0].getBoundingClientRect();
+    tooltipX = sbItemBoundings.x + sbItemBoundings.width + 16;
+    tooltipY = sbItemBoundings.y + 3;
+    $("body").append(
+      "<div class='sb-tooltip bg-primary-700 animate__animated animate__zoomIn animate__faster' style='top: " +
+        tooltipY +
+        "px; left: " +
+        tooltipX +
+        "px;'>" +
+        tooltipText +
+        "</div>"
+    );
+  }
+
+  function hideSidebarTooltip() {
+    $(".sb-tooltip").remove();
+  }
+</script>

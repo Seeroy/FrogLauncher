@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="./css/main.css" rel="stylesheet" />
+    <link href="./css/window.css" rel="stylesheet" />
+    <link href="./themes/indigo.css" rel="stylesheet" />
+    <link href="./css/flowbite.min.css" rel="stylesheet" />
+    <script src="./js/flowbite.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,500,0,0"
+    />
+    <title>FrogLauncher</title>
+  </head>
+  <body>
+    <!-- Loading container -->
+    <div class="preloader-container hidden">
+      <img src="assets/icon-foreground.png" />
+      <p class="text-black dark:text-white text-3xl mt-3 preloader-title">
+        FrogLauncher
+      </p>
+      <p class="text-gray-700 dark:text-gray-300 text-md mt-3">
+        Загружаем лаунчер
+      </p>
+      <!-- Spinner -->
+      <div role="status" class="mt-4">
+        <svg
+          aria-hidden="true"
+          class="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300"
+          viewBox="0 0 100 101"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+            fill="currentColor"
+          />
+          <path
+            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+            fill="currentFill"
+          />
+        </svg>
+        <span class="sr-only">Loading...</span>
+      </div>
+      <!-- Copyright badge -->
+      <div
+        class="bg-gray-200 dark:bg-gray-800 rounded-md p-3 preloader-copyright text-gray-800 dark:text-gray-200"
+      >
+        © 2023 FrogTeam. All rights reserved
+      </div>
+    </div>
+    <!-- Main container -->
+    <div class="bg-primary-1100 w-full h-full window-frame flex flex-col">
+      <!-- Title bar -->
+      <div
+        class="title-bar p-2 px-5 flex items-center justify-center w-full bg-primary-1000"
+      >
+        <div class="title-bar-icon">
+          <img src="assets/icon-foreground.png" />
+        </div>
+        <div
+          class="title-bar-caption text-black dark:text-white grow text-center"
+        >
+          FrogLauncher
+        </div>
+      </div>
+      <!-- Content section -->
+      <div class="content grow flex items-center h-full">
+        <div class="flex flex-col h-full">
+          <p class="text-black dark:text-white text-3xl font-semibold">Меню</p>
+          <div class="grid grid-cols-2 grid-rows-2 gap-4 mt-3 max-w-sm">
+            <!-- Sborki item -->
+            <div
+              class="bg-red-700 rounded-lg shadow p-5 flex flex-col justify-center"
+            >
+              <div class="flex flex-row items-center">
+                <span class="material-symbols-rounded text-2xl text-white">
+                  grid_view
+                </span>
+                <p class="text-white text-lg font-medium ml-3">
+                  Сборки
+                </p>
+              </div>
+              <p class="text-white text-md">
+                Раздел со сборками
+              </p>
+            </div>
+            <!-- Something -->
+            <div
+              class="bg-purple-700 rounded-lg shadow p-5 flex flex-col justify-center"
+            >
+              <div class="flex flex-row items-center">
+                <span class="material-symbols-rounded text-2xl text-white">
+                  dns
+                </span>
+                <p class="text-white text-lg font-medium ml-3">
+                  Сервера
+                </p>
+              </div>
+              <p class="text-white text-md">
+                Раздел со списком рекомендуемых серверов
+              </p>
+            </div>
+            <!-- Servers item-->
+            <div
+              class="bg-green-700 rounded-lg shadow p-5 flex flex-col justify-center"
+            >
+              <div class="flex flex-row items-center">
+                <span class="material-symbols-rounded text-2xl text-white">
+                  dns
+                </span>
+                <p class="text-white text-lg font-medium ml-3">
+                  Сервера
+                </p>
+              </div>
+              <p class="text-white text-md">
+                Раздел со списком рекомендуемых серверов
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer section -->
+      <div class="footer p-2 px-5 bg-primary-1000">There will be footer</div>
+    </div>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
+
+<style></style>
