@@ -1,0 +1,43 @@
+:root {
+  --bg-primary-300: #A4CAFE;
+  --bg-primary-400: #76A9FA;
+  --bg-primary-500:#3F83F8;
+  --bg-primary-600:#1C64F2;
+  --bg-primary-700: #1A56DB;
+  --bg-primary-800: #1E429F;
+  --bg-primary-900: #233876;
+  --bg-primary-1000: #111d29;
+  --bg-primary-1100: #060b13;
+  --bg-primary-transparent: rgba(35, 52, 68, 0.4);
+}
+
+.bg-primary-300 {
+  background: var(--bg-primary-300);
+}
+.bg-primary-400 {
+  background: var(--bg-primary-400);
+}
+.bg-primary-500 {
+  background: var(--bg-primary-500);
+}
+.bg-primary-600 {
+  background: var(--bg-primary-600);
+}
+.bg-primary-700 {
+  background: var(--bg-primary-700);
+}
+.bg-primary-800 {
+  background: var(--bg-primary-800);
+}
+.bg-primary-900 {
+  background: var(--bg-primary-900);
+}
+.bg-primary-1000 {
+  background: var(--bg-primary-1000);
+}
+.bg-primary-1100 {
+  background: var(--bg-primary-1100);
+}
+.bg-primary-transparent {
+  background: var(--bg-primary-transparent);
+}

@@ -1,5 +1,5 @@
 <div id="settings-mmodal" class="modal-bg hidden">
-  <div class="modal-window bg-primary-1100">
+  <div class="modal-window bg-primary-1100 flex flex-col">
     <div class="flex">
       <div class="modal-caption grow">Настройки</div>
       <button
@@ -32,6 +32,30 @@
     <!-- Java version selector -->
     <p class="my-3">Версия Java</p>
     <select class="custom-input" id="javaSelect"></select>
+
+    <!-- Game directory setup -->
+    <p class="my-3">Папка для хранения файлов игры</p>
+    <div
+      class="flex items-center"
+    >
+      <input
+        type="text"
+        class="custom-input"
+        readonly
+        style="height: 48px;"
+        id="gamePathInput"
+      />
+      <button
+        id="selectPathButton" class="bg-primary-1000 rounded-lg ml-3 p-0" style="width: 48px; height: 48px;"
+        onclick="openGameDirectoryDialog(false)"
+      >
+        <span class="material-symbols-rounded" style="padding-top: 4px;">folder_open</span>
+      </button>
+    </div>
+
+    <div class="grow"></div>
+
+    <button class="custom-button" onclick="saveMainSettings()">Сохранить настройки</button>
   </div>
   <div
     id="memTooltip"
@@ -40,8 +64,8 @@
     <span class="material-symbols-rounded text-white">memory_alt</span>
     <span class="ml-3 text-white"
       >Рекомендуем выделять
-      <span class="text-green-500">не менее 1.5 Гб</span> для ванильной версии
-      и <span class="text-blue-500">не менее 4 Гб</span> для версии с
+      <span class="text-green-500">не менее 1.5 Гб</span> для ванильной версии и
+      <span class="text-blue-500">не менее 4 Гб</span> для версии с
       модификациями</span
     >
   </div>
@@ -98,12 +122,31 @@
     });
 
     // Refreshing memory input max and val
-    var total = FrogInfo.getMaxRAMSize();
-    var ttl = (total / 1024).toFixed(1) / 2;
-    var max = (total / 1024).toFixed(1);
-    $("#memInput").val(ttl);
-    $("#memInput").attr("max", max);
-    
+    $("#memInput").val(mainConfig.selectedMemorySize);
+    $("#memInput").attr("max", (FrogInfo.getMaxRAMSize() / 1024).toFixed(1));
+
+    // Refreshing Java select
+    if (mainConfig.selectedJava == "auto") {
+      $("#javaSelect option[value='auto']").prop("selected", true);
+    } else {
+      if (
+        $("#javaSelect option[value='" + mainConfig.selectedJava + "']")
+          .length > 0
+      ) {
+        $("#javaSelect option[value='" + mainConfig.selectedJava + "']").prop(
+          "selected",
+          true
+        );
+      } else {
+        $("#javaSelect option[value='auto']").prop("selected", true);
+        mainConfig.selectedJava = "auto";
+        FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+      }
+    }
+
+    // Refreshing game path
+    $("#gamePathInput").val(mainConfig.selectedBaseDirectory);
+
     // Securing memInput from entering value bigger than max
     $("#memInput").change(function () {
       if ($(this).val() > parseInt($(this).attr("max"))) {
@@ -114,4 +157,12 @@
       }
     });
   });
+
+  function saveMainSettings() {
+    mainConfig.selectedJava = $("#javaSelect option:selected").val();
+    mainConfig.selectedMemorySize = $("#memInput").val();
+    mainConfig.selectedBaseDirectory = $("#gamePathInput").val();
+    FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+    Toaster("Настройки успешно сохранены", 3500, true, "success");
+  }
 </script>

@@ -17,7 +17,7 @@
     <link href="./css/switch.css" rel="stylesheet" />
 
     <!-- DELETE ON RELEASE -->
-    <link href="./themes/indigo.css" rel="stylesheet" />
+    <link href="./themes/gradient-blue.css" rel="stylesheet" />
 
     <!-- Flowbite -->
     <link href="./css/flowbite.min.css" rel="stylesheet" />
@@ -46,7 +46,8 @@
           <span class="material-symbols-rounded">notifications</span>
           <div
             class="absolute inline-flex items-center justify-center w-2 h-2 font-bold text-white bg-red-500 rounded-full hidden"
-            style="top: -1px; right: 110px" id="notifications-badge"
+            style="top: -1px; right: 110px"
+            id="notifications-badge"
           ></div>
         </div>
         <div class="btn" onclick="FrogBackendCommunicator.onHideMainWindow()">
@@ -116,6 +117,14 @@
 <style></style>
 
 <script>
+  var mainConfig;
+  
+  // Loading config or creating if not exists
+  mainConfig = FrogConfigManager.readMainConfig();
+  if (mainConfig == false) {
+    mainConfig = FrogConfigManager.writeDefaultMainConfig();
+  }
+
   $(document).ready(function () {
     // Loading some sections
     FrogUI.addSectionIntoBody("sidebar");

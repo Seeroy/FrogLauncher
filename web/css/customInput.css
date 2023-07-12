@@ -1,3 +1,4 @@
+/* Custom input */
 .custom-input {
   outline: none !important;
   border: none !important;
@@ -13,4 +14,26 @@
 .custom-input:disabled {
   background: rgb(25, 25, 25);
   color: var(--bg-primary-200);
+}
+
+/* Custom button */
+.custom-button {
+  outline: none !important;
+  border: none !important;
+  appearance: none !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  background: var(--bg-primary-600) !important;
+  padding: 12px !important;
+  font-size: 11pt !important;
+  font-weight: 500 !important;
+}
+
+.custom-button:disabled {
+  background: rgb(25, 25, 25);
+  color: var(--bg-primary-200);
+}
+
+.custom-button:hover {
+  background: var(--bg-primary-500) !important;
 }

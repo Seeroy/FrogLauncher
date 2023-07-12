@@ -24,3 +24,8 @@ html {
   box-sizing: border-box;
   -webkit-user-select: none;
 }
+
+.material-symbols-rounded {
+  margin: 0;
+  padding: 0;
+}

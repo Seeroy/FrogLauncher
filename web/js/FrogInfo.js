@@ -14,7 +14,7 @@ class FrogInfo {
       "JRE",
       "AdoptiumJRE",
       "Temurin",
-      "Eclipse Foundation"
+      "Eclipse Foundation",
     ];
     var javas = [];
     directories.forEach(function (mainDir) {
@@ -30,11 +30,15 @@ class FrogInfo {
       });
     });
     return javas;
-  };
+  }
 
   static getMaxRAMSize = () => {
     return round512(Math.round(os.totalmem() / 1024 / 1024));
-  };
+  }
+
+  static getDefaultDotMinecraft = () => {
+    return path.join(os.homedir(), "AppData", "Roaming", ".minecraft");
+  }
 }
 
 function round512(x) {
