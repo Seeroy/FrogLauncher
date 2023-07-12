@@ -41,24 +41,25 @@ app.whenReady().then(() => {
   mainWindow.create(function () {
     startTimer.checkStartTimer();
   });
-
+  consoleWindow.create();
+  
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow.create(function () {
         startTimer.checkStartTimer();
       });
+      consoleWindow.create();
     }
   });
 
   ipcMain.on("log-browser-console", ipcHandlers.handleBrowserLog);
 
   ipcMain.on("close-console-window", () => {
-    consoleWindowObject.close();
-    consoleWindowObject = null;
+    consoleWindowObject.hide();
   });
   ipcMain.on("open-console-window", () => {
-    if(typeof consoleWindowObject == "undefined" || consoleWindowObject == null){
-      consoleWindow.create();
+    if(!consoleWindowObject.isVisible()){
+      consoleWindowObject.show();
     } else {
       consoleWindowObject.focus();
     }

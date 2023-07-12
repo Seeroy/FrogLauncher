@@ -4,60 +4,114 @@
       <div class="modal-caption grow">Настройки</div>
       <button
         type="button"
-        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="FrogUI.goHomeSection()">
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        onclick="FrogUI.goHomeSection()"
+      >
         <span class="material-symbols-rounded">close</span>
       </button>
     </div>
 
-    <div class="flex">
-      <p>Выделение памяти (Мбайт)</p>
-      <span class="material-symbols-rounded text-primary-700 ml-3" id="showMemTooltip">help</span>
+    <!-- Memory setup -->
+    <div class="flex my-3">
+      <p>Выделение памяти (Гб)</p>
+      <span
+        class="material-symbols-rounded text-primary-700 ml-3"
+        id="showMemTooltip"
+        >help</span
+      >
     </div>
 
-    <input type="number" id="memInput" class="custom-input mt-3" min="512" max="8192" step="512" value="1024">
-    
-    
+    <input
+      type="number"
+      id="memInput"
+      class="custom-input"
+      min="0.5"
+      step="0.5"
+    />
+
+    <!-- Java version selector -->
+    <p class="my-3">Версия Java</p>
+    <select class="custom-input" id="javaSelect"></select>
   </div>
-  <div id="memTooltip" class="setup-tooltip flex items-center justify-center hidden">
+  <div
+    id="memTooltip"
+    class="setup-tooltip flex items-center justify-center hidden"
+  >
     <span class="material-symbols-rounded text-white">memory_alt</span>
-    <span class="ml-3 text-white">Рекомендуем выделять <span class="text-green-500">не менее 2048 Мб</span> для ванильной версии и <span class="text-blue-500">не менее 4096 Мб</span> для версии с модификациями</span>
+    <span class="ml-3 text-white"
+      >Рекомендуем выделять
+      <span class="text-green-500">не менее 1.5 Гб</span> для ванильной версии
+      и <span class="text-blue-500">не менее 4 Гб</span> для версии с
+      модификациями</span
+    >
   </div>
 </div>
 
 <style>
-.setup-tooltip {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: max-content;
-  height: max-content;
-  padding: 24px;
-  border-radius: 12px;
-  background: var(--bg-primary-1000);
-  z-index: 20;
-  width: 380px;
-  pointer-events: none;
-}
+  .setup-tooltip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: max-content;
+    height: max-content;
+    padding: 24px;
+    border-radius: 12px;
+    background: var(--bg-primary-1000);
+    z-index: 20;
+    width: 380px;
+    pointer-events: none;
+  }
 
-.setup-tooltip .material-symbols-rounded {
-  font-size: 20pt;
-}
+  .setup-tooltip .material-symbols-rounded {
+    font-size: 20pt;
+  }
 
-input {
-  width: 256px;
-}
+  input,
+  select {
+    width: 100%;
+  }
 </style>
 
 <script>
-$("#showMemTooltip").hover(function(){
-  FrogUI.refreshAbsoluteElementsPositions();
-  $("#memTooltip").removeClass("hidden");
-  animateCSS("#memTooltip", "fadeIn");
-});
+  const AUTO_JAVA_ITEM =
+    "<option value='auto'>Автоматически скачать и использовать подходящую версию</option>";
 
-$("#showMemTooltip").mouseleave(function(){
-  $("#memTooltip").addClass("hidden");
-});
+  $("#showMemTooltip").hover(function () {
+    FrogUI.refreshAbsoluteElementsPositions();
+    $("#memTooltip").removeClass("hidden");
+    animateCSS("#memTooltip", "fadeIn");
+  });
+
+  $("#showMemTooltip").mouseleave(function () {
+    $("#memTooltip").addClass("hidden");
+  });
+
+  $(document).ready(function () {
+    // Loading Java list
+    $("#javaSelect").append(AUTO_JAVA_ITEM);
+    FrogInfo.getJavaBinariesList().forEach((element) => {
+      $("#javaSelect").append(
+        "<option value='" + element + "'>" + element + "</option>"
+      );
+    });
+
+    // Refreshing memory input max and val
+    var total = FrogInfo.getMaxRAMSize();
+    var ttl = (total / 1024).toFixed(1) / 2;
+    var max = (total / 1024).toFixed(1);
+    $("#memInput").val(ttl);
+    $("#memInput").attr("max", max);
+    
+    // Securing memInput from entering value bigger than max
+    $("#memInput").change(function () {
+      if ($(this).val() > parseInt($(this).attr("max"))) {
+        $(this).val(parseInt($(this).attr("max")));
+      }
+      if ($(this).val() < $(this).attr("min")) {
+        $(this).val($(this).attr("min"));
+      }
+    });
+  });
 </script>

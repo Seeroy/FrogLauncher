@@ -30,7 +30,6 @@ exports.create = (cb = function(){}) => {
   consoleWindowObject.loadFile(CW_URL);
 
   consoleWindowObject.once("ready-to-show", () => {
-    consoleWindowObject.show();
     cb();
   });
 };

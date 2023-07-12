@@ -1,4 +1,5 @@
 const colors = require("colors");
+const { ipcMain } = require("electron");
 const fs = require("fs");
 
 exports.default = function (category = "", text) {
@@ -14,6 +15,9 @@ exports.default = function (category = "", text) {
 exports.inverse = function (text) {
   // console.log с обратным цветом
   console.log(colors.inverse(text));
+  if (typeof consoleWindowObject !== "undefined") {
+    consoleWindowObject.webContents.send("user-console-log", text);
+  }
   fs.appendFileSync(
     "./logs/" + this.getTodayDate() + ".log",
     this.getLogTimestamp() + " " + text + "\n"
@@ -24,8 +28,23 @@ exports.error = function (category = "", text) {
   // Log level error
   if (category == "") {
     console.log(text);
+    if (
+      typeof consoleWindowObject !== "undefined" &&
+      consoleWindowObject != null
+    ) {
+      consoleWindowObject.webContents.send("user-console-log", text);
+    }
   } else {
     console.log(colors.brightBlue("[" + category + "]"), colors.red(text));
+    if (
+      typeof consoleWindowObject !== "undefined" &&
+      consoleWindowObject != null
+    ) {
+      consoleWindowObject.webContents.send(
+        "user-console-log",
+        category + " " + text
+      );
+    }
   }
   this.writeLogFile(category, text, true);
 };
@@ -42,6 +61,12 @@ exports.writeLogFile = (category, text, isError = false) => {
     resText = "[" + category + "]" + " " + text + "\n";
   }
   resText = this.getLogTimestamp() + " " + resText;
+  if (
+    typeof consoleWindowObject !== "undefined" &&
+    consoleWindowObject != null
+  ) {
+    consoleWindowObject.webContents.send("user-console-log", resText);
+  }
   fs.appendFileSync("./logs/" + this.getTodayDate() + ".log", resText);
 };
 
@@ -57,8 +82,10 @@ exports.getTodayDate = () => {
 };
 
 exports.browserLog = (category = "", text) => {
+  var cwtext = "";
   if (category == "") {
     console.log(colors.green("[BROWSER]"), text);
+    cwtext = this.getLogTimestamp() + " [BROWSER] " + text;
     fs.appendFileSync(
       "./logs/" + this.getTodayDate() + ".log",
       this.getLogTimestamp() + " [BROWSER] " + text + "\n"
@@ -69,10 +96,17 @@ exports.browserLog = (category = "", text) => {
       colors.brightBlue("[" + category + "]"),
       text
     );
+    cwtext = this.getLogTimestamp() + " [BROWSER] [" + category + "] " + text;
     fs.appendFileSync(
       "./logs/" + this.getTodayDate() + ".log",
       this.getLogTimestamp() + " [BROWSER] [" + category + "] " + text + "\n"
     );
+  }
+  if (
+    typeof consoleWindowObject !== "undefined" &&
+    consoleWindowObject != null
+  ) {
+    consoleWindowObject.webContents.send("user-console-log", cwtext);
   }
 };
 
