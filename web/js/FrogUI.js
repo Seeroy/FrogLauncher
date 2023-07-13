@@ -1,5 +1,5 @@
 const ACCOUNTS_LIST_ITEM_BASE =
-  '<div class="flex p-2 rounded-lg user-item"> <div class="flex items-center h-8"> <img src="https://minotar.net/avatar/$1/24" /> </div> <div class="ml-2 text-sm text-white"> <div>$1</div> <p class="text-xs font-normal text-gray-400">$2</p> </div> </div>';
+  '<div class="flex p-2 rounded-lg user-item" onclick="FrogUI.changeActiveAccount(' + "'$1'" +')"> <div class="flex items-center h-8"> <img src="https://minotar.net/avatar/$1/24" /> </div> <div class="ml-2 text-sm text-white"> <div>$1</div> <p class="text-xs font-normal text-gray-400">$2</p> </div> </div>';
 const ACCOUNTS_LIST_ITEM_LOCAL = "Локальный аккаунт";
 const ACCOUNTS_LIST_ITEM_MS = "Аккаунт Microsoft";
 const ACCOUNTS_LIST_ITEM_NEW =
@@ -105,7 +105,7 @@ class FrogUI {
     $("#memTooltip").css("left", memtb_boundings.x + memt_boundings.width + 8);
   };
 
-  static refreshAccountsDropdown = () => {
+  static refreshAccountsDropdown = (cb = () => {}) => {
     accountsConfig = FrogAccountManager.getAccounts();
     $(".users-select-modal").html("");
     accountsConfig.forEach((account) => {
@@ -117,7 +117,12 @@ class FrogUI {
           ).replaceAll(/\$2/gim, ACCOUNTS_LIST_ITEM_LOCAL)
         );
       } else {
-        // TODO
+        $(".users-select-modal").append(
+          ACCOUNTS_LIST_ITEM_BASE.replaceAll(
+            /\$1/gim,
+            account.nickname
+          ).replaceAll(/\$2/gim, ACCOUNTS_LIST_ITEM_MS)
+        );
       }
     });
     $(".users-select-modal").append(ACCOUNTS_LIST_ITEM_NEW);
@@ -136,6 +141,15 @@ class FrogUI {
     $("#add-local-account-mmodal .custom-button").prop("disabled", true);
     this.showMenuModal("add-local-account");
     $(".new-account-modal").addClass("hidden");
+  };
+
+  static newMSAccountWizard = () => {
+    accountsConfig = FrogAccountManager.getAccounts();
+    this.showMenuModal("add-ms-account");
+    $(".new-account-modal").addClass("hidden");
+    FrogAccountManager.addMicrosoftAccount(() => {
+      FrogUI.goHomeSection();
+    });
   };
 
   static applyTheme = (theme) => {
@@ -158,6 +172,16 @@ class FrogUI {
       }
     });
   };
+
+  static changeActiveAccount = (nickname) => {
+    accountsConfig.forEach((account) => {
+      if(account.nickname == nickname){
+        currentSelectedAccount = account;
+        $("#show-users-select img").attr("src", "https://minotar.net/avatar/" + nickname + "/24");
+        $("#show-users-select .ml-3").text(nickname);
+      }
+    });
+  }
 }
 
 const animateCSS = (element, animation, fast = true, prefix = "animate__") =>

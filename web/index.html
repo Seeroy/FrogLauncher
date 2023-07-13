@@ -157,10 +157,13 @@
     FrogUI.loadSection(".modals", "packsModal");
     FrogUI.loadSection(".modals", "serversModal");
     FrogUI.loadSection(".modals", "addLocalAccountModal");
+    FrogUI.loadSection(".modals", "addMSAccountModal");
 
     // Refreshing some items
     setTimeout(() => {
-      FrogUI.refreshAccountsDropdown();
+      FrogUI.refreshAccountsDropdown(() => {
+        FrogUI.changeActiveAccount();
+      });
       FrogUI.refreshModalThemesList();
     }, 250);
   });

@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "jquery": "^3.7.0"
+    "jquery": "^3.7.0",
+    "msmc": "^4.1.0"
   }
 }

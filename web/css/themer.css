@@ -28,3 +28,11 @@
 .bg-primary-transparent {
   background: var(--bg-primary-transparent);
 }
+
+html.only-mc-font *:not(.material-symbols-rounded) {
+  font-family: 'Minecraft Rus' !important;
+}
+
+html.only-ss-font *:not(.material-symbols-rounded) {
+  font-family: 'Golos Text' !important;
+}
