@@ -136,6 +136,9 @@
   accountsConfig = FrogAccountManager.getAccounts();
 
   $(document).ready(function () {
+    document.addEventListener('dragover', event => event.preventDefault())
+document.addEventListener('drop', event => event.preventDefault())
+
     FrogUI.applyTheme(mainConfig.selectedTheme);
 
     // Loading some sections

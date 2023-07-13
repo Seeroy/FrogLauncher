@@ -49,3 +49,7 @@ html {
   z-index: 1000000;
   background: black;
 }
+
+img {
+  pointer-events: none;
+}

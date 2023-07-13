@@ -154,7 +154,7 @@ class FrogUI {
   };
 
   static applyTheme = (theme) => {
-    $("html").removeClass("indigo red yellow gradient-blue gray");
+    $("html").removeClass("indigo red yellow gradient-blue gray blue");
     $("html").addClass(theme);
     mainConfig.selectedTheme = theme;
     FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
