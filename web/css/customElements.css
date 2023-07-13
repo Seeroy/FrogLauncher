@@ -30,10 +30,10 @@
 }
 
 .custom-button:disabled {
-  background: rgb(25, 25, 25);
-  color: var(--bg-primary-200);
+  background: rgb(55, 55, 55) !important;
+  color: var(--bg-primary-200) !important;
 }
 
-.custom-button:hover {
+.custom-button:not(:disabled):hover {
   background: var(--bg-primary-500) !important;
 }

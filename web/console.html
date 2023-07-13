@@ -28,7 +28,7 @@
     <title>Консоль разработчика</title>
   </head>
   <body>
-    <div class="h-full w-full bg-primary-1100">
+    <div class="h-full w-full bg-gray-900">
       <div class="titlebar">
         <div class="titlebar-caption grow">Консоль разработчика</div>
         <div class="titlebar-buttons">
@@ -47,15 +47,15 @@
         </div>
       </div>
 
-      <div class="console-textarea w-full"></div>
-      <div class="flex px-5">
+      <div class="console-textarea w-full bg-gray-800"></div>
+      <div class="flex px-5 mt-2">
         <div class="flex items-center grow">
           <span class="text-white text-lg mr-2"
             >Прокручивать автоматически</span
           >
           <label class="switch">
             <input type="checkbox" id="autoScrollCheckbox" checked />
-            <span class="slider round"></span>
+            <span class="slider round bg-gray-600"></span>
           </label>
         </div>
 
@@ -96,10 +96,11 @@
   .console-textarea {
     color: white;
     padding: 8px;
-    background: transparent;
     overflow-x: hidden;
     overflow-y: auto;
     height: 82%;
+    -webkit-user-select: text;
+    user-select: text;
   }
 
   .console-textarea,
@@ -110,15 +111,25 @@
     border: 0;
     box-shadow: none;
   }
+
+  input:checked + .slider {
+    background-color: #1C64F2;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #1C64F2;
+  }
 </style>
 
 <script>
   // Console log from backend event handler
-  ipcRenderer.on("user-console-log", function(event, data){
-    if($(".console-textarea").length > 0){
-      $(".console-textarea").html($(".console-textarea").html() + data + "<br>");
+  ipcRenderer.on("user-console-log", function (event, data) {
+    if ($(".console-textarea").length > 0) {
+      $(".console-textarea").html(
+        $(".console-textarea").html() + data + "<br>"
+      );
     }
-    if($("#autoScrollCheckbox").is(":checked")){
+    if ($("#autoScrollCheckbox").is(":checked")) {
       $(".console-textarea").scrollTop($(".console-textarea")[0].scrollHeight);
     }
   });

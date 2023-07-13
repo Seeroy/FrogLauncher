@@ -10,7 +10,8 @@
 .main-bg,
 #drawer-toasts-list,
 body,
-html {
+html,
+.modal-bg {
   border-radius: 16px;
 }
 
@@ -145,4 +146,18 @@ html {
 .dragbar .actions .btn:hover,
 .titlebar .titlebar-buttons .btn:hover {
   background: rgb(255, 255, 255, 0.11);
+}
+
+/* Scrollbars styling */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
 }

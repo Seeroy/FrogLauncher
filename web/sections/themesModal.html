@@ -4,11 +4,85 @@
       <div class="modal-caption grow">Темы и персонализация</div>
       <button
         type="button"
-        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="FrogUI.goHomeSection()">
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        onclick="FrogUI.goHomeSection()"
+      >
         <span class="material-symbols-rounded">close</span>
       </button>
     </div>
 
-    <p>testing</p>
+    <div class="flex flex-col themes-items h-full">
+      <div
+        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+        data-theme="indigo"
+      >
+        <span class="text-white text-md grow">Тема `Indigo`</span>
+        <button class="custom-button" onclick="FrogUI.applyTheme('indigo')">
+          Применить
+        </button>
+        <span class="material-symbols-rounded text-2xl hidden">check</span>
+      </div>
+      <div
+        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+        data-theme="red"
+      >
+        <span class="text-white text-md grow">Тема `Red`</span>
+        <button class="custom-button" onclick="FrogUI.applyTheme('red')">
+          Применить
+        </button>
+        <span class="material-symbols-rounded text-2xl hidden">check</span>
+      </div>
+      <div
+        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+        data-theme="yellow"
+      >
+        <span class="text-white text-md grow">Тема `Yellow`</span>
+        <button class="custom-button" onclick="FrogUI.applyTheme('yellow')">
+          Применить
+        </button>
+        <span class="material-symbols-rounded text-2xl hidden">check</span>
+      </div>
+      <div
+        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+        data-theme="gradient-blue"
+      >
+        <span class="text-white text-md grow">Тема `Gradient Blue`</span>
+        <button
+          class="custom-button"
+          onclick="FrogUI.applyTheme('gradient-blue')"
+        >
+          Применить
+        </button>
+        <span class="material-symbols-rounded text-2xl hidden">check</span>
+      </div>
+      <div
+        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+        data-theme="gray"
+      >
+        <span class="text-white text-md grow">Тема `Gray`</span>
+        <button class="custom-button" onclick="FrogUI.applyTheme('gray')">
+          Применить
+        </button>
+        <span class="material-symbols-rounded text-2xl hidden">check</span>
+      </div>
+    </div>
   </div>
 </div>
+
+<style>
+  .themes-items .material-symbols-rounded {
+    color: #31c48d !important;
+  }
+
+  .themes-items .material-symbols-rounded.hidden {
+    display: none !important;
+  }
+
+  .themes-item {
+    height: 48px;
+  }
+
+  .themes-item .custom-button {
+    padding: 6px !important;
+  }
+</style>

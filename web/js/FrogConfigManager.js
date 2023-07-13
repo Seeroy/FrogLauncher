@@ -10,8 +10,10 @@ class FrogConfigManager {
   static writeMainConfig(config) {
     if (fs.existsSync("config.json")) {
       fs.writeFileSync("config.json", JSON.stringify(config));
+      FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config saved successfully");
       return true;
     } else {
+      FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config not saved: File not exists");
       return false;
     }
   }
@@ -26,8 +28,10 @@ class FrogConfigManager {
       selectedMemorySize: (FrogInfo.getMaxRAMSize() / 1024).toFixed(1) / 2,
       selectedJava: "auto",
       selectedBaseDirectory: FrogInfo.getDefaultDotMinecraft(),
+      selectedTheme: 'indigo'
     };
     fs.writeFileSync("config.json", JSON.stringify(defaultCfg));
+    FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config rewritten to default");
     return defaultCfg;
   }
 }

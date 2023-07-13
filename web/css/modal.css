@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(1px);
   background: rgb(0, 0, 0, 0.2);
   z-index: 10;
 }

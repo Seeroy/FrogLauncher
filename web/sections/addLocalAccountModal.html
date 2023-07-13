@@ -1,0 +1,103 @@
+<div id="add-local-account-mmodal" class="modal-bg hidden">
+  <div class="modal-window bg-primary-1100">
+    <div class="flex">
+      <div class="modal-caption grow text-sm">Добавление локального аккаунта</div>
+      <button
+        type="button"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        onclick="FrogUI.goHomeSection()"
+      >
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+
+    <p>Для добавления локального аккаунта в лаунчер укажите никнейм</p>
+    <p class="my-2">
+      Внимание: Данный аккаунт не является лицензионным и не имеет возможности
+      посещать лицензионные сервера
+    </p>
+    <div class="flex flex-col mt-2">
+      <input
+        type="text"
+        class="custom-input"
+        placeholder="Введите никнейм (напр. Herobrine)"
+      />
+      <p class="error-text my-2 hidden" id="ala-exists-error">
+        Данный аккаунт уже добавлен
+      </p>
+      <p class="error-text my-2 hidden" id="ala-nickname-error">
+        Недопустимое имя аккаунта
+      </p>
+      <button class="custom-button my-2" disabled>Добавить</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #add-local-account-mmodal .modal-window {
+    width: min-content;
+    height: max-content;
+  }
+
+  #add-local-account-mmodal input {
+    width: 512px;
+  }
+
+  #add-local-account-mmodal .error-text {
+    color: rgb(220 38 38);
+  }
+
+  #add-local-account-mmodal .modal-caption {
+    font-size: 14pt !important;
+  }
+</style>
+
+<script>
+  $("#add-local-account-mmodal input").on("input", function () {
+    nickname = $("#add-local-account-mmodal input").val().trim();
+    if (nickname.length == 0) {
+      $("#add-local-account-mmodal .custom-button").prop("disabled", true);
+      $("#ala-nickname-error").addClass("hidden");
+      $("#ala-exists-error").addClass("hidden");
+    } else {
+      valid = ala__validateNickname(nickname);
+      if (valid == true) {
+        $("#add-local-account-mmodal .custom-button").prop("disabled", false);
+        $("#ala-nickname-error").addClass("hidden");
+        $("#ala-exists-error").addClass("hidden");
+      } else if(valid == "alreadyExists"){
+        $("#add-local-account-mmodal .custom-button").prop("disabled", true);
+        $("#ala-exists-error").removeClass("hidden");
+      }  else if(valid == false){
+        $("#add-local-account-mmodal .custom-button").prop("disabled", true);
+        $("#ala-nickname-error").removeClass("hidden");
+        $("#ala-exists-error").addClass("hidden");
+      }
+    }
+  });
+
+  $("#add-local-account-mmodal button").click(function (e) {
+    nickname = $("#add-local-account-mmodal input").val().trim();
+    if (ala__validateNickname(nickname) == true) {
+      $("#add-local-account-mmodal input").val("");
+      FrogAccountManager.addLocalAccount(nickname);
+      FrogUI.goHomeSection();
+      FrogUI.refreshAccountsDropdown();
+    }
+  });
+
+  function ala__validateNickname(nickname) {
+    nmatch = nickname.match(NICKNAME_REGEX);
+    if (nmatch != null && nmatch.length > 0) {
+      notExists = true;
+      accountsConfig.forEach(function(account){
+        if(account.nickname == nickname){
+          notExists = "alreadyExists";
+        }
+      });
+      return notExists;
+    } else {
+      return false;
+    }
+  }
+</script>

@@ -14,25 +14,26 @@
 </div>
 
 <div
-  class="users-select-modal hidden flex-col items-center justify-center bg-primary-1100"
+  class="users-select-modal hidden no-transition flex-col items-center justify-center bg-primary-1100 drop-modal"
+></div>
+
+<div
+  class="new-account-modal hidden no-transition flex-col items-center justify-center bg-primary-1100 drop-modal"
 >
-  <div class="flex p-2 rounded user-item">
-    <div class="flex items-center h-8">
-      <img src="https://minotar.net/avatar/Steve/24" />
-    </div>
-    <div class="ml-2 text-sm text-white">
-      <div>Seeroy</div>
-      <p class="text-xs font-normal text-gray-400">Локальный аккаунт</p>
-    </div>
+  <div
+    class="flex p-2 rounded user-item"
+    onclick="FrogUI.newLocalAccountWizard()"
+  >
+    <div class="text-white">Локальный аккаунт</div>
   </div>
   <div class="flex p-2 rounded mt-2 user-item">
-    <div class="flex items-center h-8">
-      <img src="https://minotar.net/avatar/seeeroy/24" />
-    </div>
-    <div class="ml-2 text-sm text-white">
-      <div>seeeroy</div>
-      <p class="text-xs font-normal text-gray-400">Аккаунт Microsoft</p>
-    </div>
+    <div class="text-white">Аккаунт Microsoft</div>
+  </div>
+  <div
+    class="flex p-2 rounded mt-2 user-item"
+    onclick="$('.new-account-modal').addClass('hidden')"
+  >
+    <div class="text-white">Отмена</div>
   </div>
 </div>
 
@@ -48,11 +49,12 @@
     } else {
       $(".users-select-modal").addClass("hidden");
     }
+    $(".new-account-modal").addClass("hidden");
   });
 </script>
 
 <style>
-  .users-select-modal {
+  .drop-modal {
     position: absolute;
     left: 0;
     right: 0;
@@ -65,11 +67,11 @@
     width: 224px;
   }
 
-  .users-select-modal .user-item {
+  .drop-modal .user-item {
     cursor: pointer;
   }
 
-  .users-select-modal .user-item:hover {
+  .drop-modal .user-item:hover {
     background: var(--bg-primary-900);
   }
 

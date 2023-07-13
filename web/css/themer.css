@@ -1,0 +1,30 @@
+.bg-primary-300 {
+  background: var(--bg-primary-300);
+}
+.bg-primary-400 {
+  background: var(--bg-primary-400);
+}
+.bg-primary-500 {
+  background: var(--bg-primary-500);
+}
+.bg-primary-600 {
+  background: var(--bg-primary-600);
+}
+.bg-primary-700 {
+  background: var(--bg-primary-700);
+}
+.bg-primary-800 {
+  background: var(--bg-primary-800);
+}
+.bg-primary-900 {
+  background: var(--bg-primary-900);
+}
+.bg-primary-1000 {
+  background: var(--bg-primary-1000);
+}
+.bg-primary-1100 {
+  background: var(--bg-primary-1100);
+}
+.bg-primary-transparent {
+  background: var(--bg-primary-transparent);
+}

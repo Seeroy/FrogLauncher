@@ -6,6 +6,7 @@
     <script src="./js/FrogUI.js"></script>
     <script src="./js/FrogInfo.js"></script>
     <script src="./js/FrogConfigManager.js"></script>
+    <script src="./js/FrogAccountManager.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Custom CSS -->
@@ -13,11 +14,17 @@
     <link href="./css/toasts.css" rel="stylesheet" />
     <link href="./css/window.css" rel="stylesheet" />
     <link href="./css/modal.css" rel="stylesheet" />
-    <link href="./css/customInput.css" rel="stylesheet" />
+    <link href="./css/themer.css" rel="stylesheet" />
+    <link href="./css/customElements.css" rel="stylesheet" />
     <link href="./css/switch.css" rel="stylesheet" />
 
-    <!-- DELETE ON RELEASE -->
+    <!-- Importing themes -->
+    <link href="./themes/blue.css" rel="stylesheet" />
+    <link href="./themes/indigo.css" rel="stylesheet" />
+    <link href="./themes/red.css" rel="stylesheet" />
+    <link href="./themes/yellow.css" rel="stylesheet" />
     <link href="./themes/gradient-blue.css" rel="stylesheet" />
+    <link href="./themes/gray.css" rel="stylesheet" />
 
     <!-- Flowbite -->
     <link href="./css/flowbite.min.css" rel="stylesheet" />
@@ -32,6 +39,7 @@
     <title>FrogLauncher</title>
   </head>
   <body>
+    <div class="blackscreen"></div>
     <div class="modals"></div>
     <div class="dragbar">
       <div class="dragzone"></div>
@@ -118,18 +126,27 @@
 
 <script>
   var mainConfig;
+  var accountsConfig;
   
   // Loading config or creating if not exists
   mainConfig = FrogConfigManager.readMainConfig();
   if (mainConfig == false) {
     mainConfig = FrogConfigManager.writeDefaultMainConfig();
   }
+  accountsConfig = FrogAccountManager.getAccounts();
 
   $(document).ready(function () {
+    FrogUI.applyTheme(mainConfig.selectedTheme);
+
     // Loading some sections
     FrogUI.addSectionIntoBody("sidebar");
     FrogUI.addSectionIntoBody("controls");
     FrogUI.loadSection("body", "preloader");
+    setTimeout(function() {
+      animateCSS(".blackscreen", "fadeOut", true).then(() => {
+        $(".blackscreen").hide();
+      });
+    }, 50);
     setTimeout(function () {
       FrogUI.hidePreloader(); // Hiding preloader
     }, 300);
@@ -139,5 +156,12 @@
     FrogUI.loadSection(".modals", "themesModal");
     FrogUI.loadSection(".modals", "packsModal");
     FrogUI.loadSection(".modals", "serversModal");
+    FrogUI.loadSection(".modals", "addLocalAccountModal");
+
+    // Refreshing some items
+    setTimeout(() => {
+      FrogUI.refreshAccountsDropdown();
+      FrogUI.refreshModalThemesList();
+    }, 250);
   });
 </script>
