@@ -21,10 +21,13 @@
     <!-- Importing themes -->
     <link href="./themes/blue.css" rel="stylesheet" />
     <link href="./themes/indigo.css" rel="stylesheet" />
+    <link href="./themes/turquoise.css" rel="stylesheet" />
     <link href="./themes/red.css" rel="stylesheet" />
     <link href="./themes/yellow.css" rel="stylesheet" />
-    <link href="./themes/gradient-blue.css" rel="stylesheet" />
     <link href="./themes/gray.css" rel="stylesheet" />
+    <link href="./themes/minecrafty.css" rel="stylesheet" />
+    <link href="./themes/gradient-blue.css" rel="stylesheet" />
+    <link href="./themes/gradient-fire.css" rel="stylesheet" />
 
     <!-- Flowbite -->
     <link href="./css/flowbite.min.css" rel="stylesheet" />
@@ -70,7 +73,6 @@
     <!-- Main window container -->
     <div class="window-frame h-full w-full">
       <div class="main-bg"></div>
-      
     </div>
 
     <!-- TOASTS LIST -->
@@ -127,7 +129,7 @@
 <script>
   var mainConfig;
   var accountsConfig;
-  
+
   // Loading config or creating if not exists
   mainConfig = FrogConfigManager.readMainConfig();
   if (mainConfig == false) {
@@ -136,8 +138,8 @@
   accountsConfig = FrogAccountManager.getAccounts();
 
   $(document).ready(function () {
-    document.addEventListener('dragover', event => event.preventDefault())
-document.addEventListener('drop', event => event.preventDefault())
+    document.addEventListener("dragover", (event) => event.preventDefault());
+    document.addEventListener("drop", (event) => event.preventDefault());
 
     FrogUI.applyTheme(mainConfig.selectedTheme);
 
@@ -146,7 +148,7 @@ document.addEventListener('drop', event => event.preventDefault())
     FrogUI.addSectionIntoBody("controls");
     FrogUI.addSectionIntoBody("mainContent");
     FrogUI.loadSection("body", "preloader");
-    setTimeout(function() {
+    setTimeout(function () {
       animateCSS(".blackscreen", "fadeOut", true).then(() => {
         $(".blackscreen").hide();
       });

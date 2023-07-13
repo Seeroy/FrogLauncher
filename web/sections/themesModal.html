@@ -11,7 +11,7 @@
       </button>
     </div>
 
-    <div class="flex flex-col themes-items h-full">
+    <div class="flex flex-col themes-items h-full overflow-y-auto" style="height: 75vh;">
       <div
         class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
         data-theme="indigo"
@@ -28,6 +28,16 @@
       >
         <span class="text-white text-md grow">Тема `Blue`</span>
         <button class="custom-button" onclick="FrogUI.applyTheme('blue')">
+          Применить
+        </button>
+        <span class="material-symbols-rounded text-2xl hidden">check</span>
+      </div>
+      <div
+        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+        data-theme="turquoise"
+      >
+        <span class="text-white text-md grow">Тема `Turquoise`</span>
+        <button class="custom-button" onclick="FrogUI.applyTheme('turquoise')">
           Применить
         </button>
         <span class="material-symbols-rounded text-2xl hidden">check</span>
@@ -56,10 +66,23 @@
         class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
         data-theme="gradient-blue"
       >
-        <span class="text-white text-md grow">Тема `Gradient Blue`</span>
+        <span class="text-white text-md grow">Тема `Blue Gradient`</span>
         <button
           class="custom-button"
           onclick="FrogUI.applyTheme('gradient-blue')"
+        >
+          Применить
+        </button>
+        <span class="material-symbols-rounded text-2xl hidden">check</span>
+      </div>
+      <div
+        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+        data-theme="gradient-fire"
+      >
+        <span class="text-white text-md grow">Тема `Fire Gradient`</span>
+        <button
+          class="custom-button"
+          onclick="FrogUI.applyTheme('gradient-fire')"
         >
           Применить
         </button>
@@ -75,6 +98,19 @@
         </button>
         <span class="material-symbols-rounded text-2xl hidden">check</span>
       </div>
+      <div
+      class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+      data-theme="minecrafty"
+    >
+      <span class="text-white text-md grow">Тема `Minecrafty`</span>
+      <button
+        class="custom-button"
+        onclick="FrogUI.applyTheme('minecrafty')"
+      >
+        Применить
+      </button>
+      <span class="material-symbols-rounded text-2xl hidden">check</span>
+    </div>
     </div>
   </div>
 </div>
@@ -90,6 +126,8 @@
 
   .themes-item {
     height: 48px;
+    min-height: 48px;
+    max-height: 48px;
   }
 
   .themes-item .custom-button {

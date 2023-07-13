@@ -1,0 +1,12 @@
+html.turquoise:root {
+  --bg-primary-300: #bcd8ff;
+  --bg-primary-400: #6ca4ff;
+  --bg-primary-500: #38a9ff;
+  --bg-primary-600: #0091ff;
+  --bg-primary-700: #1670b4;
+  --bg-primary-800: #1a5c8f;
+  --bg-primary-900: #144368;
+  --bg-primary-1000: #112b3f;
+  --bg-primary-1100: #0a161f;
+  --bg-primary-transparent: rgba(22, 59, 77, 0.4);
+}

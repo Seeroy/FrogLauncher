@@ -1,0 +1,12 @@
+html.gradient-fire:root {
+  --bg-primary-300: linear-gradient(315deg, #f8b68f 0%, #f5a995 74%);
+  --bg-primary-400: linear-gradient(315deg, #ffbc7e 0%, #fa805e 74%);
+  --bg-primary-500: linear-gradient(315deg, #ffa34d 0%, #fa5324 74%);
+  --bg-primary-600: linear-gradient(315deg, #f58020 0%, #f53803 74%);
+  --bg-primary-700: linear-gradient(315deg, #d3761f 0%, #ce3910 74%);
+  --bg-primary-800: linear-gradient(315deg, #b36b18 0%, #a53819 74%);
+  --bg-primary-900: linear-gradient(315deg, #8f5620 0%, #7e2107 74%);
+  --bg-primary-1000: linear-gradient(315deg, #44290a 0%, #3a0d01 74%);
+  --bg-primary-1100: linear-gradient(315deg, #160e07 0%, #140703 74%);
+  --bg-primary-transparent: rgba(117, 45, 17, 0.4);
+}
