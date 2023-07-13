@@ -70,7 +70,7 @@
     <!-- Main window container -->
     <div class="window-frame h-full w-full">
       <div class="main-bg"></div>
-      <div class="content p-5">contents</div>
+      
     </div>
 
     <!-- TOASTS LIST -->
@@ -141,6 +141,7 @@
     // Loading some sections
     FrogUI.addSectionIntoBody("sidebar");
     FrogUI.addSectionIntoBody("controls");
+    FrogUI.addSectionIntoBody("mainContent");
     FrogUI.loadSection("body", "preloader");
     setTimeout(function() {
       animateCSS(".blackscreen", "fadeOut", true).then(() => {
@@ -158,6 +159,7 @@
     FrogUI.loadSection(".modals", "serversModal");
     FrogUI.loadSection(".modals", "addLocalAccountModal");
     FrogUI.loadSection(".modals", "addMSAccountModal");
+    FrogUI.loadSection(".modals", "versionSelectorModal");
 
     // Refreshing some items
     setTimeout(() => {

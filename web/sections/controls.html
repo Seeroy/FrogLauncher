@@ -1,5 +1,5 @@
 <div
-  class="controls bg-primary-transparent p-3 animate__animated animate__fadeInUp animate__faster"
+  class="controls bg-primary-transparent p-3 animate__animated animate__fadeInUp animate__faster flex"
 >
   <button
     type="button"
@@ -11,6 +11,18 @@
       <div class="ml-3">TestUser</div>
     </div>
   </button>
+
+  <button
+  type="button"
+  id="show-version-selector"
+  class="py-2.5 px-5 text-sm text-white font-medium focus:outline-none rounded-lg focus:z-10 grow ml-3"
+  onclick="FrogUI.showMenuModal('version-selector')"
+>
+  <div class="flex rounded items-center">
+    <img src="assets/ver_icons/vanilla.png" style="width: 24px;">
+    <div class="ml-3">Версия 1.20.1</div>
+  </div>
+</button>
 </div>
 
 <div
@@ -76,12 +88,17 @@
     background: var(--bg-primary-900);
   }
 
-  #show-users-select {
-    width: 224px;
+  #show-users-select,
+  #show-version-selector {
     background: var(--bg-primary-1100);
   }
 
-  #show-users-select:hover {
+  #show-users-select {
+    width: 224px;
+  }
+
+  #show-users-select:hover,
+  #show-version-selector:hover {
     background: var(--bg-primary-900);
   }
 </style>

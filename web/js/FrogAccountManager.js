@@ -66,31 +66,40 @@ class FrogAccountManager {
       // Generating token
       const token = await xboxManager.getMinecraft();
       var nickname = token.profile.name;
-      // Creating account
-      var accountsList = this.getAccounts();
-      var newAccount = {
-        id: accountsList.length,
-        type: "microsoft",
-        added: Date.now(),
-        nickname: nickname,
-        authorizationData: token.mclc(),
-      };
-      accountsList.push(newAccount);
-      this.saveAccounts(accountsList);
-      FrogBackendCommunicator.logBrowserConsole(
-        "[ACCMAN]",
-        "New Microsoft account added:",
-        nickname
-      );
-      Toaster(
-        "Добавлен новый аккаунт Microsoft/Mojang <p class='mc-text'>" +
-          nickname +
-          "</p>",
-        3000,
-        false,
-        "success"
-      );
-      cb();
+      if (!this.isAccountExists(nickname)) {
+        // Creating account
+        var accountsList = this.getAccounts();
+        var newAccount = {
+          id: accountsList.length,
+          type: "microsoft",
+          added: Date.now(),
+          nickname: nickname,
+          authorizationData: token.mclc(),
+        };
+        accountsList.push(newAccount);
+        this.saveAccounts(accountsList);
+        FrogBackendCommunicator.logBrowserConsole(
+          "[ACCMAN]",
+          "New Microsoft account added:",
+          nickname
+        );
+        Toaster(
+          "Добавлен новый аккаунт Microsoft/Mojang <p class='mc-text'>" +
+            nickname +
+            "</p>",
+          3000,
+          false,
+          "success"
+        );
+        cb();
+      } else {
+        Toaster("Этот аккаунт уже был добавлен ранее", 2500, false, "error");
+        FrogBackendCommunicator.logBrowserConsole(
+          "[ACCMAN]",
+          "New Microsoft account NOT added due to is already exists"
+        );
+        cb();
+      }
     });
   }
 
@@ -110,5 +119,16 @@ class FrogAccountManager {
     } else {
       return false; // TODO
     }
+  }
+
+  static isAccountExists(nickname) {
+    var isExists = false;
+    var accsConfig = this.getAccounts();
+    accsConfig.forEach((account) => {
+      if (account.nickname == nickname) {
+        isExists = true;
+      }
+    });
+    return isExists;
   }
 }

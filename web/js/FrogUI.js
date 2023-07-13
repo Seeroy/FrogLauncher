@@ -149,6 +149,7 @@ class FrogUI {
     $(".new-account-modal").addClass("hidden");
     FrogAccountManager.addMicrosoftAccount(() => {
       FrogUI.goHomeSection();
+      FrogUI.refreshAccountsDropdown();
     });
   };
 
@@ -174,13 +175,11 @@ class FrogUI {
   };
 
   static changeActiveAccount = (nickname) => {
-    accountsConfig.forEach((account) => {
-      if(account.nickname == nickname){
-        currentSelectedAccount = account;
-        $("#show-users-select img").attr("src", "https://minotar.net/avatar/" + nickname + "/24");
-        $("#show-users-select .ml-3").text(nickname);
-      }
-    });
+    if (FrogAccountManager.isAccountExists(nickname)) {
+      currentSelectedAccount = account;
+      $("#show-users-select img").attr("src", "https://minotar.net/avatar/" + nickname + "/24");
+      $("#show-users-select .ml-3").text(nickname);
+    }
   }
 }
 

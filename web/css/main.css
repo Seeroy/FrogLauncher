@@ -1,15 +1,15 @@
 /* Шрифты */
 @font-face {
-  font-family: 'Minecraft Rus';
-  src: url('../fonts/minecraft.ttf') format('truetype');
+  font-family: "Minecraft Rus";
+  src: url("../fonts/minecraft.ttf") format("truetype");
 }
 @font-face {
-  font-family: 'Golos Text';
-  src: url('../fonts/GolosText.ttf') format('truetype');
+  font-family: "Golos Text";
+  src: url("../fonts/GolosText.ttf") format("truetype");
 }
 
 .mc-text {
-  font-family: 'Minecraft Rus';
+  font-family: "Minecraft Rus";
 }
 
 body,
@@ -23,8 +23,8 @@ html {
 }
 
 * {
-  transition: .2s;
-  font-family: 'Golos Text', sans-serif;
+  transition: 0.2s;
+  font-family: "Golos Text", sans-serif;
   box-sizing: border-box;
   -webkit-user-select: none;
 }

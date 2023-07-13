@@ -11,7 +11,8 @@
 #drawer-toasts-list,
 body,
 html,
-.modal-bg {
+.modal-bg,
+.blackscreen {
   border-radius: 16px;
 }
 
@@ -86,8 +87,9 @@ html,
   height: 100%;
   z-index: -1000;
   margin: auto;
-  filter: blur(1px) brightness(40%);
-  background-image: url("../assets/backgrounds/1.jpg");
+  filter: brightness(70%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+    url("../assets/backgrounds/1.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

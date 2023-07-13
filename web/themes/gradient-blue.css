@@ -6,7 +6,7 @@ html.gradient-blue:root {
   --bg-primary-700: linear-gradient(45deg, rgb(4, 158, 185), rgb(39, 96, 187));
   --bg-primary-800: linear-gradient(45deg, rgb(7, 127, 148) rgb(4, 51, 128));
   --bg-primary-900: linear-gradient(45deg, rgb(7, 89, 104), rgb(7, 30, 66));
-  --bg-primary-1000: #0b1627;
+  --bg-primary-1000: #15253d;
   --bg-primary-1100: #071222;
   --bg-primary-transparent: rgba(35, 55, 68, 0.4);
 }

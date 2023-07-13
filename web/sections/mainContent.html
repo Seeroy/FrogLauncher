@@ -1,0 +1,55 @@
+<div class="content p-5">
+  <div id="update-notify" class="rounded-lg">
+    <img src="assets/backgrounds/update_bg.png" />
+    <div class="flex items-center justify-center w-full ml-5">
+      <span class="material-symbols-rounded text-white">update</span>
+      <p class="ml-3 text-xl text-white grow">Доступно новое обновление!</p>
+      <button type="button" class="text-black bg-white hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Установить обновление</button>
+    </div>
+  </div>
+  <div class="flex w-full h-full my-3">
+    <div class="flex flex-col">
+      <p class="text-white font-semibold text-3xl">Новости</p>
+      <div class="flex mt-2">
+        test
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #update-notify {
+    width: 100%;
+    height: 128px;
+    background: linear-gradient(to right, #cc2b5e, #753a88);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 16px;
+  }
+
+  #update-notify img {
+    height: 210px;
+    bottom: 99px;
+    position: relative;
+    filter: saturate(160%) brightness(80%);
+    transform: rotate(-1deg);
+  }
+
+  #update-notify .material-symbols-rounded {
+    font-size: 32pt;
+  }
+
+  #update-notify .flex {
+    position: relative;
+    bottom: 183px;
+    left: 24px;
+  }
+
+  #update-notify .flex button {
+    position: relative;
+    right: 48px;
+  }
+
+  .content {
+    margin-top: 44px;
+  }
+</style>

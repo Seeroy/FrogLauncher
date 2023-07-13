@@ -1,0 +1,155 @@
+<div id="version-selector-mmodal" class="modal-bg hidden">
+  <div class="modal-window bg-primary-1100">
+    <div class="flex items-center mb-2">
+      <div class="modal-caption grow text-sm text-center">
+        Выберите версию игры
+      </div>
+      <button
+        type="button"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        onclick="FrogUI.goHomeSection()"
+      >
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+
+    <!-- Search input -->
+    <input
+      class="custom-input w-full mt-3"
+      style="width: 768px"
+      type="text"
+      placeholder="Поиск"
+    />
+
+    <!-- Category select -->
+    <ul
+      class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3"
+    >
+      <li class="w-full">
+        <div class="inline-block w-full p-4 rounded-l-lg active">Все</div>
+      </li>
+      <li class="w-full">
+        <div class="inline-block w-full p-4 rounded-l-lg">Установленные</div>
+      </li>
+    </ul>
+
+    <!-- Modloader select -->
+    <ul
+      class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3"
+    >
+      <li class="w-full">
+        <div class="inline-block w-full p-4 rounded-l-lg active">Все</div>
+      </li>
+      <li class="w-full">
+        <div class="inline-block w-full p-4 rounded-l-lg">
+          <img src="assets/ver_icons/vanilla.png" style="height: 16px" />
+          <span class="ml-3 text-white">Ванильная</span>
+        </div>
+      </li>
+      <li class="w-full">
+        <div class="inline-block w-full p-4 rounded-l-lg">
+          <img src="assets/ver_icons/forge.png" style="height: 16px" />
+          <span class="ml-3 text-white">Forge</span>
+        </div>
+      </li>
+      <li class="w-full">
+        <div class="inline-block w-full p-4 rounded-l-lg">
+          <img src="assets/ver_icons/sodium.png" style="height: 16px" />
+          <span class="ml-3 text-white">Sodium</span>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Versions list -->
+    <div class="overflow-y-auto mt-3" style="border-radius: 12px; height: 40vh">
+      <ul class="versions-list">
+        <li class="version-item">
+          <img src="assets/ver_icons/vanilla.png" style="height: 24px" />
+          <span class="ml-3">Версия 1.16.5</span>
+        </li>
+        <li class="version-item">
+          <img src="assets/ver_icons/forge.png" style="height: 24px" />
+          <span class="ml-3">Версия Forge 1.16.5</span>
+          <span class="ml-2 gray">(Установлена)</span>
+        </li>
+        <li class="version-item">
+          <img src="assets/ver_icons/forge.png" style="height: 24px" />
+          <span class="ml-3">Версия ForgeOptiFine 1.16.5</span>
+        </li>
+        <li class="version-item">
+          <img src="assets/ver_icons/sodium.png" style="height: 24px" />
+          <span class="ml-3">Версия Sodium 1.16.5</span>
+        </li>
+        <li class="version-item">
+          <img src="assets/ver_icons/sodium.png" style="height: 24px" />
+          <span class="ml-3">Версия SodiumIris 1.16.5</span>
+        </li>
+        <li class="version-item">
+          <img src="assets/ver_icons/optifine.png" style="height: 24px" />
+          <span class="ml-3">Версия OptiFine 1.16.5</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  #version-selector-mmodal .modal-window {
+    width: max-content;
+    height: max-content;
+    max-height: 90%;
+  }
+
+  #version-selector-mmodal .modal-caption {
+    font-size: 18pt !important;
+  }
+
+  #version-selector-mmodal ul li div {
+    background: var(--bg-primary-1000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+  }
+
+  #version-selector-mmodal ul li div:hover {
+    background: var(--bg-primary-900);
+  }
+
+  #version-selector-mmodal ul li div.active {
+    background: var(--bg-primary-800) !important;
+  }
+
+  #version-selector-mmodal ul li:first-child div {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+
+  #version-selector-mmodal ul li:last-child div {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  #version-selector-mmodal .versions-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: var(--bg-primary-1000);
+    overflow: hidden;
+  }
+
+  #version-selector-mmodal .versions-list .version-item {
+    padding: 8px 14px;
+    background: var(--bg-primary-1000);
+    display: flex;
+    align-items: center;
+  }
+
+  #version-selector-mmodal .versions-list .version-item .gray {
+    color: rgb(180, 180, 180);
+  }
+
+  #version-selector-mmodal .versions-list .version-item:hover {
+    background: var(--bg-primary-900);
+  }
+</style>
