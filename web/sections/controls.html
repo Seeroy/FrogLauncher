@@ -23,6 +23,8 @@
     <div class="ml-3">Версия 1.20.1</div>
   </div>
 </button>
+
+<button type="button" class="mc-text custom-button text-white ml-3" id="play-button">Играть</button>
 </div>
 
 <div
@@ -91,14 +93,21 @@
   #show-users-select,
   #show-version-selector {
     background: var(--bg-primary-1100);
+    font-size: 12pt;
   }
 
   #show-users-select {
-    width: 224px;
+    min-width: 256px;
   }
 
   #show-users-select:hover,
   #show-version-selector:hover {
     background: var(--bg-primary-900);
+  }
+
+  #play-button {
+    width: 170px;
+    font-weight: 500;
+    font-size: 14pt !important;
   }
 </style>

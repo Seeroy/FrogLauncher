@@ -131,4 +131,15 @@ class FrogAccountManager {
     });
     return isExists;
   }
+
+  static getAccountByName(nickname) {
+    var retAccount = false;
+    var accsConfig = this.getAccounts();
+    accsConfig.forEach((account) => {
+      if (account.nickname == nickname) {
+        retAccount = account;
+      }
+    });
+    return retAccount;
+  }
 }

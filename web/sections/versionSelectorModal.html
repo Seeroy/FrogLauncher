@@ -26,10 +26,16 @@
       class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3"
     >
       <li class="w-full">
-        <div class="inline-block w-full p-4 rounded-l-lg active">Все</div>
+        <div class="inline-block w-full p-4 active">
+          <span class="material-symbols-rounded text-white" style="font-size: 24px">sort</span>
+          <span class="ml-3 text-white">Все</span>
+        </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4 rounded-l-lg">Установленные</div>
+        <div class="inline-block w-full p-4">
+          <span class="material-symbols-rounded text-white" style="font-size: 24px">download_for_offline</span>
+          <span class="ml-3 text-white">Установленные</span>
+        </div>
       </li>
     </ul>
 
@@ -38,23 +44,26 @@
       class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3"
     >
       <li class="w-full">
-        <div class="inline-block w-full p-4 rounded-l-lg active">Все</div>
+        <div class="inline-block w-full p-4 active">
+          <span class="material-symbols-rounded text-white" style="font-size: 24px">sort</span>
+          <span class="ml-3 text-white">Все</span>
+        </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4 rounded-l-lg">
-          <img src="assets/ver_icons/vanilla.png" style="height: 16px" />
+        <div class="inline-block w-full p-4">
+          <img src="assets/ver_icons/vanilla.png" style="height: 24px" />
           <span class="ml-3 text-white">Ванильная</span>
         </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4 rounded-l-lg">
-          <img src="assets/ver_icons/forge.png" style="height: 16px" />
+        <div class="inline-block w-full p-4">
+          <img src="assets/ver_icons/forge.png" style="height: 24px" />
           <span class="ml-3 text-white">Forge</span>
         </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4 rounded-l-lg">
-          <img src="assets/ver_icons/sodium.png" style="height: 16px" />
+        <div class="inline-block w-full p-4">
+          <img src="assets/ver_icons/sodium.png" style="height: 24px" />
           <span class="ml-3 text-white">Sodium</span>
         </div>
       </li>
@@ -118,6 +127,10 @@
 
   #version-selector-mmodal ul li div.active {
     background: var(--bg-primary-800) !important;
+  }
+
+  #version-selector-mmodal ul li div:not(.active) {
+    cursor: pointer;
   }
 
   #version-selector-mmodal ul li:first-child div {

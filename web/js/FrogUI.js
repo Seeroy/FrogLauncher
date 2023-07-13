@@ -1,5 +1,7 @@
 const ACCOUNTS_LIST_ITEM_BASE =
-  '<div class="flex p-2 rounded-lg user-item" onclick="FrogUI.changeActiveAccount(' + "'$1'" +')"> <div class="flex items-center h-8"> <img src="https://minotar.net/avatar/$1/24" /> </div> <div class="ml-2 text-sm text-white"> <div>$1</div> <p class="text-xs font-normal text-gray-400">$2</p> </div> </div>';
+  '<div class="flex p-2 rounded-lg user-item" onclick="FrogUI.changeActiveAccount(' +
+  "'$1'" +
+  ')"> <div class="flex items-center h-8"> <img src="https://minotar.net/avatar/$1/24" /> </div> <div class="ml-2 text-sm text-white"> <div>$1</div> <p class="text-xs font-normal text-gray-400">$2</p> </div> </div>';
 const ACCOUNTS_LIST_ITEM_LOCAL = "Локальный аккаунт";
 const ACCOUNTS_LIST_ITEM_MS = "Аккаунт Microsoft";
 const ACCOUNTS_LIST_ITEM_NEW =
@@ -153,17 +155,33 @@ class FrogUI {
     });
   };
 
-  static applyTheme = (theme) => {
-    $("html").removeClass("indigo red yellow gradient-blue gradient-fire gray blue turquoise minecrafty");
-    $("html").addClass(theme);
-    mainConfig.selectedTheme = theme;
-    FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
-    this.refreshModalThemesList(); // In sections/themesModal.html
-    FrogBackendCommunicator.logBrowserConsole("[UI]", "Changing theme to", theme);
+  static applyTheme = (theme, withBlackScreenAnim = false) => {
+    if (withBlackScreenAnim == true) {
+      $(".blackscreen").removeClass("hidden");
+      animateCSS(".blackscreen", "fadeIn", true).then(() => {
+        animateCSS(".blackscreen", "fadeOut", true).then(() => {
+          $(".blackscreen").addClass("hidden");
+        });
+      });
+    }
+    setTimeout(function () {
+      $("html").removeClass(
+        "indigo red yellow gradient-blue gradient-fire gray blue turquoise minecrafty"
+      );
+      $("html").addClass(theme);
+      mainConfig.selectedTheme = theme;
+      FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+      FrogUI.refreshModalThemesList(); // In sections/themesModal.html
+      FrogBackendCommunicator.logBrowserConsole(
+        "[UI]",
+        "Changing theme to",
+        theme
+      );
+    }, 350);
   };
 
   static refreshModalThemesList = () => {
-    $("#themes-mmodal .themes-items .bg-primary-1000").each(function(i, item) {
+    $("#themes-mmodal .themes-items .bg-primary-1000").each(function (i, item) {
       if ($("html").hasClass($(item).data("theme"))) {
         $(item).find(".custom-button").addClass("hidden");
         $(item).find(".material-symbols-rounded").removeClass("hidden");
@@ -176,11 +194,14 @@ class FrogUI {
 
   static changeActiveAccount = (nickname) => {
     if (FrogAccountManager.isAccountExists(nickname)) {
-      currentSelectedAccount = account;
-      $("#show-users-select img").attr("src", "https://minotar.net/avatar/" + nickname + "/24");
+      currentSelectedAccount = FrogAccountManager.getAccountByName(nickname);
+      $("#show-users-select img").attr(
+        "src",
+        "https://minotar.net/avatar/" + nickname + "/24"
+      );
       $("#show-users-select .ml-3").text(nickname);
     }
-  }
+  };
 }
 
 const animateCSS = (element, animation, fast = true, prefix = "animate__") =>

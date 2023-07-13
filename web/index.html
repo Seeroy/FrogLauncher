@@ -150,12 +150,12 @@
     FrogUI.loadSection("body", "preloader");
     setTimeout(function () {
       animateCSS(".blackscreen", "fadeOut", true).then(() => {
-        $(".blackscreen").hide();
+        $(".blackscreen").addClass("hidden");
       });
-    }, 50);
+    }, 450);
     setTimeout(function () {
       FrogUI.hidePreloader(); // Hiding preloader
-    }, 300);
+    }, 700);
 
     // Loading modals
     FrogUI.loadSection(".modals", "settingsModal");
