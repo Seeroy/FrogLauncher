@@ -2,10 +2,10 @@ var path = require('path');
 const { BrowserWindow } = require("electron");
 
 const MW_OPTIONS = {
-  width: 1024,
-  height: 640,
-  minWidth: 960,
-  minHeight: 540,
+  width: 1160,
+  height: 740,
+  minWidth: 1100,
+  minHeight: 700,
   maxWidth: 1600,
   maxHeight: 900,
   hasShadow: true,

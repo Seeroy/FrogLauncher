@@ -67,7 +67,17 @@
       </div>
     </div>
 
-    <div class="modal-themes-tab" id="launcher-settings-tab">TODO</div>
+    <div class="modal-themes-tab hidden" id="launcher-settings-tab">
+      <div class="flex items-center grow my-2">
+        <span class="text-white text-lg mr-2"
+          >Открывать консоль разработчика при запуске</span
+        >
+        <label class="switch">
+          <input type="checkbox" id="openConsoleOnStartCheckbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
 
     <div class="grow"></div>
 
@@ -183,13 +193,18 @@
         $(this).val($(this).attr("min"));
       }
     });
+
+    if(mainConfig.openConsoleOnStart == true){
+      $("#openConsoleOnStartCheckbox").prop("checked", true);
+    }
   });
 
   function saveMainSettings() {
     mainConfig.selectedJava = $("#javaSelect option:selected").val();
     mainConfig.selectedMemorySize = $("#memInput").val();
     mainConfig.selectedBaseDirectory = $("#gamePathInput").val();
+    mainConfig.openConsoleOnStart = $("#openConsoleOnStartCheckbox").is(":checked");
     FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
-    Toaster("Настройки успешно сохранены", 3500, true, "success");
+    Toaster("Настройки успешно сохранены", 2000, false, "success");
   }
 </script>

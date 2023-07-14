@@ -5,4 +5,4 @@ const os = require("os");
 const { ipcRenderer } = require("electron");
 const crypto = require("crypto");
 const { Auth } = require("msmc");
-const { dialog } = require("electron");
+const openExternal = require("open");

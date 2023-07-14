@@ -130,7 +130,11 @@
 <style></style>
 
 <script>
-  var mainConfig, accountsConfig, gameVersions, selectedAccount, selectedGameVersion;
+  var mainConfig,
+    accountsConfig,
+    gameVersions,
+    selectedAccount,
+    selectedGameVersion;
 
   // Loading config or creating if not exists
   mainConfig = FrogConfigManager.readMainConfig();
@@ -167,6 +171,7 @@
     FrogUI.loadSection(".modals", "addLocalAccountModal");
     FrogUI.loadSection(".modals", "addMSAccountModal");
     FrogUI.loadSection(".modals", "versionSelectorModal");
+    FrogUI.loadSection(".modals", "downloadsFloating");
 
     // Refreshing some items
     setTimeout(() => {
@@ -184,11 +189,18 @@
           mainConfig.lastSelectedAccount = "none";
         }
       }
-      if(mainConfig.lastSelectedVersion != "none"){
+      if (mainConfig.lastSelectedVersion != "none") {
         FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
+      }
+      if (mainConfig.openConsoleOnStart == true) {
+        FrogBackendCommunicator.onOpenConsoleWindow();
       }
       FrogUI.refreshModalThemesList();
       FrogVersionsUI.refreshVersionsListModal();
+      FrogBackendCommunicator.logBrowserConsole(
+        "[APP]",
+        "All is ok, startup success!"
+      );
     }, 250);
   });
 </script>

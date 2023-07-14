@@ -5,16 +5,33 @@
     type="button"
     id="show-users-select"
     class="py-2.5 px-5 text-sm text-white font-medium focus:outline-none rounded-lg focus:z-10"
-  >Аккаунт не выбран</button>
+  >
+    Аккаунт не выбран
+  </button>
 
   <button
-  type="button"
-  id="show-version-selector"
-  class="py-2.5 px-5 text-sm text-white font-medium focus:outline-none rounded-lg focus:z-10 grow ml-3"
-  onclick="FrogUI.showMenuModal('version-selector')"
->Версия не выбрана</button>
+    type="button"
+    id="show-version-selector"
+    class="py-2.5 px-5 text-sm text-white font-medium focus:outline-none rounded-lg focus:z-10 grow ml-3"
+    onclick="FrogUI.showMenuModal('version-selector')"
+  >
+    Версия не выбрана
+  </button>
 
-<button type="button" class="mc-text custom-button text-white ml-3" id="play-button">Играть</button>
+  <button
+    type="button"
+    class="mc-text custom-button text-white ml-3"
+    id="play-button"
+  >
+    Играть
+  </button>
+  <button
+    type="button"
+    class="custom-button text-white ml-3"
+    id="open-game-directory-button"
+  >
+    <span class="material-symbols-rounded mt-1 w-10" onclick="FrogUI.openGameDirectory()">folder_open</span>
+  </button>
 </div>
 
 <div
@@ -30,8 +47,10 @@
   >
     <div class="text-white">Локальный аккаунт</div>
   </div>
-  <div class="flex p-2 rounded mt-2 user-item"
-  onclick="FrogAccountUI.newMSAccountWizard()">
+  <div
+    class="flex p-2 rounded mt-2 user-item"
+    onclick="FrogAccountUI.newMSAccountWizard()"
+  >
     <div class="text-white">Аккаунт Microsoft</div>
   </div>
   <div

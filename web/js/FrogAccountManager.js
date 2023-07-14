@@ -11,7 +11,7 @@ class FrogAccountManager {
   }
 
   static saveAccounts(accounts) {
-    fs.writeFileSync("frog_accounts.json", JSON.stringify(accounts));
+    fs.writeFileSync("frog_accounts.json", JSON.stringify(accounts, null, "\t"));
     return true;
   }
 

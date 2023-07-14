@@ -1,21 +1,11 @@
 class FrogUI {
   static loadSection = (selector, section) => {
-    FrogBackendCommunicator.logBrowserConsole(
-      "[UI]",
-      "Loading section:",
-      section
-    );
     $.get("sections/" + section + ".html", (sectionCode) => {
       $(selector).append(sectionCode);
     });
   };
 
   static addSectionIntoBody = (section) => {
-    FrogBackendCommunicator.logBrowserConsole(
-      "[UI]",
-      "Loading section:",
-      section
-    );
     $.get("sections/" + section + ".html", (sectionCode) => {
       $(".window-frame").append(sectionCode);
     });
@@ -134,6 +124,10 @@ class FrogUI {
       }
     });
   };
+
+  static openGameDirectory() {
+    openExternal(mainConfig.selectedBaseDirectory);
+  }
 }
 
 const animateCSS = (element, animation, fast = true, prefix = "animate__") =>

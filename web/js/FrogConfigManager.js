@@ -9,7 +9,7 @@ class FrogConfigManager {
 
   static writeMainConfig(config) {
     if (fs.existsSync("config.json")) {
-      fs.writeFileSync("config.json", JSON.stringify(config));
+      fs.writeFileSync("config.json", JSON.stringify(config, null, "\t"));
       FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config saved successfully");
       return true;
     } else {
@@ -24,6 +24,7 @@ class FrogConfigManager {
   }
 
   static writeDefaultMainConfig() {
+    FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config will be rewritten to default");
     var defaultCfg = {
       selectedMemorySize: (FrogInfo.getMaxRAMSize() / 1024).toFixed(1) / 2,
       selectedJava: "auto",
@@ -31,10 +32,10 @@ class FrogConfigManager {
       selectedTheme: 'indigo',
       selectedBaseFont: "default",
       lastSelectedAccount: "none",
-      lastSelectedVersion: "none"
+      lastSelectedVersion: "none",
+      openConsoleOnStart: false
     };
-    fs.writeFileSync("config.json", JSON.stringify(defaultCfg));
-    FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config rewritten to default");
+    this.writeMainConfig(defaultCfg);
     return defaultCfg;
   }
 }

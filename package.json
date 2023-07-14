@@ -35,6 +35,8 @@
   "dependencies": {
     "colors": "^1.4.0",
     "jquery": "^3.7.0",
-    "msmc": "^4.1.0"
+    "minecraft-launcher-core": "^3.17.1",
+    "msmc": "^4.1.0",
+    "open": "^8.4.0"
   }
 }

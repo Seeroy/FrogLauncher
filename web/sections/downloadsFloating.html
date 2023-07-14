@@ -1,0 +1,38 @@
+<div
+  class="downloads-container flex flex-col bg-primary-1100 p-3 rounded-lg overflow-y-auto"
+>
+  <p class="mc-text text-2xl text-white m-3 mx-2">Менеджер загрузок</p>
+  <div class="download-item flex items-center p-2 rounded">
+    <p class="font-semibold grow text-white">File.txt</p>
+    <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
+      <div
+        class="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500"
+        style="width: 45%"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .downloads-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 16px;
+    height: max-content;
+
+    max-height: 65vh;
+    width: 70vw;
+    margin: 0 auto;
+    z-index: 3;
+  }
+
+  .downloads-container .download-item {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .downloads-container .bg-gray-200 {
+    width: 256px;
+  }
+</style>
