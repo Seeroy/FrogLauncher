@@ -203,9 +203,9 @@
 <script>
   $("#themes-mmodal .modal-tabs").click(function () {
     if (!$(this).hasClass("active")) {
-      $(".modal-tabs.active").removeClass("active");
+      $("#themes-mmodal .modal-tabs.active").removeClass("active");
       $(this).addClass("active");
-      $(".modal-themes-tab:not(.hidden)").addClass("hidden");
+      $("#themes-mmodal .modal-themes-tab:not(.hidden)").addClass("hidden");
       $("#" + $(this).data("tab")).removeClass("hidden");
     }
   });

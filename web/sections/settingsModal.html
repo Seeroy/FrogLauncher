@@ -1,7 +1,17 @@
 <div id="settings-mmodal" class="modal-bg hidden">
   <div class="modal-window bg-primary-1100 flex flex-col">
     <div class="flex items-center mb-2">
-      <div class="modal-caption grow">Настройки</div>
+      <div class="flex grow">
+        <div
+          class="modal-caption modal-tabs active"
+          data-tab="game-settings-tab"
+        >
+          Настройки игры
+        </div>
+        <div class="modal-caption modal-tabs" data-tab="launcher-settings-tab">
+          Настройки лаунчера
+        </div>
+      </div>
       <button
         type="button"
         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -11,51 +21,59 @@
       </button>
     </div>
 
-    <!-- Memory setup -->
-    <div class="flex my-3">
-      <p>Выделение памяти (Гб)</p>
-      <span
-        class="material-symbols-rounded text-primary-700 ml-3"
-        id="showMemTooltip"
-        >help</span
-      >
-    </div>
+    <div class="modal-themes-tab" id="game-settings-tab">
+      <!-- Memory setup -->
+      <div class="flex my-3">
+        <p>Выделение памяти (Гб)</p>
+        <span
+          class="material-symbols-rounded text-primary-700 ml-3"
+          id="showMemTooltip"
+          >help</span
+        >
+      </div>
 
-    <input
-      type="number"
-      id="memInput"
-      class="custom-input"
-      min="0.5"
-      step="0.5"
-    />
-
-    <!-- Java version selector -->
-    <p class="my-3">Версия Java</p>
-    <select class="custom-input" id="javaSelect"></select>
-
-    <!-- Game directory setup -->
-    <p class="my-3">Папка для хранения файлов игры</p>
-    <div
-      class="flex items-center"
-    >
       <input
-        type="text"
+        type="number"
+        id="memInput"
         class="custom-input"
-        readonly
-        style="height: 48px;"
-        id="gamePathInput"
+        min="0.5"
+        step="0.5"
       />
-      <button
-        id="selectPathButton" class="bg-primary-1000 rounded-lg ml-3 p-0" style="width: 48px; height: 48px;"
-        onclick="openGameDirectoryDialog(false)"
-      >
-        <span class="material-symbols-rounded" style="padding-top: 4px;">folder_open</span>
-      </button>
+
+      <!-- Java version selector -->
+      <p class="my-3">Версия Java</p>
+      <select class="custom-input" id="javaSelect"></select>
+
+      <!-- Game directory setup -->
+      <p class="my-3">Папка для хранения файлов игры</p>
+      <div class="flex items-center">
+        <input
+          type="text"
+          class="custom-input"
+          readonly
+          style="height: 48px"
+          id="gamePathInput"
+        />
+        <button
+          id="selectPathButton"
+          class="bg-primary-1000 rounded-lg ml-3 p-0"
+          style="width: 48px; height: 48px"
+          onclick="openGameDirectoryDialog(false)"
+        >
+          <span class="material-symbols-rounded" style="padding-top: 4px"
+            >folder_open</span
+          >
+        </button>
+      </div>
     </div>
+
+    <div class="modal-themes-tab" id="launcher-settings-tab">TODO</div>
 
     <div class="grow"></div>
 
-    <button class="custom-button" onclick="saveMainSettings()">Сохранить настройки</button>
+    <button class="custom-button" onclick="saveMainSettings()">
+      Сохранить настройки
+    </button>
   </div>
   <div
     id="memTooltip"
@@ -101,6 +119,15 @@
 <script>
   const AUTO_JAVA_ITEM =
     "<option value='auto'>Автоматически скачать и использовать подходящую версию</option>";
+
+  $("#settings-mmodal .modal-tabs").click(function () {
+    if (!$(this).hasClass("active")) {
+      $("#settings-mmodal .modal-tabs.active").removeClass("active");
+      $(this).addClass("active");
+      $("#settings-mmodal .modal-themes-tab:not(.hidden)").addClass("hidden");
+      $("#" + $(this).data("tab")).removeClass("hidden");
+    }
+  });
 
   $("#showMemTooltip").hover(function () {
     FrogUI.refreshAbsoluteElementsPositions();

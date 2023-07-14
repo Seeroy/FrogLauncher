@@ -8,6 +8,8 @@
     <script src="./js/FrogConfigManager.js"></script>
     <script src="./js/FrogAccountManager.js"></script>
     <script src="./js/FrogVersionsManager.js"></script>
+    <script src="./js/FrogAccountUI.js"></script>
+    <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Custom CSS -->
@@ -128,9 +130,7 @@
 <style></style>
 
 <script>
-  var mainConfig;
-  var accountsConfig;
-  var gameVersions;
+  var mainConfig, accountsConfig, gameVersions, selectedAccount, selectedGameVersion;
 
   // Loading config or creating if not exists
   mainConfig = FrogConfigManager.readMainConfig();
@@ -170,22 +170,25 @@
 
     // Refreshing some items
     setTimeout(() => {
-      FrogUI.refreshAccountsDropdown();
+      FrogAccountUI.refreshAccountsDropdown();
       if (
         mainConfig.lastSelectedAccount != "none" &&
         FrogAccountManager.isAccountExists(mainConfig.lastSelectedAccount)
       ) {
-        FrogUI.changeActiveAccount(mainConfig.lastSelectedAccount);
+        FrogAccountUI.changeActiveAccount(mainConfig.lastSelectedAccount);
       } else if (mainConfig.lastSelectedAccount == "none") {
         var gaccounts = FrogAccountManager.getAccounts();
         if (gaccounts.length > 0) {
-          FrogUI.changeActiveAccount(gaccounts[0]);
+          FrogAccountUI.changeActiveAccount(gaccounts[0]);
         } else {
           mainConfig.lastSelectedAccount = "none";
         }
       }
+      if(mainConfig.lastSelectedVersion != "none"){
+        FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
+      }
       FrogUI.refreshModalThemesList();
-      FrogUI.refreshVersionsListModal();
+      FrogVersionsUI.refreshVersionsListModal();
     }, 250);
   });
 </script>
