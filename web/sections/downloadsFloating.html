@@ -1,16 +1,16 @@
-<div
-  class="downloads-container flex flex-col bg-primary-1100 p-3 rounded-lg overflow-y-auto"
->
-  <p class="mc-text text-2xl text-white m-3 mx-2">Менеджер загрузок</p>
-  <div class="download-item flex items-center p-2 rounded">
-    <p class="font-semibold grow text-white">File.txt</p>
-    <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
-      <div
-        class="bg-blue-600 h-1.5 rounded-full dark:bg-blue-500"
-        style="width: 45%"
-      ></div>
-    </div>
+<div class="downloads-container flex flex-col bg-primary-1100 p-3 rounded-lg">
+  <div class="flex items-center">
+    <p class="mc-text text-2xl text-white m-3 mx-2 grow">Менеджер загрузок</p>
+    <button
+      type="button"
+      class="minimize-btn text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-2 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+      onclick="FrogUI.goHomeSection()"
+    >
+      <span class="material-symbols-rounded">minimize</span>
+    </button>
   </div>
+
+  <div class="flex flex-col overflow-y-auto downloads-list"></div>
 </div>
 
 <style>
@@ -35,4 +35,23 @@
   .downloads-container .bg-gray-200 {
     width: 256px;
   }
+
+  .downloads-container.minimized {
+    width: max-content !important;
+    opacity: 0.43;
+  }
+
+  .downloads-container.minimized .downloads-list {
+    display: none !important;
+  }
 </style>
+
+<script>
+  $(".downloads-container .minimize-btn").click(() => {
+    if ($(".downloads-container").hasClass("minimized")) {
+      $(".downloads-container").removeClass("minimized");
+    } else {
+      $(".downloads-container").addClass("minimized");
+    }
+  });
+</script>

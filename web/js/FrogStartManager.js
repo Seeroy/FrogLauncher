@@ -15,6 +15,7 @@ class FrogStartManager {
         number: version,
         type: versionType,
       },
+      javaPath: javaPath,
       memory: {
         max: maxMemory,
         min: "1G",
@@ -33,7 +34,8 @@ class FrogStartManager {
       mainConfig.selectedBaseDirectory,
       "1.12.2",
       authData,
-      "4G"
+      "4G",
+      mainConfig.selectedJava
     );
     var vanillaStarter = new FrogVanillaStarter(startArguments);
     vanillaStarter.launch();

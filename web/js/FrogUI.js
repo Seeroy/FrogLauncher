@@ -129,20 +129,25 @@ class FrogUI {
     openExternal(mainConfig.selectedBaseDirectory);
   }
 
-  static changeBottomControlsStatus(showClickable, showProgressBar, showProgressDesc, progressDescText = "Подождите"){
-    if(showClickable == true){
+  static changeBottomControlsStatus(
+    showClickable,
+    showProgressBar,
+    showProgressDesc,
+    progressDescText = "Подождите"
+  ) {
+    if (showClickable == true) {
       $(".controls button").removeClass("hidden");
     } else {
       $(".controls button").addClass("hidden");
     }
-    if(showProgressBar == true){
+    if (showProgressBar == true) {
       $(".controls .progress-cont").removeClass("hidden");
       $(".controls .progress-cont .progress").removeClass("hidden");
     } else {
       $(".controls .progress-cont").addClass("hidden");
       $(".controls .progress-cont .progress").addClass("hidden");
     }
-    if(showProgressDesc == true){
+    if (showProgressDesc == true) {
       $(".controls .progress-cont").removeClass("hidden");
       $(".controls .progress-cont .progress-desc").removeClass("hidden");
     } else {
@@ -152,14 +157,14 @@ class FrogUI {
     $(".controls .progress-cont .progress-desc").text(progressDescText);
   }
 
-  static setBottomProgressBar(progress){
-    if(!$(".controls .progress-cont .progress").hasClass("hidden")){
+  static setBottomProgressBar(progress) {
+    if (!$(".controls .progress-cont .progress").hasClass("hidden")) {
       $(".controls .progress-cont .progress div").css("width", progress + "%");
     }
   }
 
-  static setBottomProgressDescription(text){
-    if(!$(".controls .progress-cont .progress-desc").hasClass("hidden")){
+  static setBottomProgressDescription(text) {
+    if (!$(".controls .progress-cont .progress-desc").hasClass("hidden")) {
       $(".controls .progress-cont .progress-desc").text(text);
     }
   }
@@ -189,6 +194,29 @@ const animateCSS = (element, animation, fast = true, prefix = "animate__") =>
     }
 
     node.addEventListener("animationend", handleAnimationEnd, { once: true });
+  });
+
+const animateCSSJ = (element, animation, fast = true, prefix = "animate__") =>
+  // We create a Promise and return it
+  new Promise((resolve, reject) => {
+    const animationName = `${prefix}${animation}`;
+
+    if (fast == true) {
+      $(element).addClass(`${prefix}animated ${animationName} ${prefix}faster`);
+    } else {
+      $(element).addClass(`${prefix}animated ${animationName}`);
+    }
+
+    // When the animation ends, we clean the classes and resolve the Promise
+    function handleAnimationEnd(event) {
+      event.stopPropagation();
+      $(element).removeClass(
+        `${prefix}animated ${animationName} ${prefix}faster`
+      );
+      resolve("Animation ended");
+    }
+
+    $(element)[0].addEventListener("animationend", handleAnimationEnd, { once: true });
   });
 
 function padU(s) {
