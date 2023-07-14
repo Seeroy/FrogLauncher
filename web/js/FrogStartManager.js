@@ -20,11 +20,22 @@ class FrogStartManager {
         min: "1G",
       },
       overrides: {
-        gameDirectory: rootDirectory
-      }
+        gameDirectory: rootDirectory,
+      },
     };
     return launch_arguments;
   }
 
-  
+  static testStart(accountName) {
+    var accountData = FrogAccountManager.getAccountByName(accountName);
+    var authData = FrogAccountManager.generateAuthCredetinals(accountData);
+    var startArguments = this.compileVanillaArguments(
+      mainConfig.selectedBaseDirectory,
+      "1.12.2",
+      authData,
+      "4G"
+    );
+    var vanillaStarter = new FrogVanillaStarter(startArguments);
+    vanillaStarter.launch();
+  }
 }

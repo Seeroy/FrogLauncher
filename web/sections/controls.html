@@ -30,8 +30,23 @@
     class="custom-button text-white ml-3"
     id="open-game-directory-button"
   >
-    <span class="material-symbols-rounded mt-1 w-10" onclick="FrogUI.openGameDirectory()">folder_open</span>
+    <span
+      class="material-symbols-rounded mt-1 w-10"
+      onclick="FrogUI.openGameDirectory()"
+      >folder_open</span
+    >
   </button>
+  <div class="progress-cont hidden flex flex-col justify-center" style="width: 100vw; padding: 8px 10px;">
+
+    <p class="mb-2 text-white text-sm progress-desc"></p>
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 progress">
+      <div
+        class="bg-blue-600 h-2.5 rounded-full dark:bg-blue-500"
+        style="width: 0%"
+      ></div>
+    </div>
+
+  </div>
 </div>
 
 <div

@@ -7,11 +7,15 @@
     <script src="./js/FrogInfo.js"></script>
     <script src="./js/FrogConfigManager.js"></script>
     <script src="./js/FrogAccountManager.js"></script>
+    <script src="./js/FrogStartManager.js"></script>
     <script src="./js/FrogVersionsManager.js"></script>
+    <script src="./js/FrogDownloadManager.js"></script>
     <script src="./js/FrogAccountUI.js"></script>
     <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
     <script src="./js/toaster.js"></script>
+    <!-- Starters classes -->
+    <script src="./js/starters/FrogVanillaStarter.js"></script>
     <!-- Custom CSS -->
     <link href="./css/main.css" rel="stylesheet" />
     <link href="./css/toasts.css" rel="stylesheet" />
@@ -197,6 +201,12 @@
       }
       FrogUI.refreshModalThemesList();
       FrogVersionsUI.refreshVersionsListModal();
+      if (!fs.existsSync(path.join(__dirname, "logs"))) {
+        fs.mkdirSync(path.join(__dirname, "logs"));
+      }
+      if (!fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))) {
+        fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"));
+      }
       FrogBackendCommunicator.logBrowserConsole(
         "[APP]",
         "All is ok, startup success!"

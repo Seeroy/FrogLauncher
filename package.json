@@ -34,9 +34,11 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
+    "decompress": "^4.2.1",
     "jquery": "^3.7.0",
     "minecraft-launcher-core": "^3.17.1",
     "msmc": "^4.1.0",
-    "open": "^8.4.0"
+    "open": "^8.4.0",
+    "request": "^2.88.2"
   }
 }

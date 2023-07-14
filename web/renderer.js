@@ -6,3 +6,7 @@ const { ipcRenderer } = require("electron");
 const crypto = require("crypto");
 const { Auth } = require("msmc");
 const openExternal = require("open");
+const request = require("request");
+const decompress = require("decompress");
+const { Client } = require("minecraft-launcher-core");
+const launcher = new Client();

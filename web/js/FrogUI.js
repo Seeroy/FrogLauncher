@@ -128,6 +128,41 @@ class FrogUI {
   static openGameDirectory() {
     openExternal(mainConfig.selectedBaseDirectory);
   }
+
+  static changeBottomControlsStatus(showClickable, showProgressBar, showProgressDesc, progressDescText = "Подождите"){
+    if(showClickable == true){
+      $(".controls button").removeClass("hidden");
+    } else {
+      $(".controls button").addClass("hidden");
+    }
+    if(showProgressBar == true){
+      $(".controls .progress-cont").removeClass("hidden");
+      $(".controls .progress-cont .progress").removeClass("hidden");
+    } else {
+      $(".controls .progress-cont").addClass("hidden");
+      $(".controls .progress-cont .progress").addClass("hidden");
+    }
+    if(showProgressDesc == true){
+      $(".controls .progress-cont").removeClass("hidden");
+      $(".controls .progress-cont .progress-desc").removeClass("hidden");
+    } else {
+      $(".controls .progress-cont").addClass("hidden");
+      $(".controls .progress-cont .progress-desc").addClass("hidden");
+    }
+    $(".controls .progress-cont .progress-desc").text(progressDescText);
+  }
+
+  static setBottomProgressBar(progress){
+    if(!$(".controls .progress-cont .progress").hasClass("hidden")){
+      $(".controls .progress-cont .progress div").css("width", progress + "%");
+    }
+  }
+
+  static setBottomProgressDescription(text){
+    if(!$(".controls .progress-cont .progress-desc").hasClass("hidden")){
+      $(".controls .progress-cont .progress-desc").text(text);
+    }
+  }
 }
 
 const animateCSS = (element, animation, fast = true, prefix = "animate__") =>
