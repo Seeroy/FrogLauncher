@@ -6,7 +6,10 @@ const ACCOUNTS_LIST_ITEM_LOCAL = "Локальный аккаунт";
 const ACCOUNTS_LIST_ITEM_MS = "Аккаунт Microsoft";
 const ACCOUNTS_LIST_ITEM_NEW =
   '<div class="flex p-2 rounded-lg user-item" onclick="FrogUI.newAccountWizard()"> <div class="flex items-center h-8"> <span class="material-symbols-rounded text-white" style="font-size: 24px;">add</span> </div> <div class="ml-2 text-sm text-white"> <div>Добавить аккаунт</div> <p class="text-xs font-normal text-gray-400">Добавить новый аккаунт</p> </div> </div>';
-const GAME_VERSION_ITEM_BASE = '<li class="version-item" data-version="$1"><img src="assets/ver_icons/$2.png" style="height: 24px" /><span class="ml-3">$3</span></li>';
+const GAME_VERSION_ITEM_BASE =
+  '<li class="version-item" data-version="$1" data-uuid="$5"><img src="assets/ver_icons/$2.png" style="height: 24px" /><span class="ml-3">$3</span>$4</li>';
+const GAME_VERSION_INSTALLED = '<span class="gray ml-2">(Установлена)</span>';
+const USER_SELECT_BTN_BASE = '<div class="flex rounded items-center"><img src="$1"><div class="ml-3">$2</div></div>'
 
 class FrogUI {
   static loadSection = (selector, section) => {
@@ -134,7 +137,6 @@ class FrogUI {
   static newAccountWizard = () => {
     $(".new-account-modal").removeClass("hidden");
     this.refreshAbsoluteElementsPositions();
-    // TODO
   };
 
   static newLocalAccountWizard = () => {
@@ -195,20 +197,78 @@ class FrogUI {
 
   static changeActiveAccount = (nickname) => {
     if (FrogAccountManager.isAccountExists(nickname)) {
-      currentSelectedAccount = FrogAccountManager.getAccountByName(nickname);
-      $("#show-users-select img").attr(
-        "src",
-        "https://minotar.net/avatar/" + nickname + "/24"
+      FrogBackendCommunicator.logBrowserConsole(
+        "[ACCMAN]",
+        "Changing active account to",
+        nickname
       );
-      $("#show-users-select .ml-3").text(nickname);
+      currentSelectedAccount = FrogAccountManager.getAccountByName(nickname);
+      $("#show-users-select").html(USER_SELECT_BTN_BASE.replaceAll(/\$1/gmi, "https://minotar.net/avatar/" + nickname + "/24").replaceAll(/\$2/gmi, nickname));
+      mainConfig.lastSelectedAccount = nickname;
+      FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
     }
   };
 
-  static refreshVersionsListModal = () => {
+  static changeActiveVersion = (version, code) => {
+    FrogBackendCommunicator.logBrowserConsole(
+      "[ACCMAN]",
+      "Changing active version to",
+      version.version
+    );
+    if (FrogAccountManager.isAccountExists(nickname)) {
+
+      currentSelectedAccount = FrogAccountManager.getAccountByName(nickname);
+      $("#show-version-selector").html(code);
+      mainConfig.lastSelectedAccount = nickname;
+      FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+    }
+  };
+
+  static refreshVersionsListModal = (filters = "all all") => {
+    var vi,
+      accepted = false;
+    var filters = filters.split(" ");
     FrogVersionsManager.getAllVersionsList((gameVersions) => {
       $("#version-selector-mmodal #game-versions-list").html("");
       gameVersions.forEach((version) => {
-        $("#version-selector-mmodal #game-versions-list").append(GAME_VERSION_ITEM_BASE.replaceAll(/\$1/gmi, version.version).replaceAll(/\$2/gmi, version.type).replaceAll(/\$3/gmi, FrogVersionsManager.generateVersionDisplayname(version)));
+        if (
+          filters[0] == "all" ||
+          (filters[0] == "installed" && version.installed == true)
+        ) {
+          if (
+            filters[1] == "all" ||
+            (filters[1] == "forge" && version.type == "forge") ||
+            (filters[1] == "fabric" && version.type == "fabric") ||
+            (filters[1] == "vanilla" && version.type == "vanilla")
+          ) {
+            accepted = true;
+          } else {
+            accepted = false;
+          }
+        } else {
+          accepted = false;
+        }
+
+        if (
+          typeof version.installed !== "undefined" &&
+          version.installed == true
+        ) {
+          vi = GAME_VERSION_INSTALLED;
+        } else {
+          vi = "";
+        }
+
+        if (accepted == true) {
+          $("#version-selector-mmodal #game-versions-list").append(
+            GAME_VERSION_ITEM_BASE.replaceAll(/\$1/gim, version.version)
+              .replaceAll(/\$2/gim, version.type)
+              .replaceAll(
+                /\$3/gim,
+                FrogVersionsManager.generateVersionDisplayname(version)
+              )
+              .replaceAll(/\$4/gim, vi).replaceAll(/\$5/gim, version.id)
+          );
+        }
       });
     });
   };

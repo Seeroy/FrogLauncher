@@ -29,7 +29,9 @@ class FrogConfigManager {
       selectedJava: "auto",
       selectedBaseDirectory: FrogInfo.getDefaultDotMinecraft(),
       selectedTheme: 'indigo',
-      selectedBaseFont: "default"
+      selectedBaseFont: "default",
+      lastSelectedAccount: "none",
+      lastSelectedVersion: "none"
     };
     fs.writeFileSync("config.json", JSON.stringify(defaultCfg));
     FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config rewritten to default");

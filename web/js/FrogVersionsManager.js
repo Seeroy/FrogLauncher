@@ -84,27 +84,33 @@ class FrogVersionsManager {
 
   static getAllVersionsList(cb) {
     var releases = [];
+    var installedVersions = this.getInstallerVersionsList();
     this.getVanillaReleases((vanilla_releases) => {
       vanilla_releases.forEach((vanilla_release) => {
         var vversionItem = {
+          id: crypto.randomUUID(),
           version: vanilla_release.version,
           url: vanilla_release.manifestURL,
           type: "vanilla",
+          installed: installedVersions.includes(vanilla_release.version),
         };
         releases.push(vversionItem);
       });
       this.getForgeReleases((forge_releases) => {
         for (const [key, value] of Object.entries(forge_releases)) {
           var fversionItem = {
+            id: crypto.randomUUID(),
             version: key,
             forgeBuild: value,
             type: "forge",
+            installed: installedVersions.includes("Forge " + key),
           };
           releases.push(fversionItem);
         }
         this.getFabricAvailableVersions((fabric_versions) => {
           fabric_versions.forEach((fabric_version) => {
             var fbversionItem = {
+              id: crypto.randomUUID(),
               version: fabric_version,
               type: "fabric",
             };
@@ -141,6 +147,7 @@ class FrogVersionsManager {
             return result;
           });
           releases.reverse();
+          gameVersions = releases;
           cb(releases);
         });
       });

@@ -19,21 +19,31 @@
       style="width: 768px"
       type="text"
       placeholder="Поиск"
+      id="version-search-input"
     />
 
     <!-- Category select -->
     <ul
       class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
+      id="version-category-selector"
     >
       <li class="w-full">
-        <div class="inline-block w-full p-4 active">
-          <span class="material-symbols-rounded text-white" style="font-size: 24px">sort</span>
+        <div class="inline-block w-full p-4 active" data-filter="all">
+          <span
+            class="material-symbols-rounded text-white"
+            style="font-size: 24px"
+            >sort</span
+          >
           <span class="ml-3 text-white">Все</span>
         </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4">
-          <span class="material-symbols-rounded text-white" style="font-size: 24px">download_for_offline</span>
+        <div class="inline-block w-full p-4" data-filter="installed">
+          <span
+            class="material-symbols-rounded text-white"
+            style="font-size: 24px"
+            >download_for_offline</span
+          >
           <span class="ml-3 text-white">Установленные</span>
         </div>
       </li>
@@ -42,29 +52,34 @@
     <!-- Modloader select -->
     <ul
       class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
+      id="version-type-selector"
     >
       <li class="w-full">
-        <div class="inline-block w-full p-4 active">
-          <span class="material-symbols-rounded text-white" style="font-size: 24px">sort</span>
+        <div class="inline-block w-full p-4 active" data-filter="all">
+          <span
+            class="material-symbols-rounded text-white"
+            style="font-size: 24px"
+            >sort</span
+          >
           <span class="ml-3 text-white">Все</span>
         </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4">
+        <div class="inline-block w-full p-4" data-filter="vanilla">
           <img src="assets/ver_icons/vanilla.png" style="height: 24px" />
           <span class="ml-3 text-white">Ванильная</span>
         </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4">
+        <div class="inline-block w-full p-4" data-filter="forge">
           <img src="assets/ver_icons/forge.png" style="height: 24px" />
           <span class="ml-3 text-white">Forge</span>
         </div>
       </li>
       <li class="w-full">
-        <div class="inline-block w-full p-4">
-          <img src="assets/ver_icons/sodium.png" style="height: 24px" />
-          <span class="ml-3 text-white">Sodium</span>
+        <div class="inline-block w-full p-4" data-filter="fabric">
+          <img src="assets/ver_icons/fabric.png" style="height: 24px" />
+          <span class="ml-3 text-white">Fabric</span>
         </div>
       </li>
     </ul>
@@ -102,6 +117,10 @@
     align-items: center;
   }
 
+  #version-selector-mmodal .versions-list .version-item.hidden {
+    display: none;
+  }
+
   #version-selector-mmodal .versions-list .version-item .gray {
     color: rgb(180, 180, 180);
   }
@@ -110,3 +129,60 @@
     background: var(--bg-primary-900);
   }
 </style>
+
+<script>
+  $("#version-selector-mmodal #version-category-selector .inline-block").click(
+    (event) => {
+      if (!$(event.currentTarget).hasClass("active")) {
+        $(
+          "#version-selector-mmodal #version-category-selector .inline-block.active"
+        ).removeClass("active");
+        $(event.currentTarget).addClass("active");
+      }
+      refreshVersionsWithFilters();
+    }
+  );
+  
+  $("#version-selector-mmodal #version-search-input").keyup((event) => {
+    searchVersions($(event.currentTarget).val());
+  });
+
+  $("#version-selector-mmodal #version-type-selector .inline-block").click(
+    (event) => {
+      if (!$(event.currentTarget).hasClass("active")) {
+        $(
+          "#version-selector-mmodal #version-type-selector .inline-block.active"
+        ).removeClass("active");
+        $(event.currentTarget).addClass("active");
+      }
+      refreshVersionsWithFilters();
+    }
+  );
+
+  function refreshVersionsWithFilters() {
+    $("#version-search-input").val("");
+    var filters1,
+      filters2,
+      filters = "";
+    filters1 = $(
+      "#version-selector-mmodal #version-category-selector .inline-block.active"
+    ).data("filter");
+    filters2 = $(
+      "#version-selector-mmodal #version-type-selector .inline-block.active"
+    ).data("filter");
+    filters = filters1 + " " + filters2;
+    FrogUI.refreshVersionsListModal(filters);
+  }
+
+  function searchVersions(query){
+    var searchRegex = new RegExp(query, "gmi");
+    $("#version-selector-mmodal #game-versions-list .version-item").each(function(i, elem){
+      var itemText = $(elem).find("span.ml-3").text();
+      if(itemText.match(searchRegex) != null){
+        $(elem).removeClass("hidden");
+      } else {
+        $(elem).addClass("hidden");
+      }
+    });
+  }
+</script>

@@ -170,9 +170,20 @@
 
     // Refreshing some items
     setTimeout(() => {
-      FrogUI.refreshAccountsDropdown(() => {
-        FrogUI.changeActiveAccount();
-      });
+      FrogUI.refreshAccountsDropdown();
+      if (
+        mainConfig.lastSelectedAccount != "none" &&
+        FrogAccountManager.isAccountExists(mainConfig.lastSelectedAccount)
+      ) {
+        FrogUI.changeActiveAccount(mainConfig.lastSelectedAccount);
+      } else if (mainConfig.lastSelectedAccount == "none") {
+        var gaccounts = FrogAccountManager.getAccounts();
+        if (gaccounts.length > 0) {
+          FrogUI.changeActiveAccount(gaccounts[0]);
+        } else {
+          mainConfig.lastSelectedAccount = "none";
+        }
+      }
       FrogUI.refreshModalThemesList();
       FrogUI.refreshVersionsListModal();
     }, 250);
