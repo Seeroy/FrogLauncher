@@ -23,7 +23,7 @@
 
     <!-- Category select -->
     <ul
-      class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3"
+      class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
     >
       <li class="w-full">
         <div class="inline-block w-full p-4 active">
@@ -41,7 +41,7 @@
 
     <!-- Modloader select -->
     <ul
-      class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3"
+      class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
     >
       <li class="w-full">
         <div class="inline-block w-full p-4 active">
@@ -71,33 +71,7 @@
 
     <!-- Versions list -->
     <div class="overflow-y-auto mt-3" style="border-radius: 12px; height: 40vh">
-      <ul class="versions-list">
-        <li class="version-item">
-          <img src="assets/ver_icons/vanilla.png" style="height: 24px" />
-          <span class="ml-3">Версия 1.16.5</span>
-        </li>
-        <li class="version-item">
-          <img src="assets/ver_icons/forge.png" style="height: 24px" />
-          <span class="ml-3">Версия Forge 1.16.5</span>
-          <span class="ml-2 gray">(Установлена)</span>
-        </li>
-        <li class="version-item">
-          <img src="assets/ver_icons/forge.png" style="height: 24px" />
-          <span class="ml-3">Версия ForgeOptiFine 1.16.5</span>
-        </li>
-        <li class="version-item">
-          <img src="assets/ver_icons/sodium.png" style="height: 24px" />
-          <span class="ml-3">Версия Sodium 1.16.5</span>
-        </li>
-        <li class="version-item">
-          <img src="assets/ver_icons/sodium.png" style="height: 24px" />
-          <span class="ml-3">Версия SodiumIris 1.16.5</span>
-        </li>
-        <li class="version-item">
-          <img src="assets/ver_icons/optifine.png" style="height: 24px" />
-          <span class="ml-3">Версия OptiFine 1.16.5</span>
-        </li>
-      </ul>
+      <ul class="versions-list" id="game-versions-list"></ul>
     </div>
   </div>
 </div>
@@ -111,36 +85,6 @@
 
   #version-selector-mmodal .modal-caption {
     font-size: 18pt !important;
-  }
-
-  #version-selector-mmodal ul li div {
-    background: var(--bg-primary-1000);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0;
-  }
-
-  #version-selector-mmodal ul li div:hover {
-    background: var(--bg-primary-900);
-  }
-
-  #version-selector-mmodal ul li div.active {
-    background: var(--bg-primary-800) !important;
-  }
-
-  #version-selector-mmodal ul li div:not(.active) {
-    cursor: pointer;
-  }
-
-  #version-selector-mmodal ul li:first-child div {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-  }
-
-  #version-selector-mmodal ul li:last-child div {
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
   }
 
   #version-selector-mmodal .versions-list {

@@ -1,5 +1,5 @@
 // Загрузка модулей
-const { app, ipcMain } = require("electron");
+const { app, ipcMain} = require("electron");
 require("console-stamp")(console, {
   format: ":date(HH:MM:ss.l)",
 });
@@ -42,7 +42,7 @@ app.whenReady().then(() => {
     startTimer.checkStartTimer();
   });
   consoleWindow.create();
-  
+
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow.create(function () {
@@ -58,7 +58,7 @@ app.whenReady().then(() => {
     consoleWindowObject.hide();
   });
   ipcMain.on("open-console-window", () => {
-    if(!consoleWindowObject.isVisible()){
+    if (!consoleWindowObject.isVisible()) {
       consoleWindowObject.show();
     } else {
       consoleWindowObject.focus();
@@ -74,7 +74,6 @@ app.whenReady().then(() => {
   ipcMain.on("hide-main-window", () => {
     mainWindowObject.minimize();
   });
-
 
   ipcMain.on("focus-fix", () => {
     mainWindowObject.blur();

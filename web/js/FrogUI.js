@@ -6,6 +6,7 @@ const ACCOUNTS_LIST_ITEM_LOCAL = "Локальный аккаунт";
 const ACCOUNTS_LIST_ITEM_MS = "Аккаунт Microsoft";
 const ACCOUNTS_LIST_ITEM_NEW =
   '<div class="flex p-2 rounded-lg user-item" onclick="FrogUI.newAccountWizard()"> <div class="flex items-center h-8"> <span class="material-symbols-rounded text-white" style="font-size: 24px;">add</span> </div> <div class="ml-2 text-sm text-white"> <div>Добавить аккаунт</div> <p class="text-xs font-normal text-gray-400">Добавить новый аккаунт</p> </div> </div>';
+const GAME_VERSION_ITEM_BASE = '<li class="version-item" data-version="$1"><img src="assets/ver_icons/$2.png" style="height: 24px" /><span class="ml-3">$3</span></li>';
 
 class FrogUI {
   static loadSection = (selector, section) => {
@@ -201,6 +202,15 @@ class FrogUI {
       );
       $("#show-users-select .ml-3").text(nickname);
     }
+  };
+
+  static refreshVersionsListModal = () => {
+    FrogVersionsManager.getAllVersionsList((gameVersions) => {
+      $("#version-selector-mmodal #game-versions-list").html("");
+      gameVersions.forEach((version) => {
+        $("#version-selector-mmodal #game-versions-list").append(GAME_VERSION_ITEM_BASE.replaceAll(/\$1/gmi, version.version).replaceAll(/\$2/gmi, version.type).replaceAll(/\$3/gmi, FrogVersionsManager.generateVersionDisplayname(version)));
+      });
+    });
   };
 }
 

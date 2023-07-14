@@ -29,10 +29,11 @@
   background: var(--bg-primary-transparent);
 }
 
-html.only-mc-font *:not(.material-symbols-rounded) {
+html.font-mc *:not(.material-symbols-rounded) {
   font-family: 'Minecraft Rus' !important;
+  font-weight: 500 !important;
 }
 
-html.only-ss-font *:not(.material-symbols-rounded) {
+html.font-gt *:not(.material-symbols-rounded) {
   font-family: 'Golos Text' !important;
 }

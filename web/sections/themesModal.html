@@ -1,7 +1,14 @@
 <div id="themes-mmodal" class="modal-bg hidden">
   <div class="modal-window bg-primary-1100">
     <div class="flex items-center mb-2">
-      <div class="modal-caption grow">Темы и персонализация</div>
+      <div class="flex grow">
+        <div class="modal-caption modal-tabs active" data-tab="themes-tab">
+          Темы
+        </div>
+        <div class="modal-caption modal-tabs" data-tab="personalization-tab">
+          Внешний вид
+        </div>
+      </div>
       <button
         type="button"
         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -11,106 +18,164 @@
       </button>
     </div>
 
-    <div class="flex flex-col themes-items h-full overflow-y-auto" style="height: 75vh;">
+    <div class="modal-themes-tab" id="themes-tab">
       <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="indigo"
+        class="flex flex-col themes-items h-full overflow-y-auto"
+        style="height: 75vh"
       >
-        <span class="text-white text-md grow">Тема `Indigo`</span>
-        <button class="custom-button" onclick="FrogUI.applyTheme('indigo', true)">
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
-      </div>
-      <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="blue"
-      >
-        <span class="text-white text-md grow">Тема `Blue`</span>
-        <button class="custom-button" onclick="FrogUI.applyTheme('blue', true)">
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
-      </div>
-      <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="turquoise"
-      >
-        <span class="text-white text-md grow">Тема `Turquoise`</span>
-        <button class="custom-button" onclick="FrogUI.applyTheme('turquoise', true)">
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
-      </div>
-      <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="red"
-      >
-        <span class="text-white text-md grow">Тема `Red`</span>
-        <button class="custom-button" onclick="FrogUI.applyTheme('red', true)">
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
-      </div>
-      <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="yellow"
-      >
-        <span class="text-white text-md grow">Тема `Yellow`</span>
-        <button class="custom-button" onclick="FrogUI.applyTheme('yellow', true)">
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
-      </div>
-      <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="gradient-blue"
-      >
-        <span class="text-white text-md grow">Тема `Blue Gradient`</span>
-        <button
-          class="custom-button"
-          onclick="FrogUI.applyTheme('gradient-blue', true)"
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="indigo"
         >
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
-      </div>
-      <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="gradient-fire"
-      >
-        <span class="text-white text-md grow">Тема `Fire Gradient`</span>
-        <button
-          class="custom-button"
-          onclick="FrogUI.applyTheme('gradient-fire', true)"
+          <span class="text-white text-md grow">Тема `Indigo`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('indigo', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="blue"
         >
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
+          <span class="text-white text-md grow">Тема `Blue`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('blue', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="turquoise"
+        >
+          <span class="text-white text-md grow">Тема `Turquoise`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('turquoise', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="red"
+        >
+          <span class="text-white text-md grow">Тема `Red`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('red', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="yellow"
+        >
+          <span class="text-white text-md grow">Тема `Yellow`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('yellow', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="gradient-blue"
+        >
+          <span class="text-white text-md grow">Тема `Blue Gradient`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('gradient-blue', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="gradient-fire"
+        >
+          <span class="text-white text-md grow">Тема `Fire Gradient`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('gradient-fire', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="gray"
+        >
+          <span class="text-white text-md grow">Тема `Gray`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('gray', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
+        <div
+          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
+          data-theme="minecrafty"
+        >
+          <span class="text-white text-md grow">Тема `Minecrafty`</span>
+          <button
+            class="custom-button"
+            onclick="FrogUI.applyTheme('minecrafty', true)"
+          >
+            Применить
+          </button>
+          <span class="material-symbols-rounded text-2xl hidden">check</span>
+        </div>
       </div>
-      <div
-        class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-        data-theme="gray"
-      >
-        <span class="text-white text-md grow">Тема `Gray`</span>
-        <button class="custom-button" onclick="FrogUI.applyTheme('gray', true)">
-          Применить
-        </button>
-        <span class="material-symbols-rounded text-2xl hidden">check</span>
-      </div>
-      <div
-      class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-      data-theme="minecrafty"
-    >
-      <span class="text-white text-md grow">Тема `Minecrafty`</span>
-      <button
-        class="custom-button"
-        onclick="FrogUI.applyTheme('minecrafty', true)"
-      >
-        Применить
-      </button>
-      <span class="material-symbols-rounded text-2xl hidden">check</span>
     </div>
+
+    <div class="modal-themes-tab hidden" id="personalization-tab">
+
+      <p>Шрифт</p>
+      <ul
+        class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
+      >
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-font="mc">
+            <span
+              class="mc-text text-white"
+              style="font-size: 24px"
+              >Aa</span
+            >
+            <span class="ml-3 text-white">Только Minecraft Rus</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-font="default">
+            <span class="ml-3 text-white">По умолчанию</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-font="gt">
+            <span
+              class="text-white"
+              style="font-size: 24px; font-family: 'Golos Text' !important;"
+              >Aa</span
+            >
+            <span class="ml-3 text-white">Только Golos Text</span>
+          </div>
+        </li>
+      </ul>
+
     </div>
   </div>
 </div>
@@ -134,3 +199,32 @@
     padding: 6px !important;
   }
 </style>
+
+<script>
+  $("#themes-mmodal .modal-tabs").click(function () {
+    if (!$(this).hasClass("active")) {
+      $(".modal-tabs.active").removeClass("active");
+      $(this).addClass("active");
+      $(".modal-themes-tab:not(.hidden)").addClass("hidden");
+      $("#" + $(this).data("tab")).removeClass("hidden");
+    }
+  });
+
+  $("#themes-mmodal .catselector li .inline-block").each((i, elem) => {
+    if($(elem).data("font") == mainConfig.selectedBaseFont){
+      $(elem).addClass("active");
+      $("html").addClass("font-" + mainConfig.selectedBaseFont);
+    }
+  });
+
+  $("#themes-mmodal .catselector li .inline-block").click(function(){
+    if(!$(this).hasClass("active")){
+      $("#themes-mmodal .catselector li .inline-block.active").removeClass("active");
+      $(this).addClass("active");
+      $("html").removeClass("font-gt font-mc");
+      $("html").addClass("font-" + $(this).data("font"));
+      mainConfig.selectedBaseFont = $(this).data("font");
+      FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+    }
+  });
+</script>

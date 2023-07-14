@@ -20,7 +20,9 @@
   height: 90%;
   padding: 26px;
   border-radius: 16px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .modal-bg .modal-window .modal-caption {
@@ -30,4 +32,48 @@
 
 .modal-bg .modal-window * {
   color: white;
+}
+
+.modal-bg .modal-window .modal-caption.modal-tabs:not(:first-child) {
+  margin: 0 12px;
+}
+
+.modal-bg .modal-window .modal-caption.modal-tabs.active {
+  color: white;
+}
+
+.modal-bg .modal-window .modal-caption.modal-tabs:not(.active) {
+  color: rgb(140,140,140);
+  cursor: pointer;
+}
+
+/* Modal elements */
+ul.catselector li div {
+  background: var(--bg-primary-1000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+ul.catselector li div:hover {
+  background: var(--bg-primary-900);
+}
+
+ul li div.active {
+  background: var(--bg-primary-800) !important;
+}
+
+ul.catselector li div:not(.active) {
+  cursor: pointer;
+}
+
+ul.catselector li:first-child div {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+ul.catselector li:last-child div {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }

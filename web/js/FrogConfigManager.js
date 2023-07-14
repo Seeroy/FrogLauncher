@@ -28,7 +28,8 @@ class FrogConfigManager {
       selectedMemorySize: (FrogInfo.getMaxRAMSize() / 1024).toFixed(1) / 2,
       selectedJava: "auto",
       selectedBaseDirectory: FrogInfo.getDefaultDotMinecraft(),
-      selectedTheme: 'indigo'
+      selectedTheme: 'indigo',
+      selectedBaseFont: "default"
     };
     fs.writeFileSync("config.json", JSON.stringify(defaultCfg));
     FrogBackendCommunicator.logBrowserConsole("[CONFMAN]", "Main config rewritten to default");
