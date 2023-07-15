@@ -38,7 +38,7 @@ class FrogForgeStarter {
     FrogStartManager.parseStartStatus('mclc-start-evt');
     FrogBackendCommunicator.logBrowserConsole(
       "[S]",
-      "Trying to start Forge Minecraft",
+      "Trying to start Forge",
       this.options.version.number
     );
     launcher.launch(this.options);

@@ -1,0 +1,7 @@
+class FrogFabricStarter{
+
+}
+
+class FrogFabricInstaller{
+  
+}

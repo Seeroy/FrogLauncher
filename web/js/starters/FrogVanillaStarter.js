@@ -6,7 +6,7 @@ class FrogVanillaStarter {
   launch() {
     FrogBackendCommunicator.logBrowserConsole(
       "[S]",
-      "Trying to start Vanilla Minecraft",
+      "Trying to start Vanilla",
       this.options.version.number
     );
     launcher.launch(this.options);

@@ -93,7 +93,6 @@ class FrogVersionsManager {
         var vversionItem = {
           shortName: "vanilla-" + vanilla_release.version,
           version: vanilla_release.version,
-          url: vanilla_release.manifestURL,
           type: "vanilla",
           installed: installedVersions.includes(vanilla_release.version),
         };
@@ -134,6 +133,7 @@ class FrogVersionsManager {
             shortName: "fabric-" + fabric_version,
             version: fabric_version,
             type: "fabric",
+            installed: installedVersions.includes("Fabric " + fabric_version.version)
           };
           releases.push(fbversionItem);
         });
@@ -194,10 +194,17 @@ class FrogVersionsManager {
       var rddrs = fs.readdirSync(versPath);
       rddrs.forEach(function (item) {
         if (fs.lstatSync(path.join(versPath, item)).isDirectory()) {
-          directories.push(item);
+          var fabParse = FrogVersionsManager.fabricLoaderStringParse(item);
+          if (fabParse != false) {
+            directories.push(
+              "Fabric " + fabParse["version"]
+            );
+          } else {
+            directories.push(item);
+          }
         }
         var chkRegex = new RegExp(
-          ".*" + item.replaceAll(/\./gim, "\\.") + ".*",
+          "forge-" + item.replaceAll(/\./gim, "\\.") + ".*",
           "gim"
         );
         var rdir = fs.readdirSync(
