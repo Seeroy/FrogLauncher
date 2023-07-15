@@ -8,11 +8,11 @@ const MODLOADERS_INFO_URL = "http://seeroycloud.tk/froglauncher/data.json";
 var modloadersMyInfo;
 
 class FrogVersionsManager {
-  static refreshMyModloadersInfo() {
+  static refreshMyModloadersInfo(cb) {
     $.get(MODLOADERS_INFO_URL, (res) => {
       modloadersMyInfo = res;
-    });
-    return true;
+      cb();
+    }); 
   }
 
   static getVanillaReleases(
@@ -176,6 +176,13 @@ class FrogVersionsManager {
         if (fs.lstatSync(path.join(versPath, item)).isDirectory()) {
           directories.push(item);
         }
+        var chkRegex = new RegExp('.*' + item.replaceAll(/\./gim, "\\.") + '.*', 'gim');
+        var rdir = fs.readdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"));
+        rdir.forEach(function(dr){
+          if(dr.match(chkRegex) != null){
+            directories.push("Forge " + item);
+          }
+        });
       });
       return directories;
     } else {

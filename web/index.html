@@ -52,8 +52,10 @@
     <title>FrogLauncher</title>
   </head>
   <body>
+    <!-- Blackscreen used for hiding ugly animation glitches on startup -->
     <div class="blackscreen"></div>
     <div class="modals"></div>
+    <!-- Invisible drag zone with window action buttons -->
     <div class="dragbar">
       <div class="dragzone"></div>
       <div class="actions">
@@ -85,10 +87,10 @@
       <div class="main-bg"></div>
     </div>
 
-    <!-- TOASTS LIST -->
+    <!-- Toasts container -->
     <div id="toasts-list" class="flex flex-col left-top"></div>
 
-    <!-- TOASTS HISTORY DRAWER -->
+    <!-- Toasts history drawer -->
     <div
       id="drawer-toasts-list"
       class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-primary-1100"
@@ -164,6 +166,7 @@
     document.addEventListener("dragover", (event) => event.preventDefault());
     document.addEventListener("drop", (event) => event.preventDefault());
 
+    // Applying theme
     FrogUI.applyTheme(mainConfig.selectedTheme);
 
     // Loading some sections
@@ -190,68 +193,72 @@
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
 
-    FrogVersionsManager.refreshMyModloadersInfo();
+    FrogVersionsManager.refreshMyModloadersInfo(() => {
+      if (mainConfig.selectedBackground.toString().length > 1) {
+        FrogUI.refreshCustomBg(mainConfig.selectedBackground);
+      }
 
-    if (mainConfig.selectedBackground.toString().length > 1) {
-      FrogUI.refreshCustomBg(mainConfig.selectedBackground);
-    }
-
-    // Refreshing some items
-    setTimeout(() => {
-      FrogAccountUI.refreshAccountsDropdown();
-      if (
-        mainConfig.lastSelectedAccount != "none" &&
-        FrogAccountManager.isAccountExists(mainConfig.lastSelectedAccount)
-      ) {
-        FrogAccountUI.changeActiveAccount(mainConfig.lastSelectedAccount);
-      } else if (mainConfig.lastSelectedAccount == "none") {
-        var gaccounts = FrogAccountManager.getAccounts();
-        if (gaccounts.length > 0) {
-          FrogAccountUI.changeActiveAccount(gaccounts[0]);
-        } else {
-          mainConfig.lastSelectedAccount = "none";
+      // Refreshing some items
+      setTimeout(() => {
+        // Refreshing accounts information
+        FrogAccountUI.refreshAccountsDropdown();
+        if (
+          mainConfig.lastSelectedAccount != "none" &&
+          FrogAccountManager.isAccountExists(mainConfig.lastSelectedAccount)
+        ) {
+          FrogAccountUI.changeActiveAccount(mainConfig.lastSelectedAccount);
+        } else if (mainConfig.lastSelectedAccount == "none") {
+          var gaccounts = FrogAccountManager.getAccounts();
+          if (gaccounts.length > 0) {
+            FrogAccountUI.changeActiveAccount(gaccounts[0]);
+          } else {
+            mainConfig.lastSelectedAccount = "none";
+          }
         }
-      }
-      if (mainConfig.lastSelectedVersion != "none") {
-        FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
-      }
-      if (mainConfig.openConsoleOnStart == true) {
-        FrogBackendCommunicator.onOpenConsoleWindow();
-      }
-      if (mainConfig.enableDiscordPresence == true) {
-        FrogDiscordPresence.setPresenceMode("menu");
-      }
-      if (mainConfig.enableDownloadManager == true) {
-        $(".downloads-container").removeClass("disabled");
-      } else {
-        $(".downloads-container").addClass("disabled");
-      }
-      FrogUI.refreshModalThemesList();
-      FrogVersionsUI.refreshVersionsListModal();
-      if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
-        fs.mkdirSync(path.join(__dirname, "..", "logs"));
-      }
-      if (!fs.existsSync(path.join(__dirname, "..", "cache"))) {
-        fs.mkdirSync(path.join(__dirname, "..", "cache"));
-      }
-      if (
-        !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))
-      ) {
-        fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"));
-      }
-      if (
-        !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "cache"))
-      ) {
-        fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"));
-      }
-      FrogBackendCommunicator.logBrowserConsole(
-        "[APP]",
-        "All is ok, startup success!"
-      );
-    }, 250);
+        // Applying values from config
+        if (mainConfig.lastSelectedVersion != "none") {
+          FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
+        }
+        if (mainConfig.openConsoleOnStart == true) {
+          FrogBackendCommunicator.onOpenConsoleWindow();
+        }
+          FrogDiscordPresence.setPresenceMode("menu");
+        if (mainConfig.enableDownloadManager == true) {
+          $(".downloads-container").removeClass("disabled");
+        } else {
+          $(".downloads-container").addClass("disabled");
+        }
+        // Refreshing some items and things
+        FrogUI.refreshModalThemesList();
+        FrogVersionsUI.refreshVersionsListModal();
+        // Creating neccesary dirs if not exists
+        if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
+          fs.mkdirSync(path.join(__dirname, "..", "logs"));
+        }
+        if (!fs.existsSync(path.join(__dirname, "..", "cache"))) {
+          fs.mkdirSync(path.join(__dirname, "..", "cache"));
+        }
+        if (
+          !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))
+        ) {
+          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"));
+        }
+        if (
+          !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "cache"))
+        ) {
+          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"));
+        }
+        // Ok, startup is done
+        FrogBackendCommunicator.logBrowserConsole(
+          "[APP]",
+          "All is ok, startup success!"
+        );
+      }, 250);
 
-    $("#clear-notifications-list").click(function () {
-      $("#toasts-history-list").html("");
+      // Evt for notifications list clear button
+      $("#clear-notifications-list").click(function () {
+        $("#toasts-history-list").html("");
+      });
     });
   });
 </script>

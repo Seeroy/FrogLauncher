@@ -10,4 +10,14 @@ class FrogUtils {
   static capitalizeWord(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
+
+  static checkMatchArray(array, text) {
+    var isMatches = false;
+    array.forEach(function (status) {
+      if (text.match(status) != null) {
+        isMatches = true;
+      }
+    });
+    return isMatches;
+  }
 }

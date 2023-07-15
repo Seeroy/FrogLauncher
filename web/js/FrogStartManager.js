@@ -3,8 +3,13 @@ const STATUS_STARTING = [
   /Launching wrapped minecraft/gim,
   /ModLauncher running/gim,
   /Launching target \'fmlclient\'/gim,
+  /Loading tweak class/gim,
 ];
-const STATUS_STARTED = [/OpenAL initialized/gim, /Sound engine started/gim];
+const STATUS_STARTED = [
+  /OpenAL initialized/gim,
+  /Sound engine started/gim,
+  /Created\: 512x512 textures-atlas/gim,
+];
 const STATUS_STOPPING = [
   /Stopping!/gim,
   /Author\: Paul Lamb/gim,
@@ -159,71 +164,17 @@ class FrogStartManager {
   }
 
   static parseStartStatus(line) {
-    // Handle game start in code
-    if (gameStatus != "starting" && line == "mclc-start-evt") {
-      gameStatus = "starting";
-    }
-    // Handle game starting event with regex
-    if (gameStatus != "starting") {
-      STATUS_STARTING.forEach(function (status) {
-        if (line.match(status) != null) {
-          if(mainConfig.enableDiscordPresence == true){
-            FrogVersionsManager.getVersionByShortName(selectedGameVersion, (gameInfo) => {
-              FrogDiscordPresence.setPresenceMode("loading", FrogUtils.capitalizeWord(gameInfo.type), gameInfo.version)
-            });
-          }
-          gameStatus = "starting";
-          FrogUI.changeBottomControlsStatus(
-            false,
-            false,
-            true,
-            "Запускаем игру, подождите"
-          );
-          FrogUI.showDownloadManager(false);
-        }
-      });
-    }
-    // Handle game started event with regex
-    if (gameStatus != "started") {
-      STATUS_STARTED.forEach(function (status) {
-        if (line.match(status) != null) {
-          if(mainConfig.enableDiscordPresence == true){
-            FrogVersionsManager.getVersionByShortName(selectedGameVersion, (gameInfo) => {
-              FrogDiscordPresence.setPresenceMode("playing", FrogUtils.capitalizeWord(gameInfo.type), gameInfo.version)
-            });
-          }
-          gameStatus = "started";
-          FrogUI.changeBottomControlsStatus(
-            false,
-            false,
-            true,
-            "Игра запущена успешно!"
-          );
-          FrogUI.showDownloadManager(false);
-        }
-      });
-    }
-    // Handle game stopping event with regex
-    if (gameStatus != "stopping") {
-      STATUS_STOPPING.forEach(function (status) {
-        if (line.match(status) != null) {
-          gameStatus = "stopping";
-          FrogUI.changeBottomControlsStatus(
-            false,
-            false,
-            true,
-            "Игра закрывается..."
-          );
-        }
-      });
-    }
-    // Handle game closed event
-    if (gameStatus != "stopped" && line == "mclc-close-evt") {
-      if(mainConfig.enableDiscordPresence == true){
-        FrogDiscordPresence.setPresenceMode("menu");
-      }
-      gameStatus = "stopped";
-      this.prepareUIToStart(false);
+    if (line == "mclc-close-evt") {
+      this.setGameStatus("stopped");
+    } else if (
+      FrogUtils.checkMatchArray(STATUS_STARTING, line) == true ||
+      line == "mclc-start-evt"
+    ) {
+      this.setGameStatus("starting");
+    } else if (FrogUtils.checkMatchArray(STATUS_STARTED, line) == true) {
+      this.setGameStatus("started");
+    } else if (FrogUtils.checkMatchArray(STATUS_STOPPING, line) == true) {
+      this.setGameStatus("stopping");
     }
   }
 
@@ -237,7 +188,74 @@ class FrogStartManager {
     }
   }
 
+  static setGameStatus(newStatus) {
+    var oldStatus = gameStatus;
+    if (oldStatus != newStatus) {
+      gameStatus = newStatus;
+      this.onStatusChange(newStatus, true);
+    } else {
+      this.onStatusChange(newStatus, false);
+    }
+  }
+
+  static onStatusChange(newStatus, changed) {
+    if (changed == true && newStatus == "stopped") {
+      // Status changed to `stopped`
+      this.prepareUIToStart(false);
+      if (mainConfig.enableDiscordPresence == true) {
+        FrogDiscordPresence.setPresenceMode("menu");
+      }
+    } else if (changed == true && newStatus == "starting") {
+      // Status changed to `starting`
+      FrogVersionsManager.getVersionByShortName(
+        selectedGameVersion,
+        (gameInfo) => {
+          FrogDiscordPresence.setPresenceMode(
+            "loading",
+            gameInfo.version,
+            FrogUtils.capitalizeWord(gameInfo.type)
+          );
+        }
+      );
+      FrogUI.changeBottomControlsStatus(
+        false,
+        false,
+        true,
+        "Запускаем игру, подождите"
+      );
+      FrogUI.showDownloadManager(false);
+    } else if (changed == true && newStatus == "started") {
+      // Status changed to `started`
+      FrogVersionsManager.getVersionByShortName(
+        selectedGameVersion,
+        (gameInfo) => {
+          FrogDiscordPresence.setPresenceMode(
+            "playing",
+            gameInfo.version,
+            FrogUtils.capitalizeWord(gameInfo.type)
+          );
+        }
+      );
+      FrogUI.changeBottomControlsStatus(
+        false,
+        false,
+        true,
+        "Игра запущена успешно!"
+      );
+      FrogUI.showDownloadManager(false);
+    } else if (changed == true && newStatus == "stopping") {
+      // Status changed to `stopping`
+      FrogUI.changeBottomControlsStatus(
+        false,
+        false,
+        true,
+        "Игра закрывается..."
+      );
+    }
+  }
+
   static startSelectedVersion() {
+    gameStatus = "stopped";
     FrogVersionsManager.getVersionByShortName(
       selectedGameVersion,
       (versionInfo) => {

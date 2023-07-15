@@ -10,3 +10,4 @@ const request = require("request");
 const decompress = require("decompress");
 const { Client } = require("minecraft-launcher-core");
 const launcher = new Client();
+const { globSync } = require("glob");
