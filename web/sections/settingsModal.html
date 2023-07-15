@@ -69,8 +69,8 @@
       </div>
     </div>
 
-    <div class="modal-themes-tab hidden" id="launcher-settings-tab">
-      <div class="flex items-center grow my-3">
+    <div class="modal-themes-tab hidden h-full flex flex-col" id="launcher-settings-tab">
+      <div class="flex items-center my-3">
         <span class="text-white text-lg mr-2"
           >Открывать консоль разработчика при запуске</span
         >
@@ -80,7 +80,7 @@
         </label>
       </div>
 
-      <div class="flex items-center grow my-3">
+      <div class="flex items-center my-3">
         <span class="text-white text-lg mr-2">Включить Менеджер загрузок</span>
         <label class="switch">
           <input type="checkbox" id="downmanagerCheckbox" />
@@ -88,7 +88,7 @@
         </label>
       </div>
 
-      <div class="flex items-center grow my-3">
+      <div class="flex items-center my-3">
         <span class="text-white text-lg mr-2"
           >Включить Discord Rich Presence</span
         >
@@ -97,6 +97,36 @@
           <span class="slider round"></span>
         </label>
       </div>
+
+      <div class="grow"></div>
+      <!-- Get info about launcher button -->
+      <a
+        href="#"
+        onclick="FrogUI.showMenuModal('launcher-info')"
+        class="mb-3 inline-flex items-center justify-center p-5 text-base font-medium text-gray-500 rounded-lg bg-gray-50 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+      >
+        <img
+          src="assets/icon-foreground.png"
+          style="height: 32px"
+          class="mr-3"
+        />
+        <span class="w-full">Информация о лаунчере</span>
+        <svg
+          class="w-4 h-4 ml-2"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9"
+          />
+        </svg>
+      </a>
     </div>
 
     <div class="grow"></div>
@@ -235,9 +265,17 @@
   });
 
   function saveMainSettings() {
-    if(mainConfig.enableDiscordPresence != $("#discordrpcCheckbox").is(":checked") && $("#discordrpcCheckbox").is(":checked") == false){
+    if (
+      mainConfig.enableDiscordPresence !=
+        $("#discordrpcCheckbox").is(":checked") &&
+      $("#discordrpcCheckbox").is(":checked") == false
+    ) {
       FrogDiscordPresence.stopPresence();
-    } else if(mainConfig.enableDiscordPresence != $("#discordrpcCheckbox").is(":checked") && $("#discordrpcCheckbox").is(":checked") == true){
+    } else if (
+      mainConfig.enableDiscordPresence !=
+        $("#discordrpcCheckbox").is(":checked") &&
+      $("#discordrpcCheckbox").is(":checked") == true
+    ) {
       FrogDiscordPresence.setPresenceMode("menu");
     }
     mainConfig.selectedJava = $("#javaSelect option:selected").val();
@@ -248,7 +286,7 @@
     );
     mainConfig.enableDiscordPresence = $("#discordrpcCheckbox").is(":checked");
     mainConfig.enableDownloadManager = $("#downmanagerCheckbox").is(":checked");
-    if(mainConfig.enableDownloadManager == true){
+    if (mainConfig.enableDownloadManager == true) {
       $(".downloads-container").removeClass("disabled");
     } else {
       $(".downloads-container").addClass("disabled");

@@ -10,3 +10,7 @@ html.indigo:root {
   --bg-primary-1100: #080613;
   --bg-primary-transparent: rgba(39, 35, 68, 0.4);
 }
+
+.indigo-theme-color {
+  background: #5850ec;
+}

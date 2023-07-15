@@ -1,12 +1,16 @@
 html.yellow:root {
-  --bg-primary-300: #FDF6B2;
-  --bg-primary-400: #FCE96A;
-  --bg-primary-500:#FACA15;
-  --bg-primary-600:#E3A008;
-  --bg-primary-700: #C27803;
-  --bg-primary-800: #9F580A;
-  --bg-primary-900: #8E4B10;
+  --bg-primary-300: #fdf6b2;
+  --bg-primary-400: #fce96a;
+  --bg-primary-500: #faca15;
+  --bg-primary-600: #e3a008;
+  --bg-primary-700: #c27803;
+  --bg-primary-800: #9f580a;
+  --bg-primary-900: #8e4b10;
   --bg-primary-1000: #292311;
   --bg-primary-1100: #131006;
   --bg-primary-transparent: rgba(68, 62, 35, 0.4);
+}
+
+.yellow-theme-color {
+  background: #e3a008;
 }

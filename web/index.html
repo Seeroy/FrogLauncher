@@ -191,8 +191,10 @@
     FrogUI.loadSection(".modals", "serversModal");
     FrogUI.loadSection(".modals", "addLocalAccountModal");
     FrogUI.loadSection(".modals", "addMSAccountModal");
+    FrogUI.loadSection(".modals", "launcherInfoModal");
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
+
 
     FrogVersionsManager.refreshMyModloadersInfo(() => {
       if (mainConfig.selectedBackground.toString().length > 1) {
@@ -249,6 +251,8 @@
         ) {
           fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"));
         }
+        // Set launcher version in 'About Launcher'
+        $("#launcher-version").text(LAUNCHER_VERSION);
         // Ok, startup is done
         FrogBackendCommunicator.logBrowserConsole(
           "[APP]",

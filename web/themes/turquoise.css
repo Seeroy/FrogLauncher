@@ -10,3 +10,7 @@ html.turquoise:root {
   --bg-primary-1100: #0a161f;
   --bg-primary-transparent: rgba(22, 59, 77, 0.4);
 }
+
+.turquoise-theme-color {
+  background: #0091ff;
+}

@@ -11,3 +11,5 @@ const decompress = require("decompress");
 const { Client } = require("minecraft-launcher-core");
 const launcher = new Client();
 const { globSync } = require("glob");
+const package = require("./../package.json");
+const LAUNCHER_VERSION = package.version;

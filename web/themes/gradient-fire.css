@@ -10,3 +10,7 @@ html.gradient-fire:root {
   --bg-primary-1100: linear-gradient(315deg, #160e07 0%, #140703 74%);
   --bg-primary-transparent: rgba(117, 45, 17, 0.4);
 }
+
+.gradient-fire-theme-color {
+  background: linear-gradient(315deg, #f58020 0%, #f53803 74%);
+}

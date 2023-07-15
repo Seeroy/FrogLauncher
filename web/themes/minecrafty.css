@@ -10,3 +10,7 @@ html.minecrafty:root {
   --bg-primary-1100: linear-gradient(210deg, #0d1408, #121d09);
   --bg-primary-transparent: rgba(36, 75, 21, 0.4);
 }
+
+.minecrafty-theme-color {
+  background: linear-gradient(210deg, #70b237, #477a1e);
+}
