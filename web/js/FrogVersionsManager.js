@@ -2,12 +2,19 @@ const VERSIONS_MANIFEST_URL =
   "https://piston-meta.mojang.com/mc/game/version_manifest.json";
 const FORGE_LIST_URL = "https://api.curseforge.com/v1/minecraft/modloader";
 const SODIUM_LIST_URL = "https://api.modrinth.com/v2/project/sodium/version";
-const FABRIC_LATEST_INSTALLER = "https://seeroycloud.tk/latest_fabric_url.txt";
-const FABRIC_VERSIONS_LIST = "https://seeroycloud.tk/fabric_versions.json";
 const FABRIC_API_LIST_URL =
   "https://api.modrinth.com/v2/project/fabric-api/version";
+const MODLOADERS_INFO_URL = "http://seeroycloud.tk/froglauncher/data.json";
+var modloadersMyInfo;
 
 class FrogVersionsManager {
+  static refreshMyModloadersInfo() {
+    $.get(MODLOADERS_INFO_URL, (res) => {
+      modloadersMyInfo = res;
+    });
+    return true;
+  }
+
   static getVanillaReleases(
     cb,
     releases = true,
@@ -39,15 +46,11 @@ class FrogVersionsManager {
 
   static getForgeReleases(cb) {
     var fversions = {};
-    $.get(FORGE_LIST_URL, function (data) {
-      data = data.data;
-      data.forEach((element) => {
-        if (element.recommended == true) {
-          fversions[element.gameVersion] = element.name;
-        }
-      });
-      cb(fversions);
+    Object.entries(modloadersMyInfo.forge).forEach((entry) => {
+      const [key, value] = entry;
+      fversions[key] = value;
     });
+    cb(fversions);
   }
 
   static getSodiumReleases(cb) {
@@ -62,8 +65,8 @@ class FrogVersionsManager {
     });
   }
 
-  static getFabricInstaller(cb) {
-    $.get(FABRIC_LATEST_INSTALLER, cb);
+  static getFabricInstaller() {
+    return modloadersMyInfo.fabric.latestInstaller;
   }
 
   static getFabricAPIReleases(cb) {
@@ -78,8 +81,8 @@ class FrogVersionsManager {
     });
   }
 
-  static getFabricAvailableVersions(cb) {
-    $.get(FABRIC_VERSIONS_LIST, cb);
+  static getFabricAvailableVersions() {
+    return modloadersMyInfo.fabric.supportedVersions;
   }
 
   static getAllVersionsList(cb) {
@@ -101,55 +104,54 @@ class FrogVersionsManager {
           var fversionItem = {
             shortName: "forge-" + key,
             version: key,
-            forgeBuild: value,
+            url: value,
             type: "forge",
             installed: installedVersions.includes("Forge " + key),
           };
           releases.push(fversionItem);
         }
-        this.getFabricAvailableVersions((fabric_versions) => {
-          fabric_versions.forEach((fabric_version) => {
-            var fbversionItem = {
-              shortName: "fabric-" + fabric_version,
-              version: fabric_version,
-              type: "fabric",
-            };
-            releases.push(fbversionItem);
-          });
-          releases.sort(function (a, b) {
-            // MinecraftVersionSorter by TheRolf
-            // https://gist.github.com/TheRolfFR/7e193d30c2a21e19bbebecf4f5fcbd1b
-            const aSplit = a.version.split(".").map((s) => parseInt(s));
-            const bSplit = b.version.split(".").map((s) => parseInt(s));
-
-            if (aSplit.includes(NaN) || bSplit.includes(NaN)) {
-              return String(a).localeCompare(String(b)); // compare as strings
-            }
-
-            const upper = Math.min(aSplit.length, bSplit.length);
-            let i = 0;
-            let result = 0;
-            while (i < upper && result == 0) {
-              result =
-                aSplit[i] == bSplit[i] ? 0 : aSplit[i] < bSplit[i] ? -1 : 1; // each number
-              ++i;
-            }
-
-            if (result != 0) return result;
-
-            result =
-              aSplit.length == bSplit.length
-                ? 0
-                : aSplit.length < bSplit.length
-                ? -1
-                : 1; // longer length wins
-
-            return result;
-          });
-          releases.reverse();
-          gameVersions = releases;
-          cb(releases);
+        var fabric_versions = this.getFabricAvailableVersions();
+        fabric_versions.forEach((fabric_version) => {
+          var fbversionItem = {
+            shortName: "fabric-" + fabric_version,
+            version: fabric_version,
+            type: "fabric",
+          };
+          releases.push(fbversionItem);
         });
+        releases.sort(function (a, b) {
+          // MinecraftVersionSorter by TheRolf
+          // https://gist.github.com/TheRolfFR/7e193d30c2a21e19bbebecf4f5fcbd1b
+          const aSplit = a.version.split(".").map((s) => parseInt(s));
+          const bSplit = b.version.split(".").map((s) => parseInt(s));
+
+          if (aSplit.includes(NaN) || bSplit.includes(NaN)) {
+            return String(a).localeCompare(String(b)); // compare as strings
+          }
+
+          const upper = Math.min(aSplit.length, bSplit.length);
+          let i = 0;
+          let result = 0;
+          while (i < upper && result == 0) {
+            result =
+              aSplit[i] == bSplit[i] ? 0 : aSplit[i] < bSplit[i] ? -1 : 1; // each number
+            ++i;
+          }
+
+          if (result != 0) return result;
+
+          result =
+            aSplit.length == bSplit.length
+              ? 0
+              : aSplit.length < bSplit.length
+              ? -1
+              : 1; // longer length wins
+
+          return result;
+        });
+        releases.reverse();
+        gameVersions = releases;
+        cb(releases);
       });
     });
   }
@@ -210,7 +212,7 @@ class FrogVersionsManager {
               retValue = {
                 shortName: "forge-" + key,
                 version: key,
-                forgeBuild: value,
+                url: value,
                 type: "forge",
                 installed: installedVersions.includes("Forge " + key),
               };
@@ -220,18 +222,17 @@ class FrogVersionsManager {
         });
         break;
       case "fabric":
-        this.getFabricAvailableVersions((fabric_versions) => {
-          fabric_versions.forEach((fabric_version) => {
-            if (fabric_version == version) {
-              retValue = {
-                shortName: "fabric-" + fabric_version,
-                version: fabric_version,
-                type: "fabric",
-              };
-            }
-          });
-          cb(retValue);
+        var fabric_versions = this.getFabricAvailableVersions();
+        fabric_versions.forEach((fabric_version) => {
+          if (fabric_version == version) {
+            retValue = {
+              shortName: "fabric-" + fabric_version,
+              version: fabric_version,
+              type: "fabric",
+            };
+          }
         });
+        cb(retValue);
         break;
     }
   }

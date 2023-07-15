@@ -79,6 +79,24 @@
           <span class="slider round"></span>
         </label>
       </div>
+
+      <div class="flex items-center grow my-2">
+        <span class="text-white text-lg mr-2">Включить Менеджер загрузок</span>
+        <label class="switch">
+          <input type="checkbox" id="downmanagerCheckbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div class="flex items-center grow my-2">
+        <span class="text-white text-lg mr-2"
+          >Включить Discord Rich Presence</span
+        >
+        <label class="switch">
+          <input type="checkbox" id="discordrpcCheckbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
     </div>
 
     <div class="grow"></div>
@@ -200,6 +218,14 @@
       $("#openConsoleOnStartCheckbox").prop("checked", true);
     }
 
+    if (mainConfig.enableDiscordPresence == true) {
+      $("#discordrpcCheckbox").prop("checked", true);
+    }
+
+    if (mainConfig.enableDownloadManager == true) {
+      $("#downmanagerCheckbox").prop("checked", true);
+    }
+
     // Handle game directory selection
     ipcRenderer.on("get-gd-result", (event, arg) => {
       if (arg != false) {
@@ -209,12 +235,24 @@
   });
 
   function saveMainSettings() {
+    if(mainConfig.enableDiscordPresence != $("#discordrpcCheckbox").is(":checked") && $("#discordrpcCheckbox").is(":checked") == false){
+      FrogDiscordPresence.stopPresence();
+    } else if(mainConfig.enableDiscordPresence != $("#discordrpcCheckbox").is(":checked") && $("#discordrpcCheckbox").is(":checked") == true){
+      FrogDiscordPresence.setPresenceMode("menu");
+    }
     mainConfig.selectedJava = $("#javaSelect option:selected").val();
     mainConfig.selectedMemorySize = $("#memInput").val();
     mainConfig.selectedBaseDirectory = $("#gamePathInput").val();
     mainConfig.openConsoleOnStart = $("#openConsoleOnStartCheckbox").is(
       ":checked"
     );
+    mainConfig.enableDiscordPresence = $("#discordrpcCheckbox").is(":checked");
+    mainConfig.enableDownloadManager = $("#downmanagerCheckbox").is(":checked");
+    if(mainConfig.enableDownloadManager == true){
+      $(".downloads-container").removeClass("disabled");
+    } else {
+      $(".downloads-container").addClass("disabled");
+    }
     FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
     FrogVersionsUI.resetCatSelectors();
     FrogVersionsUI.refreshVersionsListModal();

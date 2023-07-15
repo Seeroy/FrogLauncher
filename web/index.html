@@ -10,12 +10,15 @@
     <script src="./js/FrogStartManager.js"></script>
     <script src="./js/FrogVersionsManager.js"></script>
     <script src="./js/FrogDownloadManager.js"></script>
+    <script src="./js/FrogDiscordPresence.js"></script>
     <script src="./js/FrogAccountUI.js"></script>
     <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
+    <script src="./js/FrogUtils.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Starters classes -->
     <script src="./js/starters/FrogVanillaStarter.js"></script>
+    <script src="./js/starters/FrogForgeStarter.js"></script>
     <!-- Custom CSS -->
     <link href="./css/main.css" rel="stylesheet" />
     <link href="./css/toasts.css" rel="stylesheet" />
@@ -187,6 +190,8 @@
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
 
+    FrogVersionsManager.refreshMyModloadersInfo();
+
     if (mainConfig.selectedBackground.toString().length > 1) {
       FrogUI.refreshCustomBg(mainConfig.selectedBackground);
     }
@@ -213,6 +218,14 @@
       if (mainConfig.openConsoleOnStart == true) {
         FrogBackendCommunicator.onOpenConsoleWindow();
       }
+      if (mainConfig.enableDiscordPresence == true) {
+        FrogDiscordPresence.setPresenceMode("menu");
+      }
+      if (mainConfig.enableDownloadManager == true) {
+        $(".downloads-container").removeClass("disabled");
+      } else {
+        $(".downloads-container").addClass("disabled");
+      }
       FrogUI.refreshModalThemesList();
       FrogVersionsUI.refreshVersionsListModal();
       if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
@@ -225,6 +238,11 @@
         !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))
       ) {
         fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"));
+      }
+      if (
+        !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "cache"))
+      ) {
+        fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"));
       }
       FrogBackendCommunicator.logBrowserConsole(
         "[APP]",

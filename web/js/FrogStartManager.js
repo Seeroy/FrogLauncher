@@ -1,4 +1,9 @@
-const STATUS_STARTING = [/Setting user\:/gim, /Launching wrapped minecraft/gim];
+const STATUS_STARTING = [
+  /Setting user\:/gim,
+  /Launching wrapped minecraft/gim,
+  /ModLauncher running/gim,
+  /Launching target \'fmlclient\'/gim,
+];
 const STATUS_STARTED = [/OpenAL initialized/gim, /Sound engine started/gim];
 const STATUS_STOPPING = [
   /Stopping!/gim,
@@ -7,6 +12,7 @@ const STATUS_STOPPING = [
 ];
 
 class FrogStartManager {
+  // Function for generating vanilla start args
   static compileVanillaArguments(
     rootDirectory,
     version,
@@ -35,6 +41,36 @@ class FrogStartManager {
     return launch_arguments;
   }
 
+  // Function for generating forge start args
+  static compileForgeArguments(
+    rootDirectory,
+    version,
+    authData,
+    maxMemory,
+    javaPath = "java.exe",
+    forgeFile
+  ) {
+    var launch_arguments = {
+      authorization: authData,
+      root: rootDirectory,
+      cache: path.join(rootDirectory, "cache"),
+      version: {
+        number: version,
+        type: "release",
+      },
+      forge: forgeFile,
+      javaPath: javaPath,
+      memory: {
+        max: maxMemory,
+        min: "1500M",
+      },
+      overrides: {
+        gameDirectory: rootDirectory,
+      },
+    };
+    return launch_arguments;
+  }
+
   static startVanilla(version, memory, type = "release") {
     this.prepareUIToStart(true);
     var startArguments, vanillaStarter;
@@ -42,8 +78,13 @@ class FrogStartManager {
     FrogUI.changeBottomControlsStatus(false, true, true);
     if (mainConfig.selectedJava == "auto") {
       FrogDownloadManager.getJavaAutodetectPath(version, (autoJavaPath) => {
-        if(autoJavaPath == false){
-          Toaster("Ошибка при автоматическом выборе версии Java!", 3500, false, "error");
+        if (autoJavaPath == false) {
+          Toaster(
+            "Ошибка при автоматическом выборе версии Java!",
+            3500,
+            false,
+            "error"
+          );
           return;
         }
         startArguments = this.compileVanillaArguments(
@@ -71,11 +112,66 @@ class FrogStartManager {
     }
   }
 
+  static startForge(version, url, memory) {
+    this.prepareUIToStart(true);
+    var startArguments, forgeStarter;
+    var forgeFilename = FrogUtils.getFilenameFromURL(url);
+    var authData = FrogAccountManager.generateAuthCredetinals(selectedAccount);
+    FrogUI.changeBottomControlsStatus(false, true, true);
+    if (mainConfig.selectedJava == "auto") {
+      FrogDownloadManager.getJavaAutodetectPath(version, (autoJavaPath) => {
+        if (autoJavaPath == false) {
+          Toaster(
+            "Ошибка при автоматическом выборе версии Java!",
+            3500,
+            false,
+            "error"
+          );
+          return;
+        }
+        startArguments = this.compileForgeArguments(
+          mainConfig.selectedBaseDirectory,
+          version,
+          authData,
+          memory,
+          autoJavaPath,
+          path.join(mainConfig.selectedBaseDirectory, "cache", forgeFilename)
+        );
+        forgeStarter = new FrogForgeStarter(startArguments, url);
+        forgeStarter.prepareForLaunch(() => {
+          forgeStarter.launch();
+        });
+      });
+    } else {
+      startArguments = this.compileForgeArguments(
+        mainConfig.selectedBaseDirectory,
+        version,
+        authData,
+        memory,
+        mainConfig.selectedJava,
+        path.join(mainConfig.selectedBaseDirectory, "cache", forgeFilename)
+      );
+      forgeStarter = new FrogForgeStarter(startArguments, url);
+      forgeStarter.prepareForLaunch(() => {
+        forgeStarter.launch();
+      });
+    }
+  }
+
   static parseStartStatus(line) {
+    // Handle game start in code
+    if (gameStatus != "starting" && line == "mclc-start-evt") {
+      gameStatus = "starting";
+    }
     // Handle game starting event with regex
     if (gameStatus != "starting") {
       STATUS_STARTING.forEach(function (status) {
         if (line.match(status) != null) {
+          if(mainConfig.enableDiscordPresence == true){
+            FrogVersionsManager.getVersionByShortName(selectedGameVersion, (gameInfo) => {
+              FrogDiscordPresence.setPresenceMode("loading", FrogUtils.capitalizeWord(gameInfo.type), gameInfo.version)
+            });
+          }
           gameStatus = "starting";
           FrogUI.changeBottomControlsStatus(
             false,
@@ -91,6 +187,11 @@ class FrogStartManager {
     if (gameStatus != "started") {
       STATUS_STARTED.forEach(function (status) {
         if (line.match(status) != null) {
+          if(mainConfig.enableDiscordPresence == true){
+            FrogVersionsManager.getVersionByShortName(selectedGameVersion, (gameInfo) => {
+              FrogDiscordPresence.setPresenceMode("playing", FrogUtils.capitalizeWord(gameInfo.type), gameInfo.version)
+            });
+          }
           gameStatus = "started";
           FrogUI.changeBottomControlsStatus(
             false,
@@ -116,8 +217,11 @@ class FrogStartManager {
         }
       });
     }
-    // Handle game closed event with regex
+    // Handle game closed event
     if (gameStatus != "stopped" && line == "mclc-close-evt") {
+      if(mainConfig.enableDiscordPresence == true){
+        FrogDiscordPresence.setPresenceMode("menu");
+      }
       gameStatus = "stopped";
       this.prepareUIToStart(false);
     }
@@ -146,6 +250,12 @@ class FrogStartManager {
                 mainConfig.selectedMemorySize + "G",
                 "release"
               ); // TODO: Snapshots/betas/etc. support
+            case "forge":
+              this.startForge(
+                versionInfo.version,
+                versionInfo.url,
+                mainConfig.selectedMemorySize + "G"
+              );
           }
         } else {
           Toaster(

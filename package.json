@@ -49,6 +49,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "decompress": "^4.2.1",
+    "discord-rpc": "^4.0.1",
     "jquery": "^3.7.0",
     "minecraft-launcher-core": "^3.17.1",
     "msmc": "^4.1.0",

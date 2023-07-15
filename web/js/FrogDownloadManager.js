@@ -1,6 +1,6 @@
 var downloadTasks;
 const DOWNLOAD_ITEM =
-  '<div class="download-item flex items-center p-2 rounded" id="$3"> <p class="font-semibold grow text-white">$1 (<span class="filesize">$2</span> Мб)</p> <div class="w-full rounded-full h-1.5 bg-gray-700"> <div class="bg-primary-600 h-1.5 rounded-full" style="width: $2%" ></div> </div> <span class="text-white ml-2 percent-number">$2%</span> </div>';
+  '<div class="download-item flex items-center p-2 rounded" id="$3"> <p class="font-semibold grow text-white">$1 (<span class="filesize">$2</span> Мб)</p> <div class="w-full rounded-full h-1.5 bg-gray-700" style="max-width: 290px;"> <div class="bg-primary-600 h-1.5 rounded-full" style="width: $2%" ></div> </div> <span class="text-white ml-2 percent-number">$2%</span> </div>';
 
 class FrogDownloadManager {
   static downloadJava(version, cb) {
@@ -97,6 +97,44 @@ class FrogDownloadManager {
             );
             cb(error);
           });
+      });
+  }
+
+  static downloadByURL(url, path, cb) {
+    FrogUI.changeBottomControlsStatus(
+      false,
+      true,
+      true,
+      "Скачивание " + FrogUtils.getFilenameFromURL(url)
+    );
+
+    var received_bytes = 0;
+    var total_bytes = 0;
+    var percent = "";
+
+    FrogBackendCommunicator.logBrowserConsole(
+      "[DL]",
+      "Starting download of " + FrogUtils.getFilenameFromURL(url)
+    );
+
+    request
+      .get(url)
+      .on("error", function (error) {
+        cb(error);
+      })
+      .on("response", function (data) {
+        total_bytes = parseInt(data.headers["content-length"]);
+        data.pipe(fs.createWriteStream(path));
+      })
+      .on("data", function (chunk) {
+        received_bytes += chunk.length;
+        percent = Math.round((received_bytes * 100) / total_bytes);
+        FrogUI.setBottomProgressBar(percent);
+      })
+      .on("end", function () {
+        FrogUI.setBottomProgressBar(0);
+        FrogBackendCommunicator.logBrowserConsole("[DL]", "Download success");
+        cb(true);
       });
   }
 

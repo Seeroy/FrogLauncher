@@ -36,6 +36,8 @@ class FrogConfigManager {
       lastSelectedAccount: "none",
       lastSelectedVersion: "none",
       openConsoleOnStart: false,
+      enableDownloadManager: true,
+      enableDiscordPresence: true
     };
     this.writeMainConfig(defaultCfg);
     return defaultCfg;

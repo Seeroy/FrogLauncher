@@ -126,11 +126,15 @@
 </style>
 
 <script>
+  var MAX_CONSOLE_LINES = 300;
   // Console log from backend event handler
   ipcRenderer.on("user-console-log", function (event, data) {
     if ($(".console-textarea").length > 0) {
+      if($(".console-textarea span").length >= MAX_CONSOLE_LINES){
+        $(".console-textarea span:last-child").remove();
+      }
       $(".console-textarea").html(
-        $(".console-textarea").html() + data + "<br>"
+        $(".console-textarea").html() + "<span>" + data + "<br></span>"
       );
     }
     if ($("#autoScrollCheckbox").is(":checked")) {
