@@ -76,91 +76,72 @@ class FrogStartManager {
     return launch_arguments;
   }
 
+  // Vanilla start process
   static startVanilla(version, memory, type = "release") {
     this.prepareUIToStart(true);
     var startArguments, vanillaStarter;
     var authData = FrogAccountManager.generateAuthCredetinals(selectedAccount);
     FrogUI.changeBottomControlsStatus(false, true, true);
-    if (mainConfig.selectedJava == "auto") {
-      FrogDownloadManager.getJavaAutodetectPath(version, (autoJavaPath) => {
-        if (autoJavaPath == false) {
-          Toaster(
-            "Ошибка при автоматическом выборе версии Java!",
-            3500,
-            false,
-            "error"
-          );
-          return;
-        }
-        startArguments = this.compileVanillaArguments(
-          mainConfig.selectedBaseDirectory,
-          version,
-          authData,
-          memory,
-          autoJavaPath,
-          type
-        );
-        vanillaStarter = new FrogVanillaStarter(startArguments);
-        vanillaStarter.launch();
-      });
-    } else {
+    this.getFinalJavaPath(version, (finalJP) => {
       startArguments = this.compileVanillaArguments(
         mainConfig.selectedBaseDirectory,
         version,
         authData,
         memory,
-        mainConfig.selectedJava,
+        finalJP,
         type
       );
       vanillaStarter = new FrogVanillaStarter(startArguments);
       vanillaStarter.launch();
-    }
+    });
   }
 
+  // Forge start process
   static startForge(version, url, memory) {
     this.prepareUIToStart(true);
     var startArguments, forgeStarter;
     var forgeFilename = FrogUtils.getFilenameFromURL(url);
     var authData = FrogAccountManager.generateAuthCredetinals(selectedAccount);
     FrogUI.changeBottomControlsStatus(false, true, true);
-    if (mainConfig.selectedJava == "auto") {
-      FrogDownloadManager.getJavaAutodetectPath(version, (autoJavaPath) => {
-        if (autoJavaPath == false) {
-          Toaster(
-            "Ошибка при автоматическом выборе версии Java!",
-            3500,
-            false,
-            "error"
-          );
-          return;
-        }
-        startArguments = this.compileForgeArguments(
-          mainConfig.selectedBaseDirectory,
-          version,
-          authData,
-          memory,
-          autoJavaPath,
-          path.join(mainConfig.selectedBaseDirectory, "cache", forgeFilename)
-        );
-        forgeStarter = new FrogForgeStarter(startArguments, url);
-        forgeStarter.prepareForLaunch(() => {
-          forgeStarter.launch();
-        });
-      });
-    } else {
+    this.getFinalJavaPath(version, (finalJP) => {
       startArguments = this.compileForgeArguments(
         mainConfig.selectedBaseDirectory,
         version,
         authData,
         memory,
-        mainConfig.selectedJava,
+        finalJP,
         path.join(mainConfig.selectedBaseDirectory, "cache", forgeFilename)
       );
       forgeStarter = new FrogForgeStarter(startArguments, url);
       forgeStarter.prepareForLaunch(() => {
         forgeStarter.launch();
       });
-    }
+    });
+  }
+
+  // ForgeOptiFine start process
+  static startForgeOptiFine(version, furl, ourl, memory) {
+    this.prepareUIToStart(true);
+    var startArguments, forgeOptiStarter;
+    var forgeFilename = FrogUtils.getFilenameFromURL(furl);
+    var authData = FrogAccountManager.generateAuthCredetinals(selectedAccount);
+    FrogUI.changeBottomControlsStatus(false, true, true);
+    this.getFinalJavaPath(version, (finalJP) => {
+      startArguments = this.compileForgeArguments(
+        mainConfig.selectedBaseDirectory,
+        version,
+        authData,
+        memory,
+        finalJP,
+        path.join(mainConfig.selectedBaseDirectory, "cache", forgeFilename)
+      );
+      forgeOptiStarter = new FrogForgeOptiStarter(startArguments, furl, ourl);
+      forgeOptiStarter.prepareForLaunchStep1(() => {
+        forgeOptiStarter.prepareForLaunchStep2(() => {
+          forgeOptiStarter.launch();
+        });
+      });
+    });
   }
 
   static parseStartStatus(line) {
@@ -274,6 +255,13 @@ class FrogStartManager {
                 versionInfo.url,
                 mainConfig.selectedMemorySize + "G"
               );
+            case "forgeoptifine":
+              this.startForgeOptiFine(
+                versionInfo.version,
+                versionInfo.forgeUrl,
+                versionInfo.ofUrl,
+                mainConfig.selectedMemorySize + "G"
+              );
           }
         } else {
           Toaster(
@@ -285,5 +273,25 @@ class FrogStartManager {
         }
       }
     );
+  }
+
+  static getFinalJavaPath(version, cb) {
+    if (mainConfig.selectedJava == "auto") {
+      FrogDownloadManager.getJavaAutodetectPath(version, (autoJavaPath) => {
+        if (autoJavaPath == false) {
+          Toaster(
+            "Ошибка при автоматическом выборе версии Java!",
+            3500,
+            false,
+            "error"
+          );
+          cb(false);
+          return;
+        }
+        cb(autoJavaPath);
+      });
+    } else {
+      cb(mainConfig.selectedJava);
+    }
   }
 }

@@ -22,7 +22,8 @@ class FrogVersionsUI {
             filters[1] == "all" ||
             (filters[1] == "forge" && version.type == "forge") ||
             (filters[1] == "fabric" && version.type == "fabric") ||
-            (filters[1] == "vanilla" && version.type == "vanilla")
+            (filters[1] == "vanilla" && version.type == "vanilla") ||
+            (filters[1] == "forgeoptifine" && version.type == "forgeoptifine")
           ) {
             accepted = true;
           } else {

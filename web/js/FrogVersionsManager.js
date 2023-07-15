@@ -12,7 +12,7 @@ class FrogVersionsManager {
     $.get(MODLOADERS_INFO_URL, (res) => {
       modloadersMyInfo = res;
       cb();
-    }); 
+    });
   }
 
   static getVanillaReleases(
@@ -110,6 +110,24 @@ class FrogVersionsManager {
           };
           releases.push(fversionItem);
         }
+        for (const [key2, value2] of Object.entries(
+          modloadersMyInfo.optifine
+        )) {
+          if (
+            typeof forge_releases[key2] !== "undefined" &&
+            forge_releases[key2] != null
+          ) {
+            var foversionItem = {
+              shortName: "forgeoptifine-" + key2,
+              version: key2,
+              forgeUrl: forge_releases[key2],
+              ofUrl: value2,
+              type: "forgeoptifine",
+              installed: installedVersions.includes("Forge " + key2),
+            };
+            releases.push(foversionItem);
+          }
+        }
         var fabric_versions = this.getFabricAvailableVersions();
         fabric_versions.forEach((fabric_version) => {
           var fbversionItem = {
@@ -162,6 +180,8 @@ class FrogVersionsManager {
         return "Версия " + version.version;
       case "forge":
         return "Версия Forge " + version.version;
+      case "forgeoptifine":
+        return "Версия ForgeOptiFine " + version.version;
       case "fabric":
         return "Версия Fabric " + version.version;
     }
@@ -176,10 +196,15 @@ class FrogVersionsManager {
         if (fs.lstatSync(path.join(versPath, item)).isDirectory()) {
           directories.push(item);
         }
-        var chkRegex = new RegExp('.*' + item.replaceAll(/\./gim, "\\.") + '.*', 'gim');
-        var rdir = fs.readdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"));
-        rdir.forEach(function(dr){
-          if(dr.match(chkRegex) != null){
+        var chkRegex = new RegExp(
+          ".*" + item.replaceAll(/\./gim, "\\.") + ".*",
+          "gim"
+        );
+        var rdir = fs.readdirSync(
+          path.join(mainConfig.selectedBaseDirectory, "cache")
+        );
+        rdir.forEach(function (dr) {
+          if (dr.match(chkRegex) != null) {
             directories.push("Forge " + item);
           }
         });
@@ -226,6 +251,36 @@ class FrogVersionsManager {
             }
           }
           cb(retValue);
+        });
+        break;
+      case "forgeoptifine":
+        var fres = false;
+        var ofres = false;
+        this.getForgeReleases((forge_releases) => {
+          for (const [key, value] of Object.entries(forge_releases)) {
+            if (key == version) {
+              fres = value;
+              for (const [key2, value2] of Object.entries(
+                modloadersMyInfo.optifine
+              )) {
+                if (key2 == version) {
+                  ofres = value2;
+                }
+              }
+            }
+          }
+          if (fres != false && ofres != false) {
+            cb({
+              shortName: "forgeoptifine-" + version,
+              version: version,
+              forgeUrl: fres,
+              ofUrl: ofres,
+              type: "forgeoptifine",
+              installed: installedVersions.includes("Forge " + version),
+            });
+          } else {
+            cb(false);
+          }
         });
         break;
       case "fabric":
