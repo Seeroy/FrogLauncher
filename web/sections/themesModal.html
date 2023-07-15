@@ -144,18 +144,14 @@
     </div>
 
     <div class="modal-themes-tab hidden" id="personalization-tab">
-
       <p>Шрифт</p>
       <ul
         class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
+        id="font-selector"
       >
         <li class="w-full">
           <div class="inline-block w-full p-4" data-font="mc">
-            <span
-              class="mc-text text-white"
-              style="font-size: 24px"
-              >Aa</span
-            >
+            <span class="mc-text text-white" style="font-size: 24px">Aa</span>
             <span class="ml-3 text-white">Только Minecraft Rus</span>
           </div>
         </li>
@@ -168,7 +164,7 @@
           <div class="inline-block w-full p-4" data-font="gt">
             <span
               class="text-white"
-              style="font-size: 24px; font-family: 'Golos Text' !important;"
+              style="font-size: 24px; font-family: 'Golos Text' !important"
               >Aa</span
             >
             <span class="ml-3 text-white">Только Golos Text</span>
@@ -176,6 +172,49 @@
         </li>
       </ul>
 
+      <p class="mt-3">Фон в лаунчере</p>
+      <ul
+        class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
+        id="bg-selector"
+      >
+        <li class="w-full">
+          <div class="inline-block w-full p-4">
+            <span class="text-white">1</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4">
+            <span class="text-white">2</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4">
+            <span class="text-white">3</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4">
+            <span class="text-white">4</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4">
+            <span class="text-white">5</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4">
+            <span class="text-white">6</span>
+          </div>
+        </li>
+      </ul>
+
+      <button
+        class="custom-button mt-3 w-full"
+        onclick="FrogBackendCommunicator.openBackgroundSelectDialog()"
+      >
+        Выбрать свой фон
+      </button>
     </div>
   </div>
 </div>
@@ -210,21 +249,52 @@
     }
   });
 
-  $("#themes-mmodal .catselector li .inline-block").each((i, elem) => {
-    if($(elem).data("font") == mainConfig.selectedBaseFont){
+  $("#themes-mmodal #font-selector li .inline-block").each((i, elem) => {
+    if ($(elem).data("font") == mainConfig.selectedBaseFont) {
       $(elem).addClass("active");
       $("html").addClass("font-" + mainConfig.selectedBaseFont);
     }
   });
 
-  $("#themes-mmodal .catselector li .inline-block").click(function(){
-    if(!$(this).hasClass("active")){
-      $("#themes-mmodal .catselector li .inline-block.active").removeClass("active");
+  $("#themes-mmodal #font-selector li .inline-block").click(function () {
+    if (!$(this).hasClass("active")) {
+      $("#themes-mmodal #font-selector li .inline-block.active").removeClass(
+        "active"
+      );
       $(this).addClass("active");
       $("html").removeClass("font-gt font-mc");
       $("html").addClass("font-" + $(this).data("font"));
       mainConfig.selectedBaseFont = $(this).data("font");
       FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+    }
+  });
+
+  $("#themes-mmodal #bg-selector li .inline-block").each((i, elem) => {
+    if ($(elem).find("span").text() == mainConfig.selectedBackground) {
+      $(elem).addClass("active");
+      $("html").addClass("bg-" + mainConfig.selectedBackground);
+    }
+  });
+
+  $("#themes-mmodal #bg-selector li .inline-block").click(function () {
+    if (!$(this).hasClass("active")) {
+      $("#themes-mmodal #bg-selector li .inline-block.active").removeClass(
+        "active"
+      );
+      $(this).addClass("active");
+      $("html").removeClass("bg-1 bg-2 bg-3 bg-4 bg-5 bg-6");
+      $("html").addClass("bg-" + $(this).find("span").text());
+      mainConfig.selectedBackground = $(this).find("span").text();
+      FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+    }
+  });
+
+  // Handle background selection
+  ipcRenderer.on("get-bg-result", (event, arg) => {
+    if (arg != false) {
+      var cext = path.extname(arg);
+      fs.copyFileSync(arg, path.join(__dirname, "..", "cache", "custom-bg" + cext));
+      FrogUI.refreshCustomBg("custom-bg" + cext);
     }
   });
 </script>

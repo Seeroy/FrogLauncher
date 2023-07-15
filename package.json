@@ -30,7 +30,21 @@
       "installerIcon": "resources/icon.ico",
       "installerHeaderIcon": "resources/icon.ico",
       "deleteAppDataOnUninstall": false
-    }
+    },
+    "files": [
+      "**/*",
+      "node_modules/**/*",
+      "!logs{/*}",
+      "!logs/",
+      "!logs",
+      "!cache{/*}",
+      "!config.json",
+      "!frog_accounts.json",
+      "!LICENSE",
+      "!README.md",
+      "!.gitignore",
+      "!.git{/*}"
+    ]
   },
   "dependencies": {
     "colors": "^1.4.0",

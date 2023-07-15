@@ -58,12 +58,14 @@
           id="selectPathButton"
           class="bg-primary-1000 rounded-lg ml-3 p-0"
           style="width: 48px; height: 48px"
-          onclick="openGameDirectoryDialog(false)"
+          onclick="FrogBackendCommunicator.openGameDirectoryDialog()"
         >
           <span class="material-symbols-rounded" style="padding-top: 4px"
             >folder_open</span
           >
         </button>
+
+        <!-- Command line args setup -->
       </div>
     </div>
 
@@ -194,17 +196,28 @@
       }
     });
 
-    if(mainConfig.openConsoleOnStart == true){
+    if (mainConfig.openConsoleOnStart == true) {
       $("#openConsoleOnStartCheckbox").prop("checked", true);
     }
+
+    // Handle game directory selection
+    ipcRenderer.on("get-gd-result", (event, arg) => {
+      if (arg != false) {
+        $("#settings-mmodal #gamePathInput").val(arg);
+      }
+    });
   });
 
   function saveMainSettings() {
     mainConfig.selectedJava = $("#javaSelect option:selected").val();
     mainConfig.selectedMemorySize = $("#memInput").val();
     mainConfig.selectedBaseDirectory = $("#gamePathInput").val();
-    mainConfig.openConsoleOnStart = $("#openConsoleOnStartCheckbox").is(":checked");
+    mainConfig.openConsoleOnStart = $("#openConsoleOnStartCheckbox").is(
+      ":checked"
+    );
     FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+    FrogVersionsUI.resetCatSelectors();
+    FrogVersionsUI.refreshVersionsListModal();
     Toaster("Настройки успешно сохранены", 2000, false, "success");
   }
 </script>

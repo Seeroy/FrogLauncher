@@ -112,7 +112,7 @@ class FrogVersionsManager {
             var fbversionItem = {
               shortName: "fabric-" + fabric_version,
               version: fabric_version,
-              type: "fabric"
+              type: "fabric",
             };
             releases.push(fbversionItem);
           });
@@ -182,67 +182,72 @@ class FrogVersionsManager {
   }
 
   static getVersionByShortName(shortName, cb) {
+    var installedVersions = this.getInstalledVersionsList();
     var versionType = shortName.split("-")[0];
     var version = shortName.split("-")[1];
+    var retValue = false;
     switch (versionType) {
       case "vanilla":
         this.getVanillaReleases((vanilla_releases) => {
           vanilla_releases.forEach((vanilla_release) => {
             if (vanilla_release.version == version) {
-              cb({
+              retValue = {
                 shortName: "vanilla-" + vanilla_release.version,
                 version: vanilla_release.version,
                 url: vanilla_release.manifestURL,
                 type: "vanilla",
                 installed: installedVersions.includes(vanilla_release.version),
-              });
+              };
             }
           });
-          cb(false);
+          cb(retValue);
         });
+        break;
       case "forge":
         this.getForgeReleases((forge_releases) => {
           for (const [key, value] of Object.entries(forge_releases)) {
             if (key == version) {
-              cb({
+              retValue = {
                 shortName: "forge-" + key,
                 version: key,
                 forgeBuild: value,
                 type: "forge",
                 installed: installedVersions.includes("Forge " + key),
-              });
+              };
             }
           }
-          cb(false);
+          cb(retValue);
         });
+        break;
       case "fabric":
         this.getFabricAvailableVersions((fabric_versions) => {
           fabric_versions.forEach((fabric_version) => {
             if (fabric_version == version) {
-              cb({
+              retValue = {
                 shortName: "fabric-" + fabric_version,
                 version: fabric_version,
                 type: "fabric",
-              });
+              };
             }
           });
-          cb(false);
+          cb(retValue);
         });
+        break;
     }
   }
 
-  static fabricLoaderStringParse(name){
-    if(name.match(/fabric\-loader/gmi) != null){
+  static fabricLoaderStringParse(name) {
+    if (name.match(/fabric\-loader/gim) != null) {
       return {
         name: "Fabric",
-        version: name.split("-").slice(-1)
-      }
+        version: name.split("-").slice(-1),
+      };
     } else {
       return false;
     }
   }
 
-  static isFabricDirectoryMatches(directory, version){
+  static isFabricDirectoryMatches(directory, version) {
     var flsp = this.fabricLoaderStringParse(directory);
     return flsp.version == version;
   }

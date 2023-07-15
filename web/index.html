@@ -101,6 +101,16 @@
       </h5>
       <button
         type="button"
+        id="clear-notifications-list"
+        style="right: 3.2em; height: 32px; width: 32px"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-3 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white mt-2"
+      >
+        <span class="material-symbols-rounded" style="margin-left: 3px">
+          mop
+        </span>
+      </button>
+      <button
+        type="button"
         data-drawer-hide="drawer-toasts-list"
         aria-controls="drawer-toasts-list"
         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-3 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white mt-2"
@@ -118,7 +128,6 @@
             clip-rule="evenodd"
           ></path>
         </svg>
-        <span class="sr-only">Close menu</span>
       </button>
       <div
         id="toasts-history-list"
@@ -138,16 +147,17 @@
     accountsConfig,
     gameVersions,
     selectedAccount,
-    selectedGameVersion;
-
-  // Loading config or creating if not exists
-  mainConfig = FrogConfigManager.readMainConfig();
-  if (mainConfig == false) {
-    mainConfig = FrogConfigManager.writeDefaultMainConfig();
-  }
-  accountsConfig = FrogAccountManager.getAccounts();
+    selectedGameVersion,
+    gameStatus = "stopped";
 
   $(document).ready(function () {
+    // Loading config or creating if not exists
+    mainConfig = FrogConfigManager.readMainConfig();
+    if (mainConfig == false) {
+      mainConfig = FrogConfigManager.writeDefaultMainConfig();
+    }
+    accountsConfig = FrogAccountManager.getAccounts();
+
     document.addEventListener("dragover", (event) => event.preventDefault());
     document.addEventListener("drop", (event) => event.preventDefault());
 
@@ -177,6 +187,10 @@
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
 
+    if (mainConfig.selectedBackground.toString().length > 1) {
+      FrogUI.refreshCustomBg(mainConfig.selectedBackground);
+    }
+
     // Refreshing some items
     setTimeout(() => {
       FrogAccountUI.refreshAccountsDropdown();
@@ -201,10 +215,15 @@
       }
       FrogUI.refreshModalThemesList();
       FrogVersionsUI.refreshVersionsListModal();
-      if (!fs.existsSync(path.join(__dirname, "logs"))) {
-        fs.mkdirSync(path.join(__dirname, "logs"));
+      if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
+        fs.mkdirSync(path.join(__dirname, "..", "logs"));
       }
-      if (!fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))) {
+      if (!fs.existsSync(path.join(__dirname, "..", "cache"))) {
+        fs.mkdirSync(path.join(__dirname, "..", "cache"));
+      }
+      if (
+        !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))
+      ) {
         fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"));
       }
       FrogBackendCommunicator.logBrowserConsole(
@@ -212,5 +231,9 @@
         "All is ok, startup success!"
       );
     }, 250);
+
+    $("#clear-notifications-list").click(function () {
+      $("#toasts-history-list").html("");
+    });
   });
 </script>

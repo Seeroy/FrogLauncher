@@ -13,14 +13,22 @@
       </button>
     </div>
 
-    <!-- Search input -->
-    <input
-      class="custom-input w-full mt-3"
-      style="width: 768px"
-      type="text"
-      placeholder="Поиск"
-      id="version-search-input"
-    />
+    <!-- Search input and refresh button -->
+    <div class="flex items-center justify-center mt-3">
+      <input
+        class="custom-input w-full"
+        style="width: 768px"
+        type="text"
+        placeholder="Поиск"
+        id="version-search-input"
+      />
+      <button
+        class="custom-input ml-2 refresh-btn"
+        onclick="FrogVersionsUI.refreshVersionsListModal()"
+      >
+        <span class="material-symbols-rounded"> refresh </span>
+      </button>
+    </div>
 
     <!-- Category select -->
     <ul
@@ -88,6 +96,20 @@
     <div class="overflow-y-auto mt-3" style="border-radius: 12px; height: 40vh">
       <ul class="versions-list" id="game-versions-list"></ul>
     </div>
+
+    <div class="loading-overlay flex items-center justify-center w-full" style="margin-top: 16px;">
+      <div role="status" class="w-full flex flex-col items-center justify-center">
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+        <div class="h-2.5 bg-primary-900 rounded-full mb-4"></div>
+    </div>
+
+    </div>
   </div>
 </div>
 
@@ -127,6 +149,20 @@
 
   #version-selector-mmodal .versions-list .version-item:hover {
     background: var(--bg-primary-900);
+  }
+
+  #version-selector-mmodal .refresh-btn {
+    padding: 0 !important;
+    width: 48px;
+    height: 48px;
+  }
+
+  #version-selector-mmodal .refresh-btn .material-symbols-rounded {
+    margin-top: 3px;
+  }
+
+  #version-selector-mmodal .loading-overlay div.rounded-full {
+    width: 90%;
   }
 </style>
 

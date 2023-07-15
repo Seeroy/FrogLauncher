@@ -99,8 +99,12 @@
     overflow-x: hidden;
     overflow-y: auto;
     height: 82%;
-    -webkit-user-select: text;
-    user-select: text;
+  }
+
+  .console-textarea,
+  .console-textarea * {
+    -webkit-user-select: text !important;
+    user-select: text !important;
   }
 
   .console-textarea,
@@ -113,11 +117,11 @@
   }
 
   input:checked + .slider {
-    background-color: #1C64F2;
+    background-color: #1c64f2;
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #1C64F2;
+    box-shadow: 0 0 1px #1c64f2;
   }
 </style>
 

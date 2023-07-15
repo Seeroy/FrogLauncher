@@ -88,11 +88,34 @@ html,
   z-index: -1000;
   margin: auto;
   filter: brightness(70%);
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+html.bg-1 .main-bg {
   background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
     url("../assets/backgrounds/1.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+}
+html.bg-2 .main-bg {
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+    url("../assets/backgrounds/2.jpg");
+}
+html.bg-3 .main-bg {
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+    url("../assets/backgrounds/3.jpg");
+}
+html.bg-4 .main-bg {
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+    url("../assets/backgrounds/4.jpg");
+}
+html.bg-5 .main-bg {
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+    url("../assets/backgrounds/5.jpg");
+}
+html.bg-6 .main-bg {
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+    url("../assets/backgrounds/6.jpg");
 }
 
 /* Invisible bar for dragging */
@@ -152,7 +175,8 @@ html,
 
 /* Scrollbars styling */
 *::-webkit-scrollbar {
-  width: 5px;
+  width: 3px;
+  border-radius: 8px;
 }
 
 *::-webkit-scrollbar-track {

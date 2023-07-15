@@ -54,7 +54,7 @@ class FrogAccountUI {
 
   static newAccountWizard = () => {
     $(".new-account-modal").removeClass("hidden");
-    this.refreshAbsoluteElementsPositions();
+    FrogUI.refreshAbsoluteElementsPositions();
   };
 
   static newLocalAccountWizard = () => {
@@ -62,13 +62,13 @@ class FrogAccountUI {
     $("#add-local-account-mmodal input").val("");
     $("#add-local-account-mmodal .error-text").addClass("hidden");
     $("#add-local-account-mmodal .custom-button").prop("disabled", true);
-    this.showMenuModal("add-local-account");
+    FrogUI.showMenuModal("add-local-account");
     $(".new-account-modal").addClass("hidden");
   };
 
   static newMSAccountWizard = () => {
     accountsConfig = FrogAccountManager.getAccounts();
-    this.showMenuModal("add-ms-account");
+    FrogUI.showMenuModal("add-ms-account");
     $(".new-account-modal").addClass("hidden");
     FrogAccountManager.addMicrosoftAccount(() => {
       FrogUI.goHomeSection();

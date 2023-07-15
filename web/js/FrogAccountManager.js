@@ -116,8 +116,8 @@ class FrogAccountManager {
           demo: false,
         },
       };
-    } else {
-      return false; // TODO
+    } else if(account.type == "microsoft"){
+      return account.authorizationData;
     }
   }
 

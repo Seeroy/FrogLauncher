@@ -1,11 +1,13 @@
 const GAME_VERSION_ITEM_BASE =
-  '<li class="version-item cursor-pointer" data-version="$1" data-shortname="$5" onclick="FrogVersionsUI.changeActiveVersion(' + "'$5'" + ')"><img src="assets/ver_icons/$2.png" style="height: 24px" /><span class="ml-3">$3</span>$4</li>';
+  '<li class="version-item cursor-pointer" data-version="$1" data-shortname="$5" onclick="FrogVersionsUI.changeActiveVersion(' + "'$5'" + '); FrogUI.goHomeSection()"><img src="assets/ver_icons/$2.png" style="height: 24px" /><span class="ml-3">$3</span>$4</li>';
 const GAME_VERSION_INSTALLED = '<span class="gray ml-2">(Установлена)</span>';
 const GAME_VERSION_BTN_BASE =
   '<div class="flex rounded items-center"><img src="$1" style="height: 24px;"><div class="ml-3">$2</div></div>';
 
 class FrogVersionsUI {
   static refreshVersionsListModal = (filters = "all all") => {
+    $("#version-selector-mmodal .loading-overlay").removeClass("hidden");
+    $("#version-selector-mmodal #game-versions-list").parent().addClass("hidden");
     var vi,
       accepted = false;
     var filters = filters.split(" ");
@@ -52,6 +54,8 @@ class FrogVersionsUI {
           );
         }
       });
+      $("#version-selector-mmodal .loading-overlay").addClass("hidden");
+      $("#version-selector-mmodal #game-versions-list").parent().removeClass("hidden");
     });
   };
 
@@ -104,5 +108,12 @@ class FrogVersionsUI {
         }
       }
     );
+  }
+
+  static resetCatSelectors() {
+    $("#version-category-selector li div.active").removeClass("active");
+    $("#version-category-selector li:first-child div").addClass("active");
+    $("#version-type-selector li div.active").removeClass("active");
+    $("#version-type-selector li:first-child div").addClass("active");
   }
 }

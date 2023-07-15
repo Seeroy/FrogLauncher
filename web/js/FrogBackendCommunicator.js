@@ -4,6 +4,19 @@ class FrogBackendCommunicator {
     ipcRenderer.send("log-browser-console", args.join(" "));
   }
 
+  static logBrowserConsoleOnly(...args) {
+    ipcRenderer.send("log-browser-console-only", args.join(" "));
+  }
+
+  static openGameDirectoryDialog() {
+    ipcRenderer.send("open-gd-dialog");
+  }
+  
+  static openBackgroundSelectDialog() {
+    ipcRenderer.send("open-bg-dialog");
+  }
+
+
   static onHideMainWindow = () => {
     ipcRenderer.send("hide-main-window");
     FrogBackendCommunicator.logBrowserConsole(

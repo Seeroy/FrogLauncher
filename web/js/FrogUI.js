@@ -137,9 +137,13 @@ class FrogUI {
   ) {
     if (showClickable == true) {
       $(".controls button").removeClass("hidden");
+      $(".controls #show-users-select").prop("disabled", false);
     } else {
       $(".controls button").addClass("hidden");
+      $(".controls #show-users-select").removeClass("hidden");
+      $(".controls #show-users-select").prop("disabled", true);
     }
+    
     if (showProgressBar == true) {
       $(".controls .progress-cont").removeClass("hidden");
       $(".controls .progress-cont .progress").removeClass("hidden");
@@ -166,6 +170,39 @@ class FrogUI {
   static setBottomProgressDescription(text) {
     if (!$(".controls .progress-cont .progress-desc").hasClass("hidden")) {
       $(".controls .progress-cont .progress-desc").text(text);
+    }
+  }
+
+  static showDownloadManager(show) {
+    if (show == true && $(".downloads-container").hasClass("hidden")) {
+      $(".downloads-container").removeClass("hidden");
+      animateCSSJ(".downloads-container", "fadeInDown", true);
+    } else if (show == false && !$(".downloads-container").hasClass("hidden")) {
+      animateCSSJ(".downloads-container", "fadeOutUp", true).then(() => {
+        $(".downloads-container").addClass("hidden");
+      });
+    }
+  }
+
+  static refreshCustomBg(arg) {
+    console.log(fs.existsSync(path.join(__dirname, "..", "cache", arg)));
+    if(fs.existsSync(path.join(__dirname, "..", "cache", arg))){
+      $("#themes-mmodal #bg-selector li .inline-block.active").removeClass(
+        "active"
+      );
+      $("html").removeClass("bg-1 bg-2 bg-3 bg-4 bg-5 bg-6");
+      $(".main-bg").css(
+        "background",
+        'linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%), url("../cache/' +
+          arg +
+          '")'
+      );
+      mainConfig.selectedBackground = arg;
+      FrogConfigManager.writeMainConfig(mainConfig);
+    } else {
+      mainConfig.selectedBackground = "1";
+      $("html").addClass("bg-1");
+      FrogConfigManager.writeMainConfig(mainConfig);
     }
   }
 }
@@ -216,7 +253,9 @@ const animateCSSJ = (element, animation, fast = true, prefix = "animate__") =>
       resolve("Animation ended");
     }
 
-    $(element)[0].addEventListener("animationend", handleAnimationEnd, { once: true });
+    $(element)[0].addEventListener("animationend", handleAnimationEnd, {
+      once: true,
+    });
   });
 
 function padU(s) {

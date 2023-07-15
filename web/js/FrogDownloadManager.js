@@ -57,8 +57,8 @@ class FrogDownloadManager {
 
     request
       .get(javaURL)
-      .on("error", function (err) {
-        console.log(err);
+      .on("error", function (error) {
+        cb(error);
       })
       .on("response", function (data) {
         total_bytes = parseInt(data.headers["content-length"]);
@@ -125,7 +125,7 @@ class FrogDownloadManager {
         );
       }
       if (fs.existsSync(javaBinaryPath)) {
-        return true;
+        return javaBinaryPath;
       } else {
         return false;
       }
@@ -134,69 +134,123 @@ class FrogDownloadManager {
     }
   }
 
+  static getJavaAutodetectPath(gameVersion, cb) {
+    var requiredJavaVersion = FrogInfo.gameVersionToJavaVersion(gameVersion);
+    var isExistsLocally =
+      this.isRequestedJavaExistsLocally(requiredJavaVersion);
+    FrogBackendCommunicator.logBrowserConsoleOnly(
+      "[JD]",
+      "Starting `Java autodetect path`"
+    );
+    if (isExistsLocally != false) {
+      FrogBackendCommunicator.logBrowserConsoleOnly(
+        "[JD]",
+        "Ok, Java is detected locally"
+      );
+      cb(isExistsLocally);
+    } else {
+      this.downloadJava(requiredJavaVersion, (downloadResult) => {
+        if (downloadResult == true) {
+          var isExistsLocally2 =
+            this.isRequestedJavaExistsLocally(requiredJavaVersion);
+          if (isExistsLocally2 != false) {
+            cb(isExistsLocally2);
+          } else {
+            Toaster(
+              "Ошибка скачивания Java<br>подробнее в консоли",
+              4000,
+              false,
+              "warning"
+            );
+            FrogBackendCommunicator.logBrowserConsoleOnly(
+              "[JD]",
+              "IS_EXISTS_LOCALLY_2 check failure!"
+            );
+            cb(false);
+          }
+        } else {
+          Toaster(
+            "Ошибка скачивания Java<br>подробнее в консоли",
+            4000,
+            false,
+            "warning"
+          );
+          FrogBackendCommunicator.logBrowserConsoleOnly(
+            "[JD]",
+            "DOWNLOAD_RESULT check failure!"
+          );
+          FrogBackendCommunicator.logBrowserConsoleOnly(downloadResult);
+          cb(false);
+        }
+      });
+    }
+  }
+
   static handleDownloadStatus(e) {
     var downloadPercent = Math.round((e.current * 100) / e.total);
     var totalFileSize = (e.total / 1024 / 1024).toFixed(2);
     var encName = encodeURIComponent(e.name).replaceAll(/\./g, "");
-    if(e.total > 100 && e.current > 0){
-    if (downloadPercent < 100) {
-      if ($(".downloads-container .downloads-list #" + encName).length == 0) {
-        $(".downloads-container .downloads-list").prepend(
-          DOWNLOAD_ITEM.replaceAll(/\$1/gim, e.name)
-            .replaceAll(/\$2/gim, downloadPercent)
-            .replaceAll(/\$3/gim, encName)
-            .replaceAll(/\$4/gim, totalFileSize)
-        );
+    if (e.total > 100 && e.current > 0) {
+      if (downloadPercent < 100) {
+        if ($(".downloads-container .downloads-list #" + encName).length == 0) {
+          $(".downloads-container .downloads-list").prepend(
+            DOWNLOAD_ITEM.replaceAll(/\$1/gim, e.name)
+              .replaceAll(/\$2/gim, downloadPercent)
+              .replaceAll(/\$3/gim, encName)
+              .replaceAll(/\$4/gim, totalFileSize)
+          );
+        } else {
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .rounded-full div"
+          ).css("width", downloadPercent + "%");
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .percent-number"
+          ).text(downloadPercent + "%");
+          $(
+            ".downloads-container .downloads-list #" + encName + " .filesize"
+          ).text(totalFileSize);
+        }
       } else {
-        $(
-          ".downloads-container .downloads-list #" +
-            encName +
-            " .rounded-full div"
-        ).css("width", downloadPercent + "%");
-        $(
-          ".downloads-container .downloads-list #" +
-            encName +
-            " .percent-number"
-        ).text(downloadPercent + "%");
-        $(
-          ".downloads-container .downloads-list #" + encName + " .filesize"
-        ).text(totalFileSize);
-      }
-    } else {
-      if (
-        $(".downloads-container .downloads-list #" + encName).data(
-          "completed"
-        ) != "completed"
-      ) {
-        $(".downloads-container .downloads-list #" + encName).data(
-          "completed",
-          "completed"
-        );
-        $(
-          ".downloads-container .downloads-list #" + encName + " .rounded-full"
-        ).remove();
-        $(
-          ".downloads-container .downloads-list #" +
-            encName +
-            " .percent-number"
-        ).remove();
-        $(".downloads-container .downloads-list #" + encName).append(
-          "<span class='text-white'>Завершено</span>"
-        );
-        $(".downloads-container .downloads-list #" + encName)
-          .delay(5000)
-          .queue(function () {
-            animateCSSJ(
-              ".downloads-container .downloads-list #" + encName,
-              "fadeOut",
-              false
-            ).then(() => {
-              $(this).remove();
+        if (
+          $(".downloads-container .downloads-list #" + encName).data(
+            "completed"
+          ) != "completed"
+        ) {
+          $(".downloads-container .downloads-list #" + encName).data(
+            "completed",
+            "completed"
+          );
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .rounded-full"
+          ).remove();
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .percent-number"
+          ).remove();
+          $(".downloads-container .downloads-list #" + encName).append(
+            "<span class='text-white'>Завершено</span>"
+          );
+          $(".downloads-container .downloads-list #" + encName)
+            .delay(5000)
+            .queue(function () {
+              animateCSSJ(
+                ".downloads-container .downloads-list #" + encName,
+                "fadeOut",
+                false
+              ).then(() => {
+                $(this).remove();
+              });
             });
-          });
+        }
       }
     }
-  }
   }
 
   static handleProgressStatus(e) {
