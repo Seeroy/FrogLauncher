@@ -2,6 +2,9 @@
 const { app, ipcMain, dialog } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const os = require("os");
+const fs = require("fs");
+const path = require("path");
+fs.mkdirSync(path.join(app.getPath("userData"), "logs"), {recursive: true})
 
 var pjson = require("./package.json");
 const APPVER = pjson.version; // Версия из package.json
