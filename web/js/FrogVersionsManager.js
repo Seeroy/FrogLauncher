@@ -333,6 +333,22 @@ class FrogVersionsManager {
         });
         cb(retValue);
         break;
+      case "fabricsodiumiris":
+        var fabric_versions = this.getFabricAvailableVersions();
+        fabric_versions.forEach((fabric_version) => {
+          if (fabric_version == version) {
+            retValue = {
+              shortName: "fabricsodiumiris-" + fabric_version,
+              version: fabric_version,
+              type: "fabricsodiumiris",
+              installed: installedVersions.includes(
+                "FabricSodiumIris " + fabric_version
+              ),
+            };
+          }
+        });
+        cb(retValue);
+        break;
     }
   }
 

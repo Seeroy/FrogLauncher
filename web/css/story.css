@@ -1,0 +1,57 @@
+.launcher-story {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 4;
+  border-radius: 16px;
+  width: 100%;
+  height: 100%;
+}
+
+.launcher-story .sidebar-story {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: max-content;
+  height: max-content;
+  color: white;
+  font-family: 'Minecraft Rus';
+  z-index: 5;
+}
+
+.launcher-story .sidebar-item:not(.active) {
+  background: var(--bg-primary-1100);
+  cursor: pointer;
+}
+
+.launcher-story .sidebar-item:not(.active):hover {
+  background: var(--bg-primary-1000) !important;
+}
+
+.launcher-story .sidebar-item {
+  margin: 8px 0;
+  color: white;
+}
+
+.launcher-story .sidebar-item {
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.launcher-story #ss-close-btn {
+  width: 512px;
+  height: 48px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 8;
+  color: white;
+}

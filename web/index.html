@@ -15,6 +15,7 @@
     <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
     <script src="./js/FrogUtils.js"></script>
+    <script src="./js/FrogLauncherStory.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Starters classes -->
     <script src="./js/starters/FrogVanillaStarter.js"></script>
@@ -30,6 +31,7 @@
     <link href="./css/themer.css" rel="stylesheet" />
     <link href="./css/customElements.css" rel="stylesheet" />
     <link href="./css/switch.css" rel="stylesheet" />
+    <link href="./css/story.css" rel="stylesheet" />
 
     <!-- Importing themes -->
     <link href="./themes/blue.css" rel="stylesheet" />
@@ -58,6 +60,22 @@
     <!-- Blackscreen used for hiding ugly animation glitches on startup -->
     <div class="blackscreen"></div>
     <div class="modals"></div>
+    <div class="launcher-story hidden">
+      <div class="sidebar-story" id="ss-home">Домашняя страница</div>
+      <div class="sidebar-story" id="ss-packs">Сборки игры</div>
+      <div class="sidebar-story" id="ss-servers">Рекомендуемые сервера</div>
+      <div class="sidebar-story" id="ss-settings">Настройки</div>
+      <div class="sidebar-story" id="ss-console">Консоль разработчика</div>
+      <div class="sidebar-story" id="ss-themes">Темы и настройка внешнего вида лаунчера</div>
+
+      <div class="sidebar-story" id="ss-show-version-selector">Выбор версии</div>
+
+      <div class="sidebar-story" id="ss-show-users-select">Выбор аккаунта</div>
+
+      <div class="sidebar-story" id="ss-moving-zone" style="left: 80px; top: 16px;">Зона для перемещения окна лаунчера</div>
+
+      <button class="custom-button" id="ss-close-btn" onclick="FrogLauncherStory.endStory()">Хорошо, спасибо!</button>
+    </div>
     <!-- Invisible drag zone with window action buttons -->
     <div class="dragbar">
       <div class="dragzone"></div>
@@ -284,6 +302,14 @@
           "All is ok, startup success!"
         );
       }, 250);
+
+      setTimeout(function() {
+        if (mainConfig.launcherStoryViewed == false) {
+          FrogLauncherStory.showStory();
+          FrogLauncherStory.prepareLauncherStory();
+          FrogLauncherStory.refreshLauncherStory();
+        }
+      }, 600);
 
       // Evt for notifications list clear button
       $("#clear-notifications-list").click(function () {
