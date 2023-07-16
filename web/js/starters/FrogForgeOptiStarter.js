@@ -48,7 +48,7 @@ class FrogForgeOptiStarter {
       "mods",
       ofFilename
     );
-    FrogForgeOptiStarter.removeOldOptiFine();
+    FrogStartManager.deleteTemporaryMods();
     if (!fs.existsSync(ofPath)) {
       FrogDownloadManager.downloadByURL(this.ofDownloadURL, ofPath, (dlRes) => {
         if (dlRes == true) {
@@ -115,17 +115,5 @@ class FrogForgeOptiStarter {
     launcher.on("progress", function (e) {
       FrogDownloadManager.handleProgressStatus(e);
     });
-  }
-
-  static removeOldOptiFine() {
-    var rdir = fs.readdirSync(
-      path.join(mainConfig.selectedBaseDirectory, "mods")
-    );
-    rdir.forEach(function (dr) {
-      if (dr.match(/.*OptiFine.*/gim) != null) {
-        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
-      }
-    });
-    return true;
   }
 }

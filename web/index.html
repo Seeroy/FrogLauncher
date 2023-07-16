@@ -20,6 +20,8 @@
     <script src="./js/starters/FrogVanillaStarter.js"></script>
     <script src="./js/starters/FrogForgeOptiStarter.js"></script>
     <script src="./js/starters/FrogForgeStarter.js"></script>
+    <script src="./js/starters/FrogFabricStarter.js"></script>
+    <script src="./js/starters/FrogFabricSodiumStarter.js"></script>
     <!-- Custom CSS -->
     <link href="./css/main.css" rel="stylesheet" />
     <link href="./css/toasts.css" rel="stylesheet" />
@@ -195,7 +197,6 @@
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
 
-
     FrogVersionsManager.refreshMyModloadersInfo(() => {
       if (mainConfig.selectedBackground.toString().length > 1) {
         FrogUI.refreshCustomBg(mainConfig.selectedBackground);
@@ -225,7 +226,7 @@
         if (mainConfig.openConsoleOnStart == true) {
           FrogBackendCommunicator.onOpenConsoleWindow();
         }
-          FrogDiscordPresence.setPresenceMode("menu");
+        FrogDiscordPresence.setPresenceMode("menu");
         if (mainConfig.enableDownloadManager == true) {
           $(".downloads-container").removeClass("disabled");
         } else {
@@ -236,23 +237,47 @@
         FrogVersionsUI.refreshVersionsListModal();
         // Creating neccesary dirs if not exists
         if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
-          fs.mkdirSync(path.join(__dirname, "..", "logs"));
+          fs.mkdirSync(path.join(__dirname, "..", "logs"), { recursive: true });
         }
         if (!fs.existsSync(path.join(__dirname, "..", "cache"))) {
-          fs.mkdirSync(path.join(__dirname, "..", "cache"));
+          fs.mkdirSync(path.join(__dirname, "..", "cache"), {
+            recursive: true,
+          });
         }
         if (
           !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))
         ) {
-          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"));
+          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"), {
+            recursive: true,
+          });
+        }
+        if (
+          !fs.existsSync(
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "launcher_profiles.json"
+            )
+          )
+        ) {
+          fs.writeFileSync(
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "launcher_profiles.json"
+            ),
+            "{}"
+          );
         }
         if (
           !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "cache"))
         ) {
-          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"));
+          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"), {
+            recursive: true,
+          });
         }
         // Set launcher version in 'About Launcher'
         $("#launcher-version").text(LAUNCHER_VERSION);
+        // Delete old temporary mods
+        FrogStartManager.deleteTemporaryMods();
         // Ok, startup is done
         FrogBackendCommunicator.logBrowserConsole(
           "[APP]",

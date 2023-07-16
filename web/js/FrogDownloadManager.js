@@ -1,6 +1,6 @@
 var downloadTasks;
 const DOWNLOAD_ITEM =
-  '<div class="download-item flex items-center p-2 rounded" id="$3"> <p class="font-semibold grow text-white">$1 (<span class="filesize">$2</span> Мб)</p> <div class="w-full rounded-full h-1.5 bg-gray-700" style="max-width: 290px;"> <div class="bg-primary-600 h-1.5 rounded-full" style="width: $2%" ></div> </div> <span class="text-white ml-2 percent-number">$2%</span> </div>';
+  '<div class="download-item flex items-center p-2 rounded" id="$3"> <p class="font-semibold grow text-white">$1</p> <div class="w-full rounded-full h-1.5 bg-gray-700" style="max-width: 290px;"> <div class="bg-primary-600 h-1.5 rounded-full" style="width: $2%" ></div> </div> <span class="text-white ml-2 percent-number">$2%</span> </div>';
 
 class FrogDownloadManager {
   static downloadJava(version, cb) {
@@ -235,7 +235,6 @@ class FrogDownloadManager {
             DOWNLOAD_ITEM.replaceAll(/\$1/gim, e.name)
               .replaceAll(/\$2/gim, downloadPercent)
               .replaceAll(/\$3/gim, encName)
-              .replaceAll(/\$4/gim, totalFileSize)
           );
         } else {
           $(
@@ -248,9 +247,6 @@ class FrogDownloadManager {
               encName +
               " .percent-number"
           ).text(downloadPercent + "%");
-          $(
-            ".downloads-container .downloads-list #" + encName + " .filesize"
-          ).text(totalFileSize);
         }
       } else {
         if (

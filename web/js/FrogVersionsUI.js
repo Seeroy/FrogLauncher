@@ -1,5 +1,5 @@
 const GAME_VERSION_ITEM_BASE =
-  '<li class="version-item cursor-pointer" data-version="$1" data-shortname="$5" onclick="FrogVersionsUI.changeActiveVersion(' + "'$5'" + '); FrogUI.goHomeSection()"><img src="assets/ver_icons/$2.png" style="height: 24px" /><span class="ml-3">$3</span>$4</li>';
+  '<li class="version-item cursor-pointer" data-version="$1" data-shortname="$5" onclick="FrogVersionsUI.changeActiveVersion(' + "'$5'" + '); FrogUI.goHomeSection()"><img src="assets/ver_icons/$2.png" class="rounded-md" style="height: 24px" /><span class="ml-3">$3</span>$4</li>';
 const GAME_VERSION_INSTALLED = '<span class="gray ml-2">(Установлена)</span>';
 const GAME_VERSION_BTN_BASE =
   '<div class="flex rounded items-center"><img src="$1" style="height: 24px;"><div class="ml-3">$2</div></div>';
@@ -23,7 +23,8 @@ class FrogVersionsUI {
             (filters[1] == "forge" && version.type == "forge") ||
             (filters[1] == "fabric" && version.type == "fabric") ||
             (filters[1] == "vanilla" && version.type == "vanilla") ||
-            (filters[1] == "forgeoptifine" && version.type == "forgeoptifine")
+            (filters[1] == "forgeoptifine" && version.type == "forgeoptifine") ||
+            (filters[1] == "fabricsodiumiris" && version.type == "fabricsodiumiris")
           ) {
             accepted = true;
           } else {

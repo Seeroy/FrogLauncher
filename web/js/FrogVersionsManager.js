@@ -2,9 +2,10 @@ const VERSIONS_MANIFEST_URL =
   "https://piston-meta.mojang.com/mc/game/version_manifest.json";
 const FORGE_LIST_URL = "https://api.curseforge.com/v1/minecraft/modloader";
 const SODIUM_LIST_URL = "https://api.modrinth.com/v2/project/sodium/version";
+const IRIS_LIST_URL = "https://api.modrinth.com/v2/project/iris/version";
 const FABRIC_API_LIST_URL =
   "https://api.modrinth.com/v2/project/fabric-api/version";
-const MODLOADERS_INFO_URL = "http://seeroycloud.tk/froglauncher/data.json";
+const MODLOADERS_INFO_URL = "http://froglauncher.seeroycloud.tk/data.json";
 var modloadersMyInfo;
 
 class FrogVersionsManager {
@@ -58,15 +59,27 @@ class FrogVersionsManager {
     $.get(SODIUM_LIST_URL, function (data) {
       data.forEach((element) => {
         element.game_versions.forEach((version) => {
-          sversions[version] = element.files[0].url;
+          if (typeof sversions[version] === "undefined") {
+            sversions[version] = element.files[0].url;
+          }
         });
       });
       cb(sversions);
     });
   }
 
-  static getFabricInstaller() {
-    return modloadersMyInfo.fabric.latestInstaller;
+  static getIrisReleases(cb) {
+    var sversions = {};
+    $.get(IRIS_LIST_URL, function (data) {
+      data.forEach((element) => {
+        element.game_versions.forEach((version) => {
+          if (typeof sversions[version] === "undefined") {
+            sversions[version] = element.files[0].url;
+          }
+        });
+      });
+      cb(sversions);
+    });
   }
 
   static getFabricAPIReleases(cb) {
@@ -82,7 +95,13 @@ class FrogVersionsManager {
   }
 
   static getFabricAvailableVersions() {
-    return modloadersMyInfo.fabric.supportedVersions;
+    var suppVers = [];
+    for (const [key, value] of Object.entries(
+      modloadersMyInfo.fabric.versions
+    )) {
+      suppVers.push(key);
+    }
+    return suppVers;
   }
 
   static getAllVersionsList(cb) {
@@ -133,9 +152,18 @@ class FrogVersionsManager {
             shortName: "fabric-" + fabric_version,
             version: fabric_version,
             type: "fabric",
-            installed: installedVersions.includes("Fabric " + fabric_version.version)
+            installed: installedVersions.includes("Fabric " + fabric_version),
           };
           releases.push(fbversionItem);
+          var fbsiversionItem = {
+            shortName: "fabricsodiumiris-" + fabric_version,
+            version: fabric_version,
+            type: "fabricsodiumiris",
+            installed: installedVersions.includes(
+              "FabricSodiumIris " + fabric_version
+            ),
+          };
+          releases.push(fbsiversionItem);
         });
         releases.sort(function (a, b) {
           // MinecraftVersionSorter by TheRolf
@@ -184,6 +212,8 @@ class FrogVersionsManager {
         return "Версия ForgeOptiFine " + version.version;
       case "fabric":
         return "Версия Fabric " + version.version;
+      case "fabricsodiumiris":
+        return "Версия FabricSodiumIris " + version.version;
     }
   }
 
@@ -196,9 +226,8 @@ class FrogVersionsManager {
         if (fs.lstatSync(path.join(versPath, item)).isDirectory()) {
           var fabParse = FrogVersionsManager.fabricLoaderStringParse(item);
           if (fabParse != false) {
-            directories.push(
-              "Fabric " + fabParse["version"]
-            );
+            directories.push("Fabric " + fabParse["version"]);
+            directories.push("FabricSodiumIris " + fabParse["version"]);
           } else {
             directories.push(item);
           }
@@ -298,6 +327,7 @@ class FrogVersionsManager {
               shortName: "fabric-" + fabric_version,
               version: fabric_version,
               type: "fabric",
+              installed: installedVersions.includes("Fabric " + fabric_version),
             };
           }
         });
@@ -320,5 +350,43 @@ class FrogVersionsManager {
   static isFabricDirectoryMatches(directory, version) {
     var flsp = this.fabricLoaderStringParse(directory);
     return flsp.version == version;
+  }
+
+  static getFabricDirectoryByVersion(version) {
+    var rdir = fs.readdirSync(
+      path.join(mainConfig.selectedBaseDirectory, "versions")
+    );
+    var dirName = false;
+    var fabRegex = new RegExp(
+      "fabric-loader.*" + version.replaceAll(/\./gim, "\\.") + ".*",
+      "gim"
+    );
+    rdir.forEach((element) => {
+      if (element.match(fabRegex) != null) {
+        dirName = {
+          directoryName: element,
+          fullDirectoryPath: path.join(
+            mainConfig.selectedBaseDirectory,
+            "versions",
+            element
+          ),
+          jarName: element + ".jar",
+          fullJarPath: path.join(
+            mainConfig.selectedBaseDirectory,
+            "versions",
+            element,
+            element + ".jar"
+          ),
+          versionJsonName: element + ".json",
+          fullVersionJsonPath: path.join(
+            mainConfig.selectedBaseDirectory,
+            "versions",
+            element,
+            element + ".json"
+          ),
+        };
+      }
+    });
+    return dirName;
   }
 }

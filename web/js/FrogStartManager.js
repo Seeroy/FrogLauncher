@@ -4,6 +4,7 @@ const STATUS_STARTING = [
   /ModLauncher running/gim,
   /Launching target \'fmlclient\'/gim,
   /Loading tweak class/gim,
+  /Sodium has been successfully discovered and initialized/gim,
 ];
 const STATUS_STARTED = [
   /OpenAL initialized/gim,
@@ -71,6 +72,37 @@ class FrogStartManager {
       },
       overrides: {
         gameDirectory: rootDirectory,
+      },
+    };
+    return launch_arguments;
+  }
+
+  // Function for generating Fabric start args
+  static compileFabricArguments(
+    rootDirectory,
+    version,
+    authData,
+    maxMemory,
+    javaPath = "java.exe",
+    directoryPath
+  ) {
+    var launch_arguments = {
+      authorization: authData,
+      root: rootDirectory,
+      cache: path.join(rootDirectory, "cache"),
+      version: {
+        number: version,
+        type: "release",
+        custom: directoryPath,
+      },
+      javaPath: javaPath,
+      memory: {
+        max: maxMemory,
+        min: "1500M",
+      },
+      overrides: {
+        gameDirectory: rootDirectory,
+        maxSockets: 4,
       },
     };
     return launch_arguments;
@@ -144,6 +176,211 @@ class FrogStartManager {
     });
   }
 
+  // Fabric start process
+  static startFabric(version, memory) {
+    this.prepareUIToStart(true);
+    var startArguments, fabricStarter;
+    var authData = FrogAccountManager.generateAuthCredetinals(selectedAccount);
+    FrogUI.changeBottomControlsStatus(
+      false,
+      false,
+      true,
+      "Проверка установки Fabric"
+    );
+    // Get version of Fabric
+    FrogVersionsManager.getVersionByShortName(
+      selectedGameVersion,
+      (gameData) => {
+        // Is Fabric installed?
+        if (gameData.installed == true) {
+          FrogUI.changeBottomControlsStatus(
+            false,
+            false,
+            true,
+            "Генерация аргументов"
+          );
+          // Generating arguments and starting
+          var fabInfo =
+            FrogVersionsManager.getFabricDirectoryByVersion(version);
+          this.getFinalJavaPath(version, (finalJP) => {
+            FrogVersionsManager.getFabricAPIReleases((fapiReleases) => {
+              var fapiUrl = false;
+              if (
+                typeof fapiReleases[version] !== "undefined" &&
+                fapiReleases[version] != null
+              ) {
+                fapiUrl = fapiReleases[version];
+              }
+              startArguments = this.compileFabricArguments(
+                mainConfig.selectedBaseDirectory,
+                version,
+                authData,
+                memory,
+                finalJP,
+                fabInfo["directoryName"]
+              );
+              FrogUI.changeBottomControlsStatus(false, true, true);
+              fabricStarter = new FrogFabricStarter(startArguments, fapiUrl);
+              fabricStarter.prepareForLaunchStep1(() => {
+                fabricStarter.launch();
+              });
+            });
+          });
+        } else {
+          // Creting necessary dirs
+          fs.mkdirSync(
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "versions",
+              "fabric-loader-" +
+                modloadersMyInfo.fabric.latestLoaderVersion +
+                "-" +
+                version
+            ),
+            { recursive: true }
+          );
+          // Downloading Fabric JSON
+          FrogDownloadManager.downloadByURL(
+            modloadersMyInfo.fabric.versions[version],
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "versions",
+              "fabric-loader-" +
+                modloadersMyInfo.fabric.latestLoaderVersion +
+                "-" +
+                version,
+              FrogUtils.getFilenameFromURL(
+                modloadersMyInfo.fabric.versions[version]
+              )
+            ),
+            (dlRes) => {
+              // Restarting startFabric process after success download
+              if (dlRes == true) {
+                FrogStartManager.startFabric(version, memory);
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+
+  // Fabric start process
+  static startFabricSodium(version, memory) {
+    this.prepareUIToStart(true);
+    var startArguments, fabricStarter;
+    var authData = FrogAccountManager.generateAuthCredetinals(selectedAccount);
+    FrogUI.changeBottomControlsStatus(
+      false,
+      false,
+      true,
+      "Проверка установки Fabric"
+    );
+    // Get version of Fabric
+    FrogVersionsManager.getVersionByShortName(
+      selectedGameVersion,
+      (gameData) => {
+        // Is Fabric installed?
+        if (gameData.installed == true) {
+          FrogUI.changeBottomControlsStatus(
+            false,
+            false,
+            true,
+            "Генерация аргументов"
+          );
+          // Generating arguments and starting
+          var fabInfo =
+            FrogVersionsManager.getFabricDirectoryByVersion(version);
+          this.getFinalJavaPath(version, (finalJP) => {
+            FrogVersionsManager.getFabricAPIReleases((fapiReleases) => {
+              FrogVersionsManager.getSodiumReleases((sodReleases) => {
+                FrogVersionsManager.getIrisReleases((irisReleases) => {
+                  var fapiUrl,
+                    sodUrl,
+                    irisUrl = false;
+                  if (
+                    typeof fapiReleases[version] !== "undefined" &&
+                    fapiReleases[version] != null
+                  ) {
+                    fapiUrl = fapiReleases[version];
+                  }
+                  if (
+                    typeof sodReleases[version] !== "undefined" &&
+                    sodReleases[version] != null
+                  ) {
+                    sodUrl = sodReleases[version];
+                  }
+                  if (
+                    typeof irisReleases[version] !== "undefined" &&
+                    irisReleases[version] != null
+                  ) {
+                    irisUrl = irisReleases[version];
+                  }
+                  startArguments = this.compileFabricArguments(
+                    mainConfig.selectedBaseDirectory,
+                    version,
+                    authData,
+                    memory,
+                    finalJP,
+                    fabInfo["directoryName"]
+                  );
+                  FrogUI.changeBottomControlsStatus(false, true, true);
+                  fabricStarter = new FrogFabricSodiumStarter(
+                    startArguments,
+                    fapiUrl,
+                    sodUrl,
+                    irisUrl
+                  );
+                  fabricStarter.prepareForLaunchStep1(() => {
+                    fabricStarter.prepareForLaunchStep2(() => {
+                      fabricStarter.prepareForLaunchStep3(() => {
+                        fabricStarter.launch();
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        } else {
+          // Creting necessary dirs
+          fs.mkdirSync(
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "versions",
+              "fabric-loader-" +
+                modloadersMyInfo.fabric.latestLoaderVersion +
+                "-" +
+                version
+            ),
+            { recursive: true }
+          );
+          // Downloading Fabric JSON
+          FrogDownloadManager.downloadByURL(
+            modloadersMyInfo.fabric.versions[version],
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "versions",
+              "fabric-loader-" +
+                modloadersMyInfo.fabric.latestLoaderVersion +
+                "-" +
+                version,
+              FrogUtils.getFilenameFromURL(
+                modloadersMyInfo.fabric.versions[version]
+              )
+            ),
+            (dlRes) => {
+              // Restarting startFabric process after success download
+              if (dlRes == true) {
+                FrogStartManager.startFabric(version, memory);
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+
   static parseStartStatus(line) {
     if (line == "mclc-close-evt") {
       this.setGameStatus("stopped");
@@ -186,6 +423,7 @@ class FrogStartManager {
       if (mainConfig.enableDiscordPresence == true) {
         FrogDiscordPresence.setPresenceMode("menu");
       }
+      this.deleteTemporaryMods();
     } else if (changed == true && newStatus == "starting") {
       // Status changed to `starting`
       FrogVersionsManager.getVersionByShortName(
@@ -249,12 +487,14 @@ class FrogStartManager {
                 mainConfig.selectedMemorySize + "G",
                 "release"
               ); // TODO: Snapshots/betas/etc. support
+              break;
             case "forge":
               this.startForge(
                 versionInfo.version,
                 versionInfo.url,
                 mainConfig.selectedMemorySize + "G"
               );
+              break;
             case "forgeoptifine":
               this.startForgeOptiFine(
                 versionInfo.version,
@@ -262,6 +502,19 @@ class FrogStartManager {
                 versionInfo.ofUrl,
                 mainConfig.selectedMemorySize + "G"
               );
+              break;
+            case "fabric":
+              this.startFabric(
+                versionInfo.version,
+                mainConfig.selectedMemorySize + "G"
+              );
+              break;
+            case "fabricsodiumiris":
+              this.startFabricSodium(
+                versionInfo.version,
+                mainConfig.selectedMemorySize + "G"
+              );
+              break;
           }
         } else {
           Toaster(
@@ -293,5 +546,32 @@ class FrogStartManager {
     } else {
       cb(mainConfig.selectedJava);
     }
+  }
+
+  // Delete all temporary files from `mods` (this file is stored in `cache` directory)
+  static deleteTemporaryMods() {
+    var removed = [];
+    var rdir = fs.readdirSync(
+      path.join(mainConfig.selectedBaseDirectory, "mods")
+    );
+    rdir.forEach(function (dr) {
+      if (dr.match(/.*OptiFine.*/gim) != null && !removed.includes(dr)) {
+        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
+        removed.push(dr);
+      }
+      if (dr.match(/fabric-.*/gim) != null && !removed.includes(dr)) {
+        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
+        removed.push(dr);
+      }
+      if (dr.match(/sodium-fabric-.*/gim) != null && !removed.includes(dr)) {
+        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
+        removed.push(dr);
+      }
+      if (dr.match(/iris-.*/gim) != null && !removed.includes(dr)) {
+        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
+        removed.push(dr);
+      }
+    });
+    return true;
   }
 }
