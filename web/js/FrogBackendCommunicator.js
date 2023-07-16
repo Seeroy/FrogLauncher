@@ -8,6 +8,14 @@ class FrogBackendCommunicator {
     ipcRenderer.send("log-browser-console-only", args.join(" "));
   }
 
+  static disappearMainWindow() {
+    ipcRenderer.send("disappear-main-window");
+  }
+
+  static appearMainWindow() {
+    ipcRenderer.send("appear-main-window");
+  }
+
   static openGameDirectoryDialog() {
     ipcRenderer.send("open-gd-dialog");
   }

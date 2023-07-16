@@ -98,6 +98,16 @@
         </label>
       </div>
 
+      <div class="flex items-center my-3">
+        <span class="text-white text-lg mr-2"
+          >Скрывать лаунчер при запуске игры</span
+        >
+        <label class="switch">
+          <input type="checkbox" id="disappearOnStartCheckbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
       <div class="grow"></div>
       <!-- Get info about launcher button -->
       <a
@@ -252,6 +262,10 @@
       $("#discordrpcCheckbox").prop("checked", true);
     }
 
+    if (mainConfig.disappearOnStart == true) {
+      $("#disappearOnStartCheckbox").prop("checked", true);
+    }
+
     if (mainConfig.enableDownloadManager == true) {
       $("#downmanagerCheckbox").prop("checked", true);
     }
@@ -286,6 +300,7 @@
     );
     mainConfig.enableDiscordPresence = $("#discordrpcCheckbox").is(":checked");
     mainConfig.enableDownloadManager = $("#downmanagerCheckbox").is(":checked");
+    mainConfig.disappearOnStart = $("#disappearOnStartCheckbox").is(":checked");
     if (mainConfig.enableDownloadManager == true) {
       $(".downloads-container").removeClass("disabled");
     } else {

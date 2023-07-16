@@ -40,7 +40,8 @@ class FrogConfigManager {
       enableDiscordPresence: true,
       launcherStoryViewed: false,
       eulaAccepted: false,
-      oobeFinished: false
+      oobeFinished: false,
+      disappearOnStart: true
     };
     this.writeMainConfig(defaultCfg);
     return defaultCfg;

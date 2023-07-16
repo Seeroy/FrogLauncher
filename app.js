@@ -81,6 +81,14 @@ app.whenReady().then(() => {
   ipcMain.on("hide-main-window", () => {
     mainWindowObject.minimize();
   });
+  
+  ipcMain.on("disappear-main-window", () => {
+    mainWindowObject.hide();
+  });
+
+  ipcMain.on("appear-main-window", () => {
+    mainWindowObject.show();
+  });
 
   ipcMain.on("focus-fix", () => {
     mainWindowObject.blur();

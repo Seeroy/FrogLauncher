@@ -1,0 +1,69 @@
+.notify-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 40;
+  background: rgb(0, 0, 0, 0.25);
+}
+
+.notify-modal .notify-window {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: max-content;
+  max-width: 48vw;
+  min-width: 23vw;
+  height: max-content;
+  padding: 32px;
+  border-radius: 16px;
+  z-index: 41;
+  background: var(--bg-primary-1100);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.notify-modal .notify-window .notify-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  bottom: 64px;
+}
+
+.notify-modal .notify-window .notify-icon div {
+  height: 64px;
+  width: 64px;
+}
+
+.notify-modal .notify-window .notify-icon svg {
+  height: 32px;
+  width: 32px;
+}
+
+.notify-modal .notify-window .notify-caption {
+  font-weight: 700;
+  font-size: 15pt;
+  color: white;
+  margin-top: -24px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.notify-modal .notify-window .notify-description {
+  font-weight: 500;
+  font-size: 14pt;
+  color: rgb(210, 210, 210);
+  text-align: center;
+}

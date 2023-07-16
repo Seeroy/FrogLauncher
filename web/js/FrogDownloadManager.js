@@ -4,6 +4,7 @@ const DOWNLOAD_ITEM =
 
 class FrogDownloadManager {
   static downloadJava(version, cb) {
+    anyDownloading = true;
     var javaURL, downloadPath, decompressPath;
     if (process.platform == "win32" && process.arch == "x64") {
       javaURL =
@@ -88,6 +89,7 @@ class FrogDownloadManager {
               "Unpacking success"
             );
             fs.unlinkSync(downloadPath);
+            anyDownloading = false;
             cb(true);
           })
           .catch((error) => {
@@ -95,12 +97,14 @@ class FrogDownloadManager {
               "[DL]",
               "Error when unpacking! " + error.toString()
             );
+            anyDownloading = false;
             cb(error);
           });
       });
   }
 
   static downloadByURL(url, path, cb) {
+    anyDownloading = true;
     FrogUI.changeBottomControlsStatus(
       false,
       true,
@@ -121,6 +125,7 @@ class FrogDownloadManager {
       .get(url)
       .on("error", function (error) {
         cb(error);
+        anyDownloading = false;
       })
       .on("response", function (data) {
         total_bytes = parseInt(data.headers["content-length"]);
@@ -135,6 +140,7 @@ class FrogDownloadManager {
         FrogUI.setBottomProgressBar(0);
         FrogBackendCommunicator.logBrowserConsole("[DL]", "Download success");
         cb(true);
+        anyDownloading = false;
       });
   }
 
@@ -226,7 +232,6 @@ class FrogDownloadManager {
 
   static handleDownloadStatus(e) {
     var downloadPercent = Math.round((e.current * 100) / e.total);
-    var totalFileSize = (e.total / 1024 / 1024).toFixed(2);
     var encName = encodeURIComponent(e.name).replaceAll(/\./g, "");
     if (e.total > 100 && e.current > 0) {
       if (downloadPercent < 100) {

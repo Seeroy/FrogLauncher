@@ -15,11 +15,13 @@
     <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
     <script src="./js/FrogUtils.js"></script>
+    <script src="./js/FrogNotifyModal.js"></script>
     <script src="./js/FrogOOBEWizard.js"></script>
     <script src="./js/FrogLauncherStory.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Starters classes -->
     <script src="./js/starters/FrogVanillaStarter.js"></script>
+    <script src="./js/starters/FrogGeneralStarter.js"></script>
     <script src="./js/starters/FrogForgeOptiStarter.js"></script>
     <script src="./js/starters/FrogForgeStarter.js"></script>
     <script src="./js/starters/FrogFabricStarter.js"></script>
@@ -30,6 +32,7 @@
     <link href="./css/window.css" rel="stylesheet" />
     <link href="./css/modal.css" rel="stylesheet" />
     <link href="./css/themer.css" rel="stylesheet" />
+    <link href="./css/notifyModal.css" rel="stylesheet" />
     <link href="./css/customElements.css" rel="stylesheet" />
     <link href="./css/switch.css" rel="stylesheet" />
     <link href="./css/story.css" rel="stylesheet" />
@@ -191,6 +194,7 @@
     gameVersions,
     selectedAccount,
     selectedGameVersion,
+    anyDownloading = false,
     gameStatus = "stopped";
 
   $(document).ready(function () {
