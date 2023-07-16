@@ -37,9 +37,12 @@ class FrogStatisticsProvider {
     });
   }
 
-  static sendStats(stats, cb){
-    $.get(STATS_SAVE_ENDPOINT_API + encodeURIComponent(JSON.stringify(stats)), () => {
-      cb();
-    });
+  static sendStats(stats, cb) {
+    $.get(
+      STATS_SAVE_ENDPOINT_API + encodeURIComponent(JSON.stringify(stats)),
+      () => {
+        cb();
+      }
+    );
   }
 }

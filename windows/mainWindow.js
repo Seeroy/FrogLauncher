@@ -1,4 +1,4 @@
-var path = require('path');
+var path = require("path");
 const { BrowserWindow } = require("electron");
 
 const MW_OPTIONS = {

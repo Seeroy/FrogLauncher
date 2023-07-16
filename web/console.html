@@ -124,7 +124,7 @@
   ipcRenderer.on("user-console-log", function (event, data) {
     if ($(".console-textarea").length > 0) {
       // Checking is console not crowded with many lines (def limit = 300)
-      if($(".console-textarea span").length >= MAX_CONSOLE_LINES){
+      if ($(".console-textarea span").length >= MAX_CONSOLE_LINES) {
         $(".console-textarea span").eq(0).remove();
       }
       $(".console-textarea").html(

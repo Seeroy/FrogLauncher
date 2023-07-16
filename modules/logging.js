@@ -1,25 +1,30 @@
 const colors = require("colors");
-const { ipcMain } = require("electron");
+const { app } = require("electron");
+const path = require("path");
 const fs = require("fs");
 
 exports.default = function (category = "", text) {
   // Log level default, используется везде
   if (category == "") {
-    console.log(text);
+    console.log(this.getLogTimestamp(), text);
   } else {
-    console.log(colors.brightBlue("[" + category + "]"), text);
+    console.log(
+      this.getLogTimestamp(),
+      colors.brightBlue("[" + category + "]"),
+      text
+    );
   }
   this.writeLogFile(category, text, false);
 };
 
 exports.inverse = function (text) {
   // console.log с обратным цветом
-  console.log(colors.inverse(text));
+  console.log(this.getLogTimestamp(), colors.inverse(text));
   if (typeof consoleWindowObject !== "undefined") {
     consoleWindowObject.webContents.send("user-console-log", text);
   }
   fs.appendFileSync(
-    "./logs/" + this.getTodayDate() + ".log",
+    this.getLogFilePath(),
     this.getLogTimestamp() + " " + text + "\n"
   );
 };
@@ -27,7 +32,7 @@ exports.inverse = function (text) {
 exports.error = function (category = "", text) {
   // Log level error
   if (category == "") {
-    console.log(text);
+    console.log(this.getLogTimestamp(), text);
     if (
       typeof consoleWindowObject !== "undefined" &&
       consoleWindowObject != null
@@ -35,7 +40,11 @@ exports.error = function (category = "", text) {
       consoleWindowObject.webContents.send("user-console-log", text);
     }
   } else {
-    console.log(colors.brightBlue("[" + category + "]"), colors.red(text));
+    console.log(
+      this.getLogTimestamp(),
+      colors.brightBlue("[" + category + "]"),
+      colors.red(text)
+    );
     if (
       typeof consoleWindowObject !== "undefined" &&
       consoleWindowObject != null
@@ -67,7 +76,7 @@ exports.writeLogFile = (category, text, isError = false) => {
   ) {
     consoleWindowObject.webContents.send("user-console-log", resText);
   }
-  fs.appendFileSync("./logs/" + this.getTodayDate() + ".log", resText);
+  fs.appendFileSync(this.getLogFilePath(), resText);
 };
 
 exports.getTodayDate = () => {
@@ -87,18 +96,19 @@ exports.browserLog = (category = "", text) => {
     console.log(colors.green("[BROWSER]"), text);
     cwtext = this.getLogTimestamp() + " [BROWSER] " + text;
     fs.appendFileSync(
-      "./logs/" + this.getTodayDate() + ".log",
+      this.getLogFilePath(),
       this.getLogTimestamp() + " [BROWSER] " + text + "\n"
     );
   } else {
     console.log(
+      this.getLogTimestamp(),
       colors.green("[BROWSER]"),
       colors.brightBlue("[" + category + "]"),
       text
     );
     cwtext = this.getLogTimestamp() + " [BROWSER] [" + category + "] " + text;
     fs.appendFileSync(
-      "./logs/" + this.getTodayDate() + ".log",
+      this.getLogFilePath(),
       this.getLogTimestamp() + " [BROWSER] [" + category + "] " + text + "\n"
     );
   }
@@ -125,4 +135,8 @@ exports.getLogTimestamp = () => {
 
 exports.padZero = (n) => {
   return n < 10 ? "0" + n : n;
+};
+
+exports.getLogFilePath = () => {
+  return path.join(app.getPath("userData"), "logs", this.getTodayDate() + ".log");
 };

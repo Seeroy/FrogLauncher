@@ -37,7 +37,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -53,7 +55,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -69,7 +73,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -85,7 +91,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -101,7 +109,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -117,7 +127,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -133,7 +145,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -149,7 +163,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
         <div
           class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
@@ -165,7 +181,9 @@
           >
             Применить
           </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon">check</span>
+          <span class="material-symbols-rounded text-2xl hidden chk-icon"
+            >check</span
+          >
         </div>
       </div>
     </div>
@@ -337,7 +355,7 @@
       var cext = path.extname(arg);
       fs.copyFileSync(
         arg,
-        path.join(__dirname, "..", "cache", "custom-bg" + cext)
+        path.join(__appData, "AppCache", "custom-bg" + cext)
       );
       FrogUI.refreshCustomBg("custom-bg" + cext);
     }

@@ -1,5 +1,5 @@
-class FrogGeneralStarter{
-  static launchGeneral(options, displayName){
+class FrogGeneralStarter {
+  static launchGeneral(options, displayName) {
     FrogBackendCommunicator.logBrowserConsole(
       "[S]",
       "Trying to start",
@@ -18,7 +18,14 @@ class FrogGeneralStarter{
             e +
             "</span>"
         );
-        FrogNotifyModal.create("О нет, что-то пошло не так", "Minecraft завершился с кодом ошибки " + e + "<br>Подрбоная информация в консоли", "Закрыть", "warning");
+        FrogNotifyModal.create(
+          "О нет, что-то пошло не так",
+          "Minecraft завершился с кодом ошибки " +
+            e +
+            "<br>Подрбоная информация в консоли",
+          "Закрыть",
+          "warning"
+        );
       } else {
         FrogBackendCommunicator.logBrowserConsoleOnly(
           "<span class='text-green-500'>Game closed with exit code " +

@@ -5,11 +5,13 @@ class FrogFabricStarter {
   }
 
   prepareForLaunchStep1(cb) {
-    if(this.fabricApiDownloadURL == false){
+    if (this.fabricApiDownloadURL == false) {
       cb();
       return;
     }
-    var fabricApiFilename = FrogUtils.getFilenameFromURL(this.fabricApiDownloadURL);
+    var fabricApiFilename = FrogUtils.getFilenameFromURL(
+      this.fabricApiDownloadURL
+    );
     var fabricApiPath = path.join(
       mainConfig.selectedBaseDirectory,
       "cache",
@@ -22,20 +24,24 @@ class FrogFabricStarter {
     );
     FrogStartManager.deleteTemporaryMods();
     if (!fs.existsSync(fabricApiPath)) {
-      FrogDownloadManager.downloadByURL(this.fabricApiDownloadURL, fabricApiPath, (dlRes) => {
-        if (dlRes == true) {
-          fs.copyFileSync(fabricApiPath, fabricApiPathDest);
-          cb(true);
-        } else {
-          Toaster(
-            "Ошибка при скачивании FabricAPI<br>DLRES_IS_FALSE",
-            4000,
-            false,
-            "error"
-          );
-          cb(false);
+      FrogDownloadManager.downloadByURL(
+        this.fabricApiDownloadURL,
+        fabricApiPath,
+        (dlRes) => {
+          if (dlRes == true) {
+            fs.copyFileSync(fabricApiPath, fabricApiPathDest);
+            cb(true);
+          } else {
+            Toaster(
+              "Ошибка при скачивании FabricAPI<br>DLRES_IS_FALSE",
+              4000,
+              false,
+              "error"
+            );
+            cb(false);
+          }
         }
-      });
+      );
     } else {
       fs.copyFileSync(fabricApiPath, fabricApiPathDest);
       cb(true);

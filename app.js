@@ -1,8 +1,6 @@
 // Загрузка модулей
 const { app, ipcMain, dialog } = require("electron");
-require("console-stamp")(console, {
-  format: ":date(HH:MM:ss.l)",
-});
+const { autoUpdater } = require("electron-updater");
 const os = require("os");
 
 var pjson = require("./package.json");
@@ -10,8 +8,8 @@ const APPVER = pjson.version; // Версия из package.json
 
 // Модуль для Discord Rich Presence
 const DISCORD_APP_ID = "1129749846241333378";
-var rpc = require('discord-rpc');
-const client = new rpc.Client({ transport: 'ipc'});
+var rpc = require("discord-rpc");
+const client = new rpc.Client({ transport: "ipc" });
 client.login({ clientId: DISCORD_APP_ID }).catch(console.error);
 
 // Создаём глобальные переменные для хранения BrowserWindow
@@ -44,7 +42,12 @@ logging.default("Debug", "chrome version: " + process.versions["chrome"]);
 logging.default("Debug", "electron version: " + process.versions["electron"]);
 
 app.whenReady().then(() => {
+  ipcMain.on("get-appdata-path", (event) => {
+    event.returnValue = app.getPath("userData");
+  });
+
   mainWindow.create(function () {
+    autoUpdater.checkForUpdates();
     startTimer.checkStartTimer();
   });
   consoleWindow.create();
@@ -52,10 +55,22 @@ app.whenReady().then(() => {
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow.create(function () {
+        autoUpdater.checkForUpdates();
         startTimer.checkStartTimer();
       });
       consoleWindow.create();
     }
+  });
+
+  autoUpdater.on("update-available", () => {
+    mainWindowObject.webContents.send("update-available");
+  });
+  autoUpdater.on("update-downloaded", () => {
+    mainWindowObject.webContents.send("update-downloaded");
+  });
+
+  ipcMain.on("install-update", () => {
+    autoUpdater.quitAndInstall();
   });
 
   ipcMain.on("log-browser-console", ipcHandlers.handleBrowserLog);
@@ -81,7 +96,7 @@ app.whenReady().then(() => {
   ipcMain.on("hide-main-window", () => {
     mainWindowObject.minimize();
   });
-  
+
   ipcMain.on("disappear-main-window", () => {
     mainWindowObject.hide();
   });
@@ -132,9 +147,9 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("set-discord-rpc", (event, data) => {
-    client.request('SET_ACTIVITY', {
+    client.request("SET_ACTIVITY", {
       pid: process.pid,
-      activity: data
+      activity: data,
     });
   });
 

@@ -10,7 +10,6 @@
   "author": "Seeroy",
   "license": "MIT-3.0",
   "devDependencies": {
-    "console-stamp": "^3.1.1",
     "electron": "^25.2.0",
     "electron-builder": "^24.4.0"
   },
@@ -26,10 +25,16 @@
       "target": "nsis",
       "icon": "resources/icon.ico"
     },
+    "publish": {
+      "provider": "generic",
+      "url": "http://froglauncher.seeroycloud.tk/updates"
+    },
     "nsis": {
       "installerIcon": "resources/icon.ico",
       "installerHeaderIcon": "resources/icon.ico",
-      "deleteAppDataOnUninstall": false
+      "deleteAppDataOnUninstall": false,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     },
     "files": [
       "**/*",
@@ -50,6 +55,8 @@
     "colors": "^1.4.0",
     "decompress": "^4.2.1",
     "discord-rpc": "^4.0.1",
+    "electron-root-path": "^1.1.0",
+    "electron-updater": "^6.1.1",
     "glob": "^10.3.3",
     "jquery": "^3.7.0",
     "machine-uuid": "^1.2.0",

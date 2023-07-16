@@ -35,7 +35,7 @@
 }
 
 .modal-bg .modal-window .modal-caption.modal-tabs:not(:first-child) {
-  margin: 0 12px;
+  margin-left: 16px;
 }
 
 .modal-bg .modal-window .modal-caption.modal-tabs.active {
@@ -43,7 +43,7 @@
 }
 
 .modal-bg .modal-window .modal-caption.modal-tabs:not(.active) {
-  color: rgb(140,140,140);
+  color: rgb(130, 130, 130);
   cursor: pointer;
 }
 

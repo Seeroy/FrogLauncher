@@ -1,14 +1,17 @@
 class FrogConfigManager {
   static readMainConfig() {
-    if (fs.existsSync("config.json")) {
-      return JSON.parse(fs.readFileSync("config.json"));
+    if (fs.existsSync(path.join(__appData, "config.json"))) {
+      return JSON.parse(fs.readFileSync(path.join(__appData, "config.json")));
     } else {
       return false;
     }
   }
 
   static writeMainConfig(config) {
-    fs.writeFileSync("config.json", JSON.stringify(config, null, "\t"));
+    fs.writeFileSync(
+      path.join(__appData, "config.json"),
+      JSON.stringify(config, null, "\t")
+    );
     FrogBackendCommunicator.logBrowserConsole(
       "[CONFMAN]",
       "Main config saved successfully"
@@ -41,7 +44,7 @@ class FrogConfigManager {
       launcherStoryViewed: false,
       eulaAccepted: false,
       oobeFinished: false,
-      disappearOnStart: true
+      disappearOnStart: true,
     };
     this.writeMainConfig(defaultCfg);
     return defaultCfg;

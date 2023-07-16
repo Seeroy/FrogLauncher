@@ -16,10 +16,14 @@ class FrogBackendCommunicator {
     ipcRenderer.send("appear-main-window");
   }
 
+  static installUpdate() {
+    ipcRenderer.send("install-update");
+  }
+
   static openGameDirectoryDialog() {
     ipcRenderer.send("open-gd-dialog");
   }
-  
+
   static openBackgroundSelectDialog() {
     ipcRenderer.send("open-bg-dialog");
   }

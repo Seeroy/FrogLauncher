@@ -73,7 +73,14 @@ class FrogLauncherStory {
     );
   }
 
-  static cloneElementToStory(elem, findd, top, hidden = false, left = 0, id = null) {
+  static cloneElementToStory(
+    elem,
+    findd,
+    top,
+    hidden = false,
+    left = 0,
+    id = null
+  ) {
     var boundings = $(elem)[0].getBoundingClientRect();
     var elHTML = $(elem)[0].outerHTML;
     var clEl = document.createElement("div");
@@ -90,7 +97,7 @@ class FrogLauncherStory {
     $(clEl).find(findd).css("right", "0");
     $(clEl).find(findd).css("width", "max-content");
     $(clEl).find(findd).css("height", "max-content");
-    if(id != null){
+    if (id != null) {
       $(clEl).find(findd).prop("id", id);
     }
     if (hidden == true) {

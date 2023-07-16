@@ -143,7 +143,7 @@ class FrogUI {
       $(".controls #show-users-select").removeClass("hidden");
       $(".controls #show-users-select").prop("disabled", true);
     }
-    
+
     if (showProgressBar == true) {
       $(".controls .progress-cont").removeClass("hidden");
       $(".controls .progress-cont .progress").removeClass("hidden");
@@ -185,15 +185,16 @@ class FrogUI {
   }
 
   static refreshCustomBg(arg) {
-    console.log(fs.existsSync(path.join(__dirname, "..", "cache", arg)));
-    if(fs.existsSync(path.join(__dirname, "..", "cache", arg))){
+    if (fs.existsSync(path.join(__appData, "AppCache", arg))) {
       $("#themes-mmodal #bg-selector li .inline-block.active").removeClass(
         "active"
       );
       $("html").removeClass("bg-1 bg-2 bg-3 bg-4 bg-5 bg-6");
       $(".main-bg").css(
         "background",
-        'linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%), url("../cache/' +
+        'linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%), url("' +
+          path.join(__appData, "AppCache").replaceAll("\\", "/") +
+          "/" +
           arg +
           '")'
       );

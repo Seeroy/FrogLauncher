@@ -14,3 +14,5 @@ const { globSync } = require("glob");
 const package = require("./../package.json");
 const machineUuid = require("machine-uuid");
 const LAUNCHER_VERSION = package.version;
+const rootPath = require("electron-root-path").rootPath;
+const __dirname = rootPath;

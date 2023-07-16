@@ -1,7 +1,7 @@
 var currentStep = 1;
 
 class FrogOOBEWizard {
-  static startOOBE(){
+  static startOOBE() {
     $(".oobeWizard").removeClass("hidden");
   }
 

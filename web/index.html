@@ -199,6 +199,8 @@
     anyDownloading = false,
     gameStatus = "stopped";
 
+  const __appData = ipcRenderer.sendSync("get-appdata-path");
+
   $(document).ready(function () {
     // Loading config or creating if not exists
     mainConfig = FrogConfigManager.readMainConfig();
@@ -235,7 +237,6 @@
     FrogUI.loadSection(".modals", "serversModal");
     FrogUI.loadSection(".modals", "addLocalAccountModal");
     FrogUI.loadSection(".modals", "addMSAccountModal");
-    FrogUI.loadSection(".modals", "launcherInfoModal");
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
 
@@ -284,7 +285,7 @@
         // Delete old temporary mods
         FrogStartManager.deleteTemporaryMods();
         // Starting OOBE if need
-        if (mainConfig.oobeFinished == false){
+        if (mainConfig.oobeFinished == false) {
           FrogOOBEWizard.startOOBE();
         }
         // Loading news
@@ -298,7 +299,10 @@
       }, 250);
 
       setTimeout(function () {
-        if (mainConfig.oobeFinished == true && mainConfig.launcherStoryViewed == false) {
+        if (
+          mainConfig.oobeFinished == true &&
+          mainConfig.launcherStoryViewed == false
+        ) {
           FrogLauncherStory.showStory();
           FrogLauncherStory.prepareLauncherStory();
           FrogLauncherStory.refreshLauncherStory();

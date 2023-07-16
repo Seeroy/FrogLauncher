@@ -13,7 +13,7 @@ const USER_SELECT_BTN_BASE =
 
 class FrogAccountUI {
   static changeActiveAccount = (nickname) => {
-    if(nickname == -1){
+    if (nickname == -1) {
       // There is no any accounts
       $("#show-users-select").html("Аккаунт не выбран");
     } else {
@@ -87,9 +87,9 @@ class FrogAccountUI {
   static deleteAccountAndRefresh = (nickname) => {
     FrogAccountManager.deleteAccount(nickname);
     this.refreshAccountsDropdown(() => {
-      if(selectedAccount != null && selectedAccount.nickname == nickname){
+      if (selectedAccount != null && selectedAccount.nickname == nickname) {
         var accountsList = FrogAccountManager.getAccounts();
-        if(accountsList.length > 0){
+        if (accountsList.length > 0) {
           this.changeActiveAccount(accountsList[0].nickname);
         } else {
           this.changeActiveAccount(-1);

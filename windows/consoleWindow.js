@@ -1,4 +1,4 @@
-var path = require('path');
+var path = require("path");
 const { BrowserWindow } = require("electron");
 
 const CW_OPTIONS = {
@@ -24,7 +24,7 @@ const CW_OPTIONS = {
 };
 const CW_URL = "web/console.html";
 
-exports.create = (cb = function(){}) => {
+exports.create = (cb = function () {}) => {
   consoleWindowObject = new BrowserWindow(CW_OPTIONS);
 
   consoleWindowObject.loadFile(CW_URL);

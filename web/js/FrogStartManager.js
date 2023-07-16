@@ -385,7 +385,9 @@ class FrogStartManager {
     if (line == "mclc-close-evt") {
       this.setGameStatus("stopped");
     } else if (
-      FrogUtils.checkMatchArray(STATUS_STARTING, line) == true && anyDownloading == false || line == "mclc-start-evt"
+      (FrogUtils.checkMatchArray(STATUS_STARTING, line) == true &&
+        anyDownloading == false) ||
+      line == "mclc-start-evt"
     ) {
       this.setGameStatus("starting");
     } else if (FrogUtils.checkMatchArray(STATUS_STARTED, line) == true) {
@@ -418,7 +420,7 @@ class FrogStartManager {
   static onStatusChange(newStatus, changed) {
     if (changed == true && newStatus == "stopped") {
       // Status changed to `stopped`
-      if(mainConfig.disappearOnStart == true){
+      if (mainConfig.disappearOnStart == true) {
         FrogBackendCommunicator.appearMainWindow();
       }
       this.prepareUIToStart(false);
@@ -428,7 +430,7 @@ class FrogStartManager {
       this.deleteTemporaryMods();
     } else if (changed == true && newStatus == "starting") {
       // Status changed to `starting`
-      if(mainConfig.disappearOnStart == true){
+      if (mainConfig.disappearOnStart == true) {
         FrogBackendCommunicator.disappearMainWindow();
       }
       FrogVersionsManager.getVersionByShortName(

@@ -1,7 +1,9 @@
 <div id="add-local-account-mmodal" class="modal-bg hidden">
   <div class="modal-window bg-primary-1100">
     <div class="flex items-center mb-2">
-      <div class="modal-caption grow text-sm">Добавление локального аккаунта</div>
+      <div class="modal-caption grow text-sm">
+        Добавление локального аккаунта
+      </div>
       <button
         type="button"
         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -65,10 +67,10 @@
         $("#add-local-account-mmodal .custom-button").prop("disabled", false);
         $("#ala-nickname-error").addClass("hidden");
         $("#ala-exists-error").addClass("hidden");
-      } else if(valid == "alreadyExists"){
+      } else if (valid == "alreadyExists") {
         $("#add-local-account-mmodal .custom-button").prop("disabled", true);
         $("#ala-exists-error").removeClass("hidden");
-      }  else if(valid == false){
+      } else if (valid == false) {
         $("#add-local-account-mmodal .custom-button").prop("disabled", true);
         $("#ala-nickname-error").removeClass("hidden");
         $("#ala-exists-error").addClass("hidden");
@@ -90,8 +92,8 @@
     nmatch = nickname.match(NICKNAME_REGEX);
     if (nmatch != null && nmatch.length > 0) {
       notExists = true;
-      accountsConfig.forEach(function(account){
-        if(account.nickname == nickname){
+      accountsConfig.forEach(function (account) {
+        if (account.nickname == nickname) {
           notExists = "alreadyExists";
         }
       });

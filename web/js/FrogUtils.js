@@ -46,11 +46,11 @@ class FrogUtils {
         recursive: true,
       });
     }
-    if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
-      fs.mkdirSync(path.join(__dirname, "..", "logs"), { recursive: true });
+    if (!fs.existsSync(path.join(__appData, "logs"))) {
+      fs.mkdirSync(path.join(__appData, "logs"), { recursive: true });
     }
-    if (!fs.existsSync(path.join(__dirname, "..", "cache"))) {
-      fs.mkdirSync(path.join(__dirname, "..", "cache"), {
+    if (!fs.existsSync(path.join(__appData, "AppCache"))) {
+      fs.mkdirSync(path.join(__appData, "AppCache"), {
         recursive: true,
       });
     }

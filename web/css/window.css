@@ -87,34 +87,58 @@ html,
   height: 100%;
   z-index: -1000;
   margin: auto;
-  filter: brightness(70%);
+  filter: brightness(60%) saturate(106%) blur(2px);
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
 }
 
 html.bg-1 .main-bg {
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(255, 255, 255, 0) 80%
+    ),
     url("../assets/backgrounds/1.jpg");
 }
 html.bg-2 .main-bg {
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(255, 255, 255, 0) 80%
+    ),
     url("../assets/backgrounds/2.jpg");
 }
 html.bg-3 .main-bg {
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(255, 255, 255, 0) 80%
+    ),
     url("../assets/backgrounds/3.jpg");
 }
 html.bg-4 .main-bg {
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(255, 255, 255, 0) 80%
+    ),
     url("../assets/backgrounds/4.jpg");
 }
 html.bg-5 .main-bg {
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(255, 255, 255, 0) 80%
+    ),
     url("../assets/backgrounds/5.jpg");
 }
 html.bg-6 .main-bg {
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 80%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(255, 255, 255, 0) 80%
+    ),
     url("../assets/backgrounds/6.jpg");
 }
 
@@ -134,7 +158,8 @@ html.bg-6 .main-bg {
 }
 
 .dragbar .dragzone {
-  width: 100%;
+  width: 85vw;
+  margin-right: 15vw;
   height: 32px;
   -webkit-app-region: drag;
 }

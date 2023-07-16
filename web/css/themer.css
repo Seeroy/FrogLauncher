@@ -30,10 +30,10 @@
 }
 
 html.font-mc *:not(.material-symbols-rounded) {
-  font-family: 'Minecraft Rus' !important;
+  font-family: "Minecraft Rus" !important;
   font-weight: 500 !important;
 }
 
 html.font-gt *:not(.material-symbols-rounded) {
-  font-family: 'Golos Text' !important;
+  font-family: "Golos Text" !important;
 }

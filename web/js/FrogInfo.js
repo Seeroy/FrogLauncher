@@ -30,11 +30,11 @@ class FrogInfo {
       });
     });
     return javas;
-  }
+  };
 
   static getMaxRAMSize = () => {
     return round512(Math.round(os.totalmem() / 1024 / 1024));
-  }
+  };
 
   static getDefaultDotMinecraft = () => {
     if (process.platform == "win32") {
@@ -42,7 +42,7 @@ class FrogInfo {
     } else {
       return path.join(__dirname, "minecraft");
     }
-  }
+  };
 
   static gameVersionToJavaVersion = (gameVersion) => {
     var java = 8;
@@ -70,7 +70,7 @@ class FrogInfo {
     } else {
       return false;
     }
-  }
+  };
 }
 
 function round512(x) {

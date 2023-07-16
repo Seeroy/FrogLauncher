@@ -3,8 +3,10 @@ var currentSelectedAccount;
 
 class FrogAccountManager {
   static getAccounts() {
-    if (fs.existsSync("frog_accounts.json")) {
-      return JSON.parse(fs.readFileSync("frog_accounts.json"));
+    if (fs.existsSync(path.join(__appData, "frog_accounts.json"))) {
+      return JSON.parse(
+        fs.readFileSync(path.join(__appData, "frog_accounts.json"))
+      );
     } else {
       return this.resetAccountsList();
     }
@@ -12,14 +14,14 @@ class FrogAccountManager {
 
   static saveAccounts(accounts) {
     fs.writeFileSync(
-      "frog_accounts.json",
+      path.join(__appData, "frog_accounts.json"),
       JSON.stringify(accounts, null, "\t")
     );
     return true;
   }
 
   static resetAccountsList() {
-    fs.writeFileSync("frog_accounts.json", "[]");
+    fs.writeFileSync(path.join(__appData, "frog_accounts.json"), "[]");
     FrogBackendCommunicator.logBrowserConsole(
       "[ACCMAN]",
       "Accounts list is cleared successfully"
