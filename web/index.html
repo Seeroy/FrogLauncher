@@ -241,7 +241,7 @@
     FrogUI.loadSection(".modals", "downloadsFloating");
 
     FrogStatisticsProvider.collectStats((stats) => {
-      FrogStatisticsProvider.sendStats(stats);
+      FrogStatisticsProvider.sendStats(stats, () => {});
     })
 
     FrogVersionsManager.refreshMyModloadersInfo(() => {
