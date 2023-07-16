@@ -1,3 +1,15 @@
+const THEME_ITEM_CODE =
+  '<div class="new-theme-item" data-theme="$2" onclick="FrogUI.applyTheme(' + "'$2'" + ', true); FrogUI.refreshModalThemesList();"> <div class="clr-1 $2-theme-color"></div> <div class="clr-2 $2-theme-color-darker"></div> <div class="main $2-theme-color-bg w-full"> <div class="name w-full mc-text">$1</div> <div class="example $2-theme-color">A</div> </div> </div>';
+const THEMES_LIST = [
+  "indigo",
+  "blue",
+  "gray",
+  "yellow",
+  "turquoise",
+  "minecrafty",
+  "red",
+];
+
 class FrogUI {
   static loadSection = (selector, section) => {
     $.get("sections/" + section + ".html", (sectionCode) => {
@@ -105,6 +117,15 @@ class FrogUI {
       mainConfig.selectedTheme = theme;
       FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
       FrogUI.refreshModalThemesList(); // In sections/themesModal.html
+      if (mainConfig.selectedBackground.toString().length > 2) {
+        // Nothing
+      } else if (mainConfig.selectedBackground > 0) {
+        // Nothing
+      } else {
+        FrogAnimatedBackgrounds.startAnimationByName(
+          mainConfig.selectedBackground
+        );
+      }
       FrogBackendCommunicator.logBrowserConsole(
         "[UI]",
         "Changing theme to",
@@ -114,14 +135,26 @@ class FrogUI {
   };
 
   static refreshModalThemesList = () => {
-    $("#themes-mmodal .themes-items .bg-primary-1000").each(function (i, item) {
+    this.refreshFullThemesList();
+    $("#themes-grid .new-theme-item").each(function (i, item) {
       if ($("html").hasClass($(item).data("theme"))) {
-        $(item).find(".custom-button").addClass("hidden");
-        $(item).find(".material-symbols-rounded").removeClass("hidden");
+        $(item).addClass("active");
       } else {
-        $(item).find(".custom-button").removeClass("hidden");
-        $(item).find(".material-symbols-rounded").addClass("hidden");
+        $(item).removeClass("active");
       }
+    });
+  };
+
+  static refreshFullThemesList = () => {
+    $("#themes-grid").html("");
+    THEMES_LIST.forEach((theme) => {
+      var themeDisplayname = FrogUtils.capitalizeWord(theme);
+      $("#themes-grid").append(
+        THEME_ITEM_CODE.replaceAll(/\$1/gim, themeDisplayname).replaceAll(
+          /\$2/gim,
+          theme
+        )
+      );
     });
   };
 

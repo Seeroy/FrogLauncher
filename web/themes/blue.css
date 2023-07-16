@@ -8,9 +8,18 @@ html.blue:root {
   --bg-primary-900: #233876;
   --bg-primary-1000: #192a3a;
   --bg-primary-1100: #060b13;
+  --bg-primary-anim: #233876;
   --bg-primary-transparent: rgba(35, 52, 68, 0.4);
 }
 
 .blue-theme-color {
   background: #1c64f2;
+}
+
+.blue-theme-color-darker {
+  background: #1e429f;
+}
+
+.blue-theme-color-bg {
+  background: #233876;
 }

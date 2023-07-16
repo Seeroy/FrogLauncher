@@ -19,173 +19,7 @@
     </div>
 
     <div class="modal-themes-tab" id="themes-tab">
-      <div
-        class="flex flex-col themes-items h-full overflow-y-auto"
-        style="height: 75vh"
-      >
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="indigo"
-        >
-          <div class="theme-demo indigo-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Indigo`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('indigo', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="blue"
-        >
-          <div class="theme-demo blue-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Blue`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('blue', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="turquoise"
-        >
-          <div class="theme-demo turquoise-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Turquoise`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('turquoise', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="red"
-        >
-          <div class="theme-demo red-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Red`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('red', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="yellow"
-        >
-          <div class="theme-demo yellow-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Yellow`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('yellow', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="gradient-blue"
-        >
-          <div class="theme-demo gradient-blue-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Blue Gradient`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('gradient-blue', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="gradient-fire"
-        >
-          <div class="theme-demo gradient-fire-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Fire Gradient`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('gradient-fire', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="gray"
-        >
-          <div class="theme-demo gray-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Gray`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('gray', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-        <div
-          class="bg-primary-1000 px-3 flex items-center justify-center rounded-lg my-2 themes-item"
-          data-theme="minecrafty"
-        >
-          <div class="theme-demo minecrafty-theme-color mr-4">
-            <span class="text-white material-symbols-rounded"> brush </span>
-          </div>
-          <span class="text-white text-md grow">Тема `Minecrafty`</span>
-          <button
-            class="custom-button"
-            onclick="FrogUI.applyTheme('minecrafty', true)"
-          >
-            Применить
-          </button>
-          <span class="material-symbols-rounded text-2xl hidden chk-icon"
-            >check</span
-          >
-        </div>
-      </div>
+      <div class="grid grid-cols-4 gap-4 my-4" id="themes-grid"></div>
     </div>
 
     <div class="modal-themes-tab hidden" id="personalization-tab">
@@ -260,41 +94,106 @@
       >
         Выбрать свой фон
       </button>
+
+      <div class="flex items-center mt-3">
+        <p>Анимированный фон</p>
+        <span
+          class="bg-green-100 text-green-800 text-md font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 ml-3"
+          >Новое</span
+        >
+      </div>
+
+      <ul
+        class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 mt-3 catselector"
+        id="bg-anim-selector"
+      >
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-bg="b">
+            <span class="text-white">Птицы</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-bg="c">
+            <span class="text-white">Облака</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-bg="w">
+            <span class="text-white">Волны</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-bg="d">
+            <span class="text-white">Точки</span>
+          </div>
+        </li>
+        <li class="w-full">
+          <div class="inline-block w-full p-4" data-bg="h">
+            <span class="text-white">Круговые волны</span>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
 
 <style>
-  .themes-items .material-symbols-rounded.chk-icon {
-    color: #31c48d !important;
+  .new-theme-item {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    grid-template-rows: 42px 42px;
+    grid-auto-columns: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    border: 1px solid rgb(120, 120, 120);
+    border-radius: 9px;
+    width: 100%;
+    height: max-content;
+    grid-template-areas:
+      "clr-1 main"
+      "clr-2 main";
   }
 
-  .themes-items .material-symbols-rounded.chk-icon.hidden {
-    display: none !important;
+  .new-theme-item:not(.active) {
+    cursor: pointer;
   }
 
-  .themes-item {
-    height: 48px;
-    min-height: 48px;
-    max-height: 48px;
+  .new-theme-item.active {
+    border-radius: 11px;
+    border: 2px solid rgb(24, 138, 24) !important;
   }
 
-  .themes-item .custom-button {
-    padding: 6px !important;
+  .new-theme-item .clr-1 {
+    grid-area: clr-1;
+    border-top-left-radius: 8px;
   }
 
-  .themes-item .theme-demo {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+  .new-theme-item .clr-2 {
+    grid-area: clr-2;
+    border-bottom-left-radius: 8px;
+  }
+
+  .new-theme-item .main {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    grid-area: main;
+    padding: 15px 0 0 8px;
+    align-self: end;
+    justify-self: start;
+    height: 100%;
+  }
+
+  .new-theme-item .example {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 10pt;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
   }
 
-  .themes-item .theme-demo * {
-    color: white;
-    margin-top: 2px;
+  .new-theme-item .name {
     font-size: 16pt;
   }
 </style>
@@ -337,7 +236,11 @@
   });
 
   $("#themes-mmodal #bg-selector li .inline-block").click(function () {
+    $("#themes-mmodal #bg-anim-selector li .inline-block.active").removeClass(
+      "active"
+    );
     if (!$(this).hasClass("active")) {
+      FrogAnimatedBackgrounds.stopBackground();
       $("#themes-mmodal #bg-selector li .inline-block.active").removeClass(
         "active"
       );
@@ -345,6 +248,29 @@
       $("html").removeClass("bg-1 bg-2 bg-3 bg-4 bg-5 bg-6");
       $("html").addClass("bg-" + $(this).find("span").text());
       mainConfig.selectedBackground = $(this).find("span").text();
+      FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
+    }
+  });
+
+  $("#themes-mmodal #bg-anim-selector li .inline-block").each((i, elem) => {
+    if ($(elem).data("bg") == mainConfig.selectedBackground) {
+      $(elem).addClass("active");
+    }
+  });
+
+  $("#themes-mmodal #bg-anim-selector li .inline-block").click(function () {
+    $("#themes-mmodal #bg-selector li .inline-block.active").removeClass(
+      "active"
+    );
+    if (!$(this).hasClass("active")) {
+      $("#themes-mmodal #bg-anim-selector li .inline-block.active").removeClass(
+        "active"
+      );
+      $(this).addClass("active");
+      $("html").removeClass("bg-1 bg-2 bg-3 bg-4 bg-5 bg-6");
+      FrogAnimatedBackgrounds.stopBackground();
+      FrogAnimatedBackgrounds.startAnimationByName($(this).data("bg"));
+      mainConfig.selectedBackground = $(this).data("bg");
       FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
     }
   });

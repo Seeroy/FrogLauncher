@@ -8,9 +8,18 @@ html.gray:root {
   --bg-primary-900: #111827;
   --bg-primary-1000: #2c2c2c;
   --bg-primary-1100: #141414;
+  --bg-primary-anim: #1f2937;
   --bg-primary-transparent: rgba(53, 53, 53, 0.4);
 }
 
 .gray-theme-color {
   background: #4b5563;
+}
+
+.gray-theme-color-darker {
+  background: #374151;
+}
+
+.gray-theme-color-bg {
+  background: #1f2937;
 }

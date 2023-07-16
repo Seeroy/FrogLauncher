@@ -8,9 +8,18 @@ html.yellow:root {
   --bg-primary-900: #8e4b10;
   --bg-primary-1000: #292311;
   --bg-primary-1100: #131006;
+  --bg-primary-anim: #3b2d01;
   --bg-primary-transparent: rgba(68, 62, 35, 0.4);
 }
 
 .yellow-theme-color {
   background: #e3a008;
+}
+
+.yellow-theme-color-darker {
+  background: #9f580a;
+}
+
+.yellow-theme-color-bg {
+  background: #3b2d01;
 }

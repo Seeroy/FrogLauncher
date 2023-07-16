@@ -12,7 +12,8 @@
 body,
 html,
 .modal-bg,
-.blackscreen {
+.blackscreen,
+.main-bg canvas {
   border-radius: 16px;
 }
 
@@ -91,6 +92,10 @@ html,
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
+}
+
+.main-bg:has(canvas) {
+  filter: brightness(31%) !important;
 }
 
 html.bg-1 .main-bg {

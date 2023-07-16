@@ -8,9 +8,18 @@ html.red:root {
   --bg-primary-900: #771d1d;
   --bg-primary-1000: #311414;
   --bg-primary-1100: #130606;
+  --bg-primary-anim: #501717;
   --bg-primary-transparent: rgba(68, 35, 35, 0.4);
 }
 
 .red-theme-color {
   background: #e02424;
+}
+
+.red-theme-color-darker {
+  background: #771d1d;
+}
+
+.red-theme-color-bg {
+  background: #501717;
 }

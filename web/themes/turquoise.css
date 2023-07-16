@@ -8,9 +8,18 @@ html.turquoise:root {
   --bg-primary-900: #144368;
   --bg-primary-1000: #112b3f;
   --bg-primary-1100: #0a161f;
+  --bg-primary-anim: #112b3f;
   --bg-primary-transparent: rgba(22, 59, 77, 0.4);
 }
 
 .turquoise-theme-color {
   background: #0091ff;
+}
+
+.turquoise-theme-color-darker {
+  background: #144368;
+}
+
+.turquoise-theme-color-bg {
+  background: #112b3f;
 }
