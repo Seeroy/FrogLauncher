@@ -240,6 +240,10 @@
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
 
+    FrogStatisticsProvider.collectStats((stats) => {
+      FrogStatisticsProvider.sendStats(stats);
+    })
+
     FrogVersionsManager.refreshMyModloadersInfo(() => {
       if (mainConfig.selectedBackground.toString().length > 1) {
         FrogUI.refreshCustomBg(mainConfig.selectedBackground);
