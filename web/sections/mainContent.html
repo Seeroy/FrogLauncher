@@ -4,15 +4,18 @@
     <div class="flex items-center justify-center w-full ml-5">
       <span class="material-symbols-rounded text-white">update</span>
       <p class="ml-3 text-xl text-white grow">Доступно новое обновление!</p>
-      <button type="button" class="text-black bg-white hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Установить обновление</button>
+      <button
+        type="button"
+        class="text-black bg-white hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+      >
+        Установить обновление
+      </button>
     </div>
   </div>
   <div class="flex w-full h-full my-3">
     <div class="flex flex-col">
       <p class="text-white font-semibold text-3xl">Новости</p>
-      <div class="flex mt-2">
-        test
-      </div>
+      <div class="grid grid-cols-3 gap-4 mt-2" id="news-place"></div>
     </div>
   </div>
 </div>
@@ -51,5 +54,28 @@
 
   .content {
     margin-top: 44px;
+  }
+
+  .news-item {
+    border: 1px solid rgba(100, 100, 111, 0.2);
+    background: var(--bg-primary-transparent);
+    backdrop-filter: blur(16px) brightness(98%) saturate(110%) contrast(110%);
+    max-width: 30vw;
+    height: 100%;
+    border-radius: 16px;
+    padding: 16px;
+  }
+
+  .news-item .news-caption {
+    font-weight: 700;
+    font-size: 14pt;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .news-item .news-description {
+    font-weight: 500;
+    font-size: 11pt;
+    color: rgb(210, 210, 210);
   }
 </style>

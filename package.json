@@ -52,6 +52,7 @@
     "discord-rpc": "^4.0.1",
     "glob": "^10.3.3",
     "jquery": "^3.7.0",
+    "machine-uuid": "^1.2.0",
     "minecraft-launcher-core": "^3.17.1",
     "msmc": "^4.1.0",
     "open": "^8.4.0",

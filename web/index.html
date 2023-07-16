@@ -15,9 +15,11 @@
     <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
     <script src="./js/FrogUtils.js"></script>
+    <script src="./js/FrogStatisticsProvider.js"></script>
     <script src="./js/FrogNotifyModal.js"></script>
     <script src="./js/FrogOOBEWizard.js"></script>
     <script src="./js/FrogLauncherStory.js"></script>
+    <script src="./js/FrogNewsProvider.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Starters classes -->
     <script src="./js/starters/FrogVanillaStarter.js"></script>
@@ -276,52 +278,18 @@
         FrogUI.refreshModalThemesList();
         FrogVersionsUI.refreshVersionsListModal();
         // Creating neccesary dirs if not exists
-        if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
-          fs.mkdirSync(path.join(__dirname, "..", "logs"), { recursive: true });
-        }
-        if (!fs.existsSync(path.join(__dirname, "..", "cache"))) {
-          fs.mkdirSync(path.join(__dirname, "..", "cache"), {
-            recursive: true,
-          });
-        }
-        if (
-          !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "javas"))
-        ) {
-          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "javas"), {
-            recursive: true,
-          });
-        }
-        if (
-          !fs.existsSync(
-            path.join(
-              mainConfig.selectedBaseDirectory,
-              "launcher_profiles.json"
-            )
-          )
-        ) {
-          fs.writeFileSync(
-            path.join(
-              mainConfig.selectedBaseDirectory,
-              "launcher_profiles.json"
-            ),
-            "{}"
-          );
-        }
-        if (
-          !fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "cache"))
-        ) {
-          fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"), {
-            recursive: true,
-          });
-        }
+        FrogUtils.createNeccesaryDirs();
         // Set launcher version in 'About Launcher'
         $("#launcher-version").text(LAUNCHER_VERSION);
         // Delete old temporary mods
         FrogStartManager.deleteTemporaryMods();
-
+        // Starting OOBE if need
         if (mainConfig.oobeFinished == false){
           FrogOOBEWizard.startOOBE();
         }
+        // Loading news
+        FrogNewsProvider.loadNews();
+        FrogNewsProvider.setNewsReloadInterval();
         // Ok, startup is done
         FrogBackendCommunicator.logBrowserConsole(
           "[APP]",

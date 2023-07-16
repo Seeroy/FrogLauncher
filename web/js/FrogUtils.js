@@ -20,4 +20,39 @@ class FrogUtils {
     });
     return isMatches;
   }
+
+  static createNeccesaryDirs() {
+    var mcNeccesaryDirs = ["javas", "cache", "versions", "assets", "natives"];
+    mcNeccesaryDirs.forEach((dir) => {
+      var fullPath = path.join(mainConfig.selectedBaseDirectory, dir);
+      if (!fs.existsSync(fullPath)) {
+        fs.mkdirSync(fullPath, {
+          recursive: true,
+        });
+      }
+    });
+    if (
+      !fs.existsSync(
+        path.join(mainConfig.selectedBaseDirectory, "launcher_profiles.json")
+      )
+    ) {
+      fs.writeFileSync(
+        path.join(mainConfig.selectedBaseDirectory, "launcher_profiles.json"),
+        "{}"
+      );
+    }
+    if (!fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "cache"))) {
+      fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"), {
+        recursive: true,
+      });
+    }
+    if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
+      fs.mkdirSync(path.join(__dirname, "..", "logs"), { recursive: true });
+    }
+    if (!fs.existsSync(path.join(__dirname, "..", "cache"))) {
+      fs.mkdirSync(path.join(__dirname, "..", "cache"), {
+        recursive: true,
+      });
+    }
+  }
 }

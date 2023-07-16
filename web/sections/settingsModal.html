@@ -310,5 +310,7 @@
     FrogVersionsUI.resetCatSelectors();
     FrogVersionsUI.refreshVersionsListModal();
     Toaster("Настройки успешно сохранены", 2000, false, "success");
+    FrogUtils.createNeccesaryDirs();
+    FrogUI.goHomeSection();
   }
 </script>
