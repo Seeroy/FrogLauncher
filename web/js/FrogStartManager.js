@@ -564,19 +564,23 @@ class FrogStartManager {
       path.join(mainConfig.selectedBaseDirectory, "mods")
     );
     rdir.forEach(function (dr) {
-      if (dr.match(/.*OptiFine.*/gim) != null && !removed.includes(dr)) {
+      if (dr.match(/OptiFine_1.*\.jar/gim) != null && !removed.includes(dr)) {
         fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
         removed.push(dr);
       }
-      if (dr.match(/fabric-.*/gim) != null && !removed.includes(dr)) {
+      if (dr.match(/fabric-0.*\.jar/gim) != null && !removed.includes(dr)) {
         fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
         removed.push(dr);
       }
-      if (dr.match(/sodium-fabric-.*/gim) != null && !removed.includes(dr)) {
+      if (dr.match(/fabric-api-0.*\.jar/gim) != null && !removed.includes(dr)) {
         fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
         removed.push(dr);
       }
-      if (dr.match(/iris-.*/gim) != null && !removed.includes(dr)) {
+      if (dr.match(/sodium-fabric-.*\.jar/gim) != null && !removed.includes(dr)) {
+        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
+        removed.push(dr);
+      }
+      if (dr.match(/iris-.*\.jar/gim) != null && !removed.includes(dr)) {
         fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
         removed.push(dr);
       }
