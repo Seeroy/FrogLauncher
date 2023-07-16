@@ -71,7 +71,6 @@ class FrogForgeOptiStarter {
   }
 
   launch() {
-    FrogStartManager.parseStartStatus("mclc-start-evt");
     FrogBackendCommunicator.logBrowserConsole(
       "[S]",
       "Trying to start ForgeOptiFine",

@@ -15,6 +15,7 @@
     <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
     <script src="./js/FrogUtils.js"></script>
+    <script src="./js/FrogOOBEWizard.js"></script>
     <script src="./js/FrogLauncherStory.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Starters classes -->
@@ -66,15 +67,31 @@
       <div class="sidebar-story" id="ss-servers">Рекомендуемые сервера</div>
       <div class="sidebar-story" id="ss-settings">Настройки</div>
       <div class="sidebar-story" id="ss-console">Консоль разработчика</div>
-      <div class="sidebar-story" id="ss-themes">Темы и настройка внешнего вида лаунчера</div>
+      <div class="sidebar-story" id="ss-themes">
+        Темы и настройка внешнего вида лаунчера
+      </div>
 
-      <div class="sidebar-story" id="ss-show-version-selector">Выбор версии</div>
+      <div class="sidebar-story" id="ss-show-version-selector">
+        Выбор версии
+      </div>
 
       <div class="sidebar-story" id="ss-show-users-select">Выбор аккаунта</div>
 
-      <div class="sidebar-story" id="ss-moving-zone" style="left: 80px; top: 16px;">Зона для перемещения окна лаунчера</div>
+      <div
+        class="sidebar-story"
+        id="ss-moving-zone"
+        style="left: 80px; top: 16px"
+      >
+        Зона для перемещения окна лаунчера
+      </div>
 
-      <button class="custom-button" id="ss-close-btn" onclick="FrogLauncherStory.endStory()">Хорошо, спасибо!</button>
+      <button
+        class="custom-button"
+        id="ss-close-btn"
+        onclick="FrogLauncherStory.endStory()"
+      >
+        Хорошо, спасибо!
+      </button>
     </div>
     <!-- Invisible drag zone with window action buttons -->
     <div class="dragbar">
@@ -195,6 +212,7 @@
     FrogUI.addSectionIntoBody("controls");
     FrogUI.addSectionIntoBody("mainContent");
     FrogUI.loadSection("body", "preloader");
+    FrogUI.loadSection("body", "oobeWizard");
     setTimeout(function () {
       animateCSS(".blackscreen", "fadeOut", true).then(() => {
         $(".blackscreen").addClass("hidden");
@@ -296,6 +314,10 @@
         $("#launcher-version").text(LAUNCHER_VERSION);
         // Delete old temporary mods
         FrogStartManager.deleteTemporaryMods();
+
+        if (mainConfig.oobeFinished == false){
+          FrogOOBEWizard.startOOBE();
+        }
         // Ok, startup is done
         FrogBackendCommunicator.logBrowserConsole(
           "[APP]",
@@ -303,13 +325,13 @@
         );
       }, 250);
 
-      setTimeout(function() {
-        if (mainConfig.launcherStoryViewed == false) {
+      setTimeout(function () {
+        if (mainConfig.oobeFinished == true && mainConfig.launcherStoryViewed == false) {
           FrogLauncherStory.showStory();
           FrogLauncherStory.prepareLauncherStory();
           FrogLauncherStory.refreshLauncherStory();
         }
-      }, 600);
+      }, 500);
 
       // Evt for notifications list clear button
       $("#clear-notifications-list").click(function () {

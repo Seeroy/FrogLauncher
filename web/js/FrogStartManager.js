@@ -385,8 +385,7 @@ class FrogStartManager {
     if (line == "mclc-close-evt") {
       this.setGameStatus("stopped");
     } else if (
-      FrogUtils.checkMatchArray(STATUS_STARTING, line) == true ||
-      line == "mclc-start-evt"
+      FrogUtils.checkMatchArray(STATUS_STARTING, line) == true
     ) {
       this.setGameStatus("starting");
     } else if (FrogUtils.checkMatchArray(STATUS_STARTED, line) == true) {
@@ -474,58 +473,60 @@ class FrogStartManager {
   }
 
   static startSelectedVersion() {
-    gameStatus = "stopped";
-    FrogVersionsManager.getVersionByShortName(
-      selectedGameVersion,
-      (versionInfo) => {
-        if (versionInfo != false) {
-          switch (versionInfo.type) {
-            case "vanilla":
-              // Starting vanilla version
-              this.startVanilla(
-                versionInfo.version,
-                mainConfig.selectedMemorySize + "G",
-                "release"
-              ); // TODO: Snapshots/betas/etc. support
-              break;
-            case "forge":
-              this.startForge(
-                versionInfo.version,
-                versionInfo.url,
-                mainConfig.selectedMemorySize + "G"
-              );
-              break;
-            case "forgeoptifine":
-              this.startForgeOptiFine(
-                versionInfo.version,
-                versionInfo.forgeUrl,
-                versionInfo.ofUrl,
-                mainConfig.selectedMemorySize + "G"
-              );
-              break;
-            case "fabric":
-              this.startFabric(
-                versionInfo.version,
-                mainConfig.selectedMemorySize + "G"
-              );
-              break;
-            case "fabricsodiumiris":
-              this.startFabricSodium(
-                versionInfo.version,
-                mainConfig.selectedMemorySize + "G"
-              );
-              break;
+    if (selectedAccount != null && selectedGameVersion != null) {
+      gameStatus = "stopped";
+      FrogVersionsManager.getVersionByShortName(
+        selectedGameVersion,
+        (versionInfo) => {
+          if (versionInfo != false) {
+            switch (versionInfo.type) {
+              case "vanilla":
+                // Starting vanilla version
+                this.startVanilla(
+                  versionInfo.version,
+                  mainConfig.selectedMemorySize + "G",
+                  "release"
+                ); // TODO: Snapshots/betas/etc. support
+                break;
+              case "forge":
+                this.startForge(
+                  versionInfo.version,
+                  versionInfo.url,
+                  mainConfig.selectedMemorySize + "G"
+                );
+                break;
+              case "forgeoptifine":
+                this.startForgeOptiFine(
+                  versionInfo.version,
+                  versionInfo.forgeUrl,
+                  versionInfo.ofUrl,
+                  mainConfig.selectedMemorySize + "G"
+                );
+                break;
+              case "fabric":
+                this.startFabric(
+                  versionInfo.version,
+                  mainConfig.selectedMemorySize + "G"
+                );
+                break;
+              case "fabricsodiumiris":
+                this.startFabricSodium(
+                  versionInfo.version,
+                  mainConfig.selectedMemorySize + "G"
+                );
+                break;
+            }
+          } else {
+            Toaster(
+              "Произошла ошибка запуска версии, обратитесь к разработчику<br><span class='mc-text'>GVBSN_RET_FALSE</span>",
+              5000,
+              false,
+              "warning"
+            );
           }
-        } else {
-          Toaster(
-            "Произошла ошибка запуска версии, обратитесь к разработчику<br><span class='mc-text'>GVBSN_RET_FALSE</span>",
-            5000,
-            false,
-            "warning"
-          );
         }
-      }
-    );
+      );
+    }
   }
 
   static getFinalJavaPath(version, cb) {

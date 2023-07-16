@@ -11,7 +11,10 @@ class FrogAccountManager {
   }
 
   static saveAccounts(accounts) {
-    fs.writeFileSync("frog_accounts.json", JSON.stringify(accounts, null, "\t"));
+    fs.writeFileSync(
+      "frog_accounts.json",
+      JSON.stringify(accounts, null, "\t")
+    );
     return true;
   }
 
@@ -116,7 +119,7 @@ class FrogAccountManager {
           demo: false,
         },
       };
-    } else if(account.type == "microsoft"){
+    } else if (account.type == "microsoft") {
       return account.authorizationData;
     }
   }
@@ -141,5 +144,25 @@ class FrogAccountManager {
       }
     });
     return retAccount;
+  }
+
+  static deleteAccount(nickname) {
+    if (this.isAccountExists(nickname)) {
+      var accsConfig = this.getAccounts();
+      accsConfig.forEach((account, i) => {
+        if (account.nickname == nickname) {
+          accsConfig.splice(i, 1);
+        }
+      });
+      this.saveAccounts(accsConfig);
+      FrogBackendCommunicator.logBrowserConsole(
+        "[ACCMAN]",
+        "Account succesfully deleted:",
+        nickname
+      );
+      return true;
+    } else {
+      return false;
+    }
   }
 }

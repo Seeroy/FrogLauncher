@@ -87,6 +87,11 @@ app.whenReady().then(() => {
     mainWindowObject.focus();
   });
 
+  ipcMain.on("restart-launcher", () => {
+    app.relaunch();
+    app.exit();
+  });
+
   ipcMain.on("open-gd-dialog", (event) => {
     var dialogRet = dialog.showOpenDialogSync({
       properties: ["openDirectory", "dontAddToRecent"],

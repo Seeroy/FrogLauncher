@@ -16,6 +16,9 @@ class FrogBackendCommunicator {
     ipcRenderer.send("open-bg-dialog");
   }
 
+  static restartLauncher() {
+    ipcRenderer.send("restart-launcher");
+  }
 
   static onHideMainWindow = () => {
     ipcRenderer.send("hide-main-window");
