@@ -59,9 +59,6 @@ exports.error = function (category = "", text) {
 };
 
 exports.writeLogFile = (category, text, isError = false) => {
-  if (!fs.existsSync("./logs")) {
-    fs.mkdirSync("./logs");
-  }
   var resText = "";
 
   if (isError == true) {
