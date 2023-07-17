@@ -439,7 +439,7 @@ class FrogStartManager {
           FrogDiscordPresence.setPresenceMode(
             "loading",
             gameInfo.version,
-            FrogUtils.capitalizeWord(gameInfo.type)
+            gameInfo.type
           );
         }
       );
@@ -458,7 +458,7 @@ class FrogStartManager {
           FrogDiscordPresence.setPresenceMode(
             "playing",
             gameInfo.version,
-            FrogUtils.capitalizeWord(gameInfo.type)
+            gameInfo.type
           );
         }
       );

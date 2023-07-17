@@ -20,6 +20,7 @@
     <script src="./js/FrogNotifyModal.js"></script>
     <script src="./js/FrogOOBEWizard.js"></script>
     <script src="./js/FrogLauncherStory.js"></script>
+    <script src="./js/FrogErrorsParser.js"></script>
     <script src="./js/FrogNewsProvider.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Starters classes -->
@@ -48,8 +49,6 @@
     <link href="./themes/yellow.css" rel="stylesheet" />
     <link href="./themes/gray.css" rel="stylesheet" />
     <link href="./themes/minecrafty.css" rel="stylesheet" />
-    <link href="./themes/gradient-blue.css" rel="stylesheet" />
-    <link href="./themes/gradient-fire.css" rel="stylesheet" />
 
     <!-- Flowbite -->
     <link href="./css/flowbite.min.css" rel="stylesheet" />
@@ -207,6 +206,7 @@
     anyDownloading = false,
     gameStatus = "stopped";
 
+  const DEFAULT_SOUNDS_VOL = 0.6;
   const __appData = ipcRenderer.sendSync("get-appdata-path");
 
   $(document).ready(function () {
@@ -299,6 +299,8 @@
         // Loading news
         FrogNewsProvider.loadNews();
         FrogNewsProvider.setNewsReloadInterval();
+        // Binding small easter egg
+        FrogUtils.bindEasters();
         // Ok, startup is done
         FrogBackendCommunicator.logBrowserConsole(
           "[APP]",

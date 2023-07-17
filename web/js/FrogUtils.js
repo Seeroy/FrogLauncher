@@ -1,3 +1,5 @@
+var isEggPlaying = false;
+
 class FrogUtils {
   static fileExt(file) {
     return path.extname(file);
@@ -54,5 +56,28 @@ class FrogUtils {
         recursive: true,
       });
     }
+  }
+
+  static bindEasters() {
+    $(".jabb").bind("click", (event) => {
+      if (isEggPlaying == false) {
+        isEggPlaying = true;
+        $(event.currentTarget).addClass("animate__animated animate__tada");
+        $(event.currentTarget)[0].addEventListener(
+          "animationend",
+          () => {
+            $(event.currentTarget).removeClass(
+              "animate__animated animate__tada"
+            );
+            isEggPlaying = false;
+          },
+          {
+            once: true,
+          }
+        );
+        var audio = new Audio("assets/idle1.wav");
+        audio.play();
+      }
+    });
   }
 }

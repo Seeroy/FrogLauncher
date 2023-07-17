@@ -4,13 +4,14 @@ const { autoUpdater } = require("electron-updater");
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
-fs.mkdirSync(path.join(app.getPath("userData"), "logs"), {recursive: true})
+fs.mkdirSync(path.join(app.getPath("userData"), "logs"), { recursive: true });
 
 var pjson = require("./package.json");
 const APPVER = pjson.version; // Версия из package.json
 
 // Модуль для Discord Rich Presence
 const DISCORD_APP_ID = "1129749846241333378";
+const DEFAULT_USER_AGENT = "Seeroy/FrogLauncher " + APPVER;
 var rpc = require("discord-rpc");
 const client = new rpc.Client({ transport: "ipc" });
 client.login({ clientId: DISCORD_APP_ID }).catch(console.error);
@@ -47,6 +48,8 @@ logging.default("Debug", "electron version: " + process.versions["electron"]);
 app.whenReady().then(() => {
   ipcMain.on("get-appdata-path", (event) => {
     event.returnValue = app.getPath("userData");
+    mainWindowObject.webContents.userAgent = DEFAULT_USER_AGENT;
+    consoleWindowObject.webContents.userAgent = DEFAULT_USER_AGENT;
   });
 
   mainWindow.create(function () {

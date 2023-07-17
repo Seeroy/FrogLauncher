@@ -50,6 +50,6 @@ html {
   background: black;
 }
 
-img {
+img:not(.jabb) {
   pointer-events: none;
 }

@@ -20,8 +20,32 @@
       </button>
     </div>
   </div>
-  <div class="flex w-full h-full my-3">
-    <div class="flex flex-col">
+
+  <div class="flex flex-col w-full h-full my-3">
+    <div
+      class="news-item w-full my-3 flex items-center"
+      style="height: max-content; max-width: 100vw"
+    >
+      <img src="assets/icon-foreground.png" class="jabb" style="height: 56px" />
+      <div class="flex flex-col justify-center ml-3">
+        <div
+          class="news-caption mc-text"
+          style="font-weight: 500; margin-bottom: 4px"
+        >
+          FrogLauncher
+        </div>
+        <div class="news-description">
+          Добро пожаловать в наш лаунчер! Если увидишь какие-то ошибки, то
+          пожалуйста
+          <a
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
+            onclick='openExternal("https://discord.gg/4sMC3yF")'
+            >напиши нам!</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col mt-2">
       <p class="text-white font-semibold text-3xl">Новости</p>
       <div class="grid grid-cols-3 gap-4 mt-2" id="news-place"></div>
     </div>

@@ -8,35 +8,17 @@ class FrogGeneralStarter {
     );
     launcher.launch(options);
     launcher.on("debug", (e) => {
+      FrogErrorsParser.parse(e);
       FrogBackendCommunicator.logBrowserConsoleOnly(e);
     });
     launcher.on("close", (e) => {
       FrogStartManager.parseStartStatus("mclc-close-evt");
-      if (e > 0 && e != 127 && e != 255) {
-        FrogBackendCommunicator.logBrowserConsoleOnly(
-          "<span class='text-red-500'>Game closed with exit code " +
-            e +
-            "</span>"
-        );
-        FrogNotifyModal.create(
-          "О нет, что-то пошло не так",
-          "Minecraft завершился с кодом ошибки " +
-            e +
-            "<br>Подрбоная информация в консоли",
-          "Закрыть",
-          "warning"
-        );
-      } else {
-        FrogBackendCommunicator.logBrowserConsoleOnly(
-          "<span class='text-green-500'>Game closed with exit code " +
-            e +
-            "</span>"
-        );
-      }
+      FrogErrorsParser.parse("", e);
     });
     launcher.on("data", (e) => {
       FrogBackendCommunicator.logBrowserConsoleOnly(e);
       FrogStartManager.parseStartStatus(e);
+      FrogErrorsParser.parse(e);
     });
     launcher.on("arguments", (e) => {
       anyDownloading = false;

@@ -1,7 +1,12 @@
 class FrogConfigManager {
   static readMainConfig() {
     if (fs.existsSync(path.join(__appData, "config.json"))) {
-      return JSON.parse(fs.readFileSync(path.join(__appData, "config.json")));
+      var parse = JSON.parse(fs.readFileSync(path.join(__appData, "config.json")));
+      if(typeof parse.enableSounds === "undefined"){
+        parse.enableSounds = true;
+        this.writeMainConfig(parse);
+      }
+      return parse;
     } else {
       return false;
     }

@@ -32,11 +32,7 @@
     class="custom-button text-white ml-3"
     id="open-game-directory-button"
   >
-    <span
-      class="material-symbols-rounded mt-1 w-10"
-      onclick="FrogUI.openGameDirectory()"
-      >folder_open</span
-    >
+    <span class="material-symbols-rounded mt-1 w-10">folder_open</span>
   </button>
   <div
     class="progress-cont hidden flex flex-col justify-center"
@@ -76,9 +72,47 @@
   </div>
 </div>
 
+<div
+  class="open-directories-modal hidden no-transition flex-col items-center justify-center bg-primary-1100 drop-modal"
+>
+  <div
+    class="flex p-2 rounded user-item"
+    onclick="FrogUI.openGameDirectory(); $('.open-directories-modal').addClass('hidden')"
+  >
+    <div class="text-white">Папка с файлами игры</div>
+  </div>
+  <div
+    class="flex p-2 rounded mt-2 user-item"
+    onclick="openExternal(__dirname); $('.open-directories-modal').addClass('hidden')"
+  >
+    <div class="text-white">Папка с файлами лаунчера</div>
+  </div>
+  <div
+    class="flex p-2 rounded mt-2 user-item"
+    onclick="openExternal(__appData); $('.open-directories-modal').addClass('hidden')"
+  >
+    <div class="text-white">Папка с конфигурацией лаунчера</div>
+  </div>
+  <div
+    class="flex p-2 rounded mt-2 user-item"
+    onclick="$('.open-directories-modal').addClass('hidden')"
+  >
+    <div class="text-white">Отмена</div>
+  </div>
+</div>
+
 <script>
   $(".users-select-modal").click(() => {
     $(".users-select-modal").addClass("hidden");
+  });
+
+  $("#open-game-directory-button").mouseup((event) => {
+    if (event.originalEvent.button == 0) {
+      FrogUI.openGameDirectory();
+    } else {
+      $(".open-directories-modal").removeClass("hidden");
+      FrogUI.refreshAbsoluteElementsPositions();
+    }
   });
 
   $("#show-users-select").click(() => {
@@ -95,7 +129,6 @@
 <style>
   .drop-modal {
     position: absolute;
-    left: 0;
     right: 0;
     top: 0;
     bottom: 0;
@@ -105,6 +138,10 @@
     border-radius: 12px;
     width: 224px;
     z-index: 3;
+  }
+
+  .drop-modal:not(.open-directories-modal) {
+    left: 0;
   }
 
   .drop-modal .user-item {

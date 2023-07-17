@@ -114,6 +114,16 @@
         </label>
       </div>
 
+      <div class="flex items-center my-3">
+        <span class="text-white text-lg mr-2"
+          >Разрешить воспроизведение звуков интерфейса</span
+        >
+        <label class="switch">
+          <input type="checkbox" id="interfaceSoundsCheckbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
       <div class="grow"></div>
     </div>
 
@@ -123,19 +133,43 @@
     >
       <div class="flex flex-col h-full">
         <div class="flex flex-col w-full my-2 items-center">
-          <img src="assets/icon-foreground.png" style="height: 192px" />
+          <img
+            src="assets/icon-foreground.png"
+            class="jabb"
+            style="height: 168px"
+          />
           <p class="text-white mc-text mt-3 text-3xl">
             FrogLauncher <span id="launcher-version" class="mc-text"></span>
           </p>
-          <p class="text-white">
-            Developed by
-            <a
-              href="#"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+          <p class="text-white">Developed by Seeroy</p>
+        </div>
+        <div class="flex items-center justify-center w-full">
+          <div class="inline-flex rounded-md shadow-sm my-2" role="group">
+            <button
+              type="button"
               onclick='openExternal("https://github.com/seeroy")'
-              >Seeroy</a
+              class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white flex items-center justify-center"
             >
-          </p>
+              <img src="assets/icons/github.png" style="height: 24px" />
+              <span class="text-white mc-text ml-3">GitHub</span>
+            </button>
+            <button
+              type="button"
+              onclick='openExternal("https://youtube.com/@seeeroy")'
+              class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white flex items-center justify-center"
+            >
+              <img src="assets/icons/yt.png" style="width: 24px" />
+              <span class="text-white mc-text ml-3">YouTube</span>
+            </button>
+            <button
+              type="button"
+              onclick='openExternal("https://discord.gg/4sMC3yF")'
+              class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white flex items-center justify-center"
+            >
+              <img src="assets/icons/discord.png" style="width: 24px" />
+              <span class="text-white mc-text ml-3">Discord</span>
+            </button>
+          </div>
         </div>
         <p class="text-white mc-text text-xl mt-2">
           Используемые шрифты и библиотеки
@@ -416,6 +450,10 @@
       $("#discordrpcCheckbox").prop("checked", true);
     }
 
+    if (mainConfig.enableSounds == true) {
+      $("#interfaceSoundsCheckbox").prop("checked", true);
+    }
+
     if (mainConfig.disappearOnStart == true) {
       $("#disappearOnStartCheckbox").prop("checked", true);
     }
@@ -452,6 +490,9 @@
     mainConfig.openConsoleOnStart = $("#openConsoleOnStartCheckbox").is(
       ":checked"
     );
+    mainConfig.enableSounds = mainConfig.enableDiscordPresence = $(
+      "#interfaceSoundsCheckbox"
+    ).is(":checked");
     mainConfig.enableDiscordPresence = $("#discordrpcCheckbox").is(":checked");
     mainConfig.enableDownloadManager = $("#downmanagerCheckbox").is(":checked");
     mainConfig.disappearOnStart = $("#disappearOnStartCheckbox").is(":checked");

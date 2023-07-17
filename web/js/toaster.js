@@ -27,7 +27,7 @@ function Toaster(
       randId +
       '" style="max-width: 40vw;" class="animate__animated animate__' +
       animName +
-      ' animate__faster flex items-center w-full max-w-xs p-4 space-x-4 bg-white divide-x divide-gray-200 rounded-lg shadow dark:divide-gray-700 space-x dark:bg-gray-900 mt-2 cursor-pointer select-none" role="alert">' +
+      ' animate__faster flex items-center w-full max-w-xs p-4 space-x-4 bg-primary-1000 shadow-lg divide-x divide-gray-200 rounded-lg shadow dark:divide-gray-700 space-x mt-2 cursor-pointer select-none" role="alert">' +
       icon +
       "<div class='text-black dark:text-white px-3 select-none'>" +
       html +
@@ -35,6 +35,11 @@ function Toaster(
       closeBtnHtml +
       "</div>"
   );
+  if (mainConfig.enableSounds == true) {
+    var notifyAudio = new Audio("assets/sounds/notification.wav");
+    notifyAudio.volume = DEFAULT_SOUNDS_VOL;
+    notifyAudio.play();
+  }
   $("#" + randId).click(function () {
     $(this).remove();
     callback();
