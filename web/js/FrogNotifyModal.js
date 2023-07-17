@@ -1,5 +1,5 @@
 const NOTIFY_MODAL_CODE =
-  '<div class="notify-modal" id="$5"> <div class="notify-window"> <div class="notify-icon">$4</div> <div class="notify-caption">$1</div> <div class="notify-description">$2</div> <button class="custom-button w-full mt-4 text-white">$3</button> </div> </div>';
+  '<div class="notify-modal modal-bg" id="$5"> <div class="notify-window"> <div class="notify-icon">$4</div> <div class="notify-caption">$1</div> <div class="notify-description">$2</div> <button class="custom-button w-full mt-4 text-white">$3</button> </div> </div>';
 
 class FrogNotifyModal {
   static create(caption, text, buttonText, icon, cb = () => {}) {

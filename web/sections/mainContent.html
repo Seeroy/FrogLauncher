@@ -23,7 +23,7 @@
 
   <div class="flex flex-col w-full h-full my-3">
     <div
-      class="news-item w-full my-3 flex items-center"
+      class="news-item w-full my-3 flex items-center animate__animated animate__fadeInDown animate__delay_cst"
       style="height: max-content; max-width: 100vw"
     >
       <img src="assets/icon-foreground.png" class="jabb" style="height: 56px" />
@@ -35,12 +35,12 @@
           FrogLauncher
         </div>
         <div class="news-description">
-          Добро пожаловать в наш лаунчер! Если увидишь какие-то ошибки, то
+          Добро пожаловать в лаунчер! Если увидите какие-то ошибки, то
           пожалуйста
           <a
             class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
             onclick='openExternal("https://discord.gg/4sMC3yF")'
-            >напиши нам!</a
+            >сообщите о них!</a
           >
         </div>
       </div>
@@ -93,9 +93,22 @@
     background: var(--bg-primary-transparent);
     backdrop-filter: blur(16px) brightness(98%) saturate(110%) contrast(110%);
     max-width: 30vw;
-    height: 100%;
+    height: max-content;
     border-radius: 16px;
     padding: 16px;
+  }
+
+  .news-item.big {
+    height: 335px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .news-item .news-icon {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
   }
 
   .news-item .news-caption {

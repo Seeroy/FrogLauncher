@@ -53,3 +53,7 @@ html {
 img:not(.jabb) {
   pointer-events: none;
 }
+
+.animate__delay_cst {
+  animation-delay: .7s;
+}

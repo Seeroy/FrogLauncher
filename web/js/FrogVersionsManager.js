@@ -20,8 +20,7 @@ class FrogVersionsManager {
     cb,
     releases = true,
     snapshots = false,
-    old_beta = false,
-    old_alpha = false
+    others = false
   ) {
     $.get(VERSIONS_MANIFEST_URL, function (data) {
       var versions = [];
@@ -30,8 +29,7 @@ class FrogVersionsManager {
         if (
           (element.type == "release" && releases == true) ||
           (element.type == "snapshot" && snapshots == true) ||
-          (element.type == "old_beta" && old_beta == true) ||
-          (element.type == "old_alpha" && old_alpha == true)
+          (others == true)
         ) {
           var versionItem = {
             version: element.id,
@@ -113,6 +111,7 @@ class FrogVersionsManager {
           shortName: "vanilla-" + vanilla_release.version,
           version: vanilla_release.version,
           type: "vanilla",
+          releaseType: vanilla_release.type,
           installed: installedVersions.includes(vanilla_release.version),
         };
         releases.push(vversionItem);
@@ -199,7 +198,7 @@ class FrogVersionsManager {
         gameVersions = releases;
         cb(releases);
       });
-    });
+    }, true, true, true);
   }
 
   static generateVersionDisplayname(version) {
@@ -270,13 +269,14 @@ class FrogVersionsManager {
                 shortName: "vanilla-" + vanilla_release.version,
                 version: vanilla_release.version,
                 url: vanilla_release.manifestURL,
+                releaseType: vanilla_release.type,
                 type: "vanilla",
                 installed: installedVersions.includes(vanilla_release.version),
               };
             }
           });
           cb(retValue);
-        });
+        }, true, true, true);
         break;
       case "forge":
         this.getForgeReleases((forge_releases) => {

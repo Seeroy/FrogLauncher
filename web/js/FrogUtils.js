@@ -24,7 +24,7 @@ class FrogUtils {
   }
 
   static createNeccesaryDirs() {
-    var mcNeccesaryDirs = ["javas", "cache", "versions", "assets", "natives"];
+    var mcNeccesaryDirs = ["javas", "cache", "versions", "assets", "natives", "mods"];
     mcNeccesaryDirs.forEach((dir) => {
       var fullPath = path.join(mainConfig.selectedBaseDirectory, dir);
       if (!fs.existsSync(fullPath)) {

@@ -493,8 +493,8 @@ class FrogStartManager {
                 this.startVanilla(
                   versionInfo.version,
                   mainConfig.selectedMemorySize + "G",
-                  "release"
-                ); // TODO: Snapshots/betas/etc. support
+                  versionInfo.releaseType
+                );
                 break;
               case "forge":
                 this.startForge(

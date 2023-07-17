@@ -3,12 +3,10 @@ var isMCErrorShown = false;
 const ERRORS_DESCRIPTIONS = [
   "Данная версия игры несовместима с используемой версией Java.<br>Если вы используете автоматическое определение версии Java, то пожалуйста свяжитесь с разработчиком для исправления ошибки",
   "Похоже версия Java и версия Forge несовместимы!<br>Если вы используете автоматическое определение версии Java, то пожалуйста свяжитесь с разработчиком для исправления ошибки",
-  "Не удалось выделить необходимое количество памяти для Java<br>Попробуйте уменьшить количество памяти в " +
-    '<a class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" onclick="FrogUI.showMenuModal(' +
-    "'settings'" +
-    ')">настройках лаунчера</a>',
-  "Похоже потерялся исполняемый JAR-файл игры :(",
-  "Лаунчер не может найти исполняемый файл Java!<br>Если вы используете автоматическое определение версии Java, то пожалуйста свяжитесь с разработчиком для исправления ошибки"
+  "Не удалось выделить необходимое количество памяти для Java<br>Попробуйте уменьшить количество памяти в настройках лаунчера",
+  "Похоже потерялся исполняемый JAR-файл игры <br>Попробуйте перезапустить лаунчер",
+  "Лаунчер не может найти исполняемый файл Java!<br>Если вы используете автоматическое определение версии Java, то пожалуйста свяжитесь с разработчиком для исправления ошибки",
+  "Похоже конфигурация игры повреждена или создана более новой версией игры. Рекомендуем переустановить игру начисто, сменив в настройках лаунчера путь к папке",
 ];
 
 const ERRORS_MESSAGES = {
@@ -21,45 +19,51 @@ const ERRORS_MESSAGES = {
   "Main has been compiled by a more recent": ERRORS_DESCRIPTIONS[0],
   "Error: Unable to access jarfile": ERRORS_DESCRIPTIONS[3],
   "The system cannot find the path specified": ERRORS_DESCRIPTIONS[4],
+  "at java.base\/java.io.Reader.\<init\>": ERRORS_DESCRIPTIONS[5],
 };
 
 class FrogErrorsParser {
   static parse(line = "", exitCode = 0) {
     var errorHappend = false;
-    if(line == "" && exitCode){
-
+    if (line == "" && exitCode) {
       if (exitCode > 0 && exitCode != 127 && exitCode != 255) {
         FrogBackendCommunicator.logBrowserConsoleOnly(
           "<span class='text-red-500'>Game closed with exit code " +
-            e +
+            exitCode +
             "</span>"
         );
-        FrogNotifyModal.create(
-          "О нет, что-то пошло не так",
-          "Minecraft завершился с кодом ошибки " +
-            e +
-            "<br>Подрбоная информация в консоли",
-          "Закрыть",
-          "warning"
-        );
+        if(isMCErrorShown == false){
+          FrogNotifyModal.create(
+            "О нет, что-то пошло не так",
+            "Minecraft завершился с кодом ошибки " +
+              exitCode +
+              "<br>Подрбоная информация в консоли",
+            "Закрыть",
+            "warning"
+          );
+        }
         errorHappend = true;
-        
       } else {
         FrogBackendCommunicator.logBrowserConsoleOnly(
           "<span class='text-green-500'>Game closed with exit code " +
-            e +
+            exitCode +
             "</span>"
         );
       }
-      
     } else {
       for (const [key, value] of Object.entries(ERRORS_MESSAGES)) {
         var nreg = new RegExp(key, "gmi");
-        if(line.match(nreg) != null && isMCErrorShown == false) {
+        if (line.match(nreg) != null && isMCErrorShown == false) {
           isMCErrorShown = true;
-          FrogNotifyModal.create("Ой, что-то произошло!", value, "Закрыть", "warning", () => {
-            isMCErrorShown = false;
-          });
+          FrogNotifyModal.create(
+            "Ой, что-то произошло!",
+            value,
+            "Закрыть",
+            "warning",
+            () => {
+              isMCErrorShown = false;
+            }
+          );
           errorHappend = true;
         }
       }

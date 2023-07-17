@@ -1,4 +1,5 @@
 var lastVersionsFilters = "all all";
+var lastVanillaShowType = "release";
 const GAME_VERSION_ITEM_BASE =
   '<li class="version-item cursor-pointer" data-version="$1" data-shortname="$5" onclick="FrogVersionsUI.changeActiveVersion(' +
   "'$5'" +
@@ -8,8 +9,12 @@ const GAME_VERSION_BTN_BASE =
   '<div class="flex rounded items-center"><img src="$1" style="height: 24px;"><div class="ml-3">$2</div></div>';
 
 class FrogVersionsUI {
-  static refreshVersionsListModal = (filters = "all all") => {
+  static refreshVersionsListModal = (
+    filters = "all all",
+    vanillaShowType = "release"
+  ) => {
     lastVersionsFilters = filters;
+    lastVanillaShowType = vanillaShowType;
     $("#version-selector-mmodal .loading-overlay").removeClass("hidden");
     $("#version-selector-mmodal #game-versions-list")
       .parent()
@@ -34,7 +39,18 @@ class FrogVersionsUI {
             (filters[1] == "fabricsodiumiris" &&
               version.type == "fabricsodiumiris")
           ) {
-            accepted = true;
+            if (typeof version.releaseType !== "undefined") {
+              if (
+                version.releaseType == vanillaShowType ||
+                vanillaShowType == "all"
+              ) {
+                accepted = true;
+              } else {
+                accepted = false;
+              }
+            } else {
+              accepted = true;
+            }
           } else {
             accepted = false;
           }
@@ -75,7 +91,8 @@ class FrogVersionsUI {
     $("#version-search-input").val("");
     var filters1,
       filters2,
-      filters = "";
+      filters = "",
+      vanillaType;
     filters1 = $(
       "#version-selector-mmodal #version-category-selector .inline-block.active"
     ).data("filter");
@@ -83,7 +100,10 @@ class FrogVersionsUI {
       "#version-selector-mmodal #version-type-selector .inline-block.active"
     ).data("filter");
     filters = filters1 + " " + filters2;
-    this.refreshVersionsListModal(filters);
+    vanillaType = $(
+      "#version-selector-mmodal #vanilla-type-selector .inline-block.active"
+    ).data("type");
+    this.refreshVersionsListModal(filters, vanillaType);
   }
 
   static changeActiveVersion(shortName) {
