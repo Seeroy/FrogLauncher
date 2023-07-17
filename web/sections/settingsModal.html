@@ -487,6 +487,7 @@
     mainConfig.selectedJava = $("#javaSelect option:selected").val();
     mainConfig.selectedMemorySize = $("#memInput").val();
     mainConfig.selectedBaseDirectory = $("#gamePathInput").val();
+    FrogUtils.createNeccesaryDirs();
     mainConfig.openConsoleOnStart = $("#openConsoleOnStartCheckbox").is(
       ":checked"
     );
@@ -505,7 +506,6 @@
     FrogVersionsUI.resetCatSelectors();
     FrogVersionsUI.refreshVersionsListModal();
     Toaster("Настройки успешно сохранены", 2000, false, "success");
-    FrogUtils.createNeccesaryDirs();
     FrogUI.goHomeSection();
   }
 </script>

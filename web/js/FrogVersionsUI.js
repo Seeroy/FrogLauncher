@@ -1,3 +1,4 @@
+var lastVersionsFilters = "all all";
 const GAME_VERSION_ITEM_BASE =
   '<li class="version-item cursor-pointer" data-version="$1" data-shortname="$5" onclick="FrogVersionsUI.changeActiveVersion(' +
   "'$5'" +
@@ -8,6 +9,7 @@ const GAME_VERSION_BTN_BASE =
 
 class FrogVersionsUI {
   static refreshVersionsListModal = (filters = "all all") => {
+    lastVersionsFilters = filters;
     $("#version-selector-mmodal .loading-overlay").removeClass("hidden");
     $("#version-selector-mmodal #game-versions-list")
       .parent()

@@ -217,6 +217,9 @@
     }
     accountsConfig = FrogAccountManager.getAccounts();
 
+    // Creating neccesary dirs if not exists
+    FrogUtils.createNeccesaryDirs();
+
     document.addEventListener("dragover", (event) => event.preventDefault());
     document.addEventListener("drop", (event) => event.preventDefault());
 
@@ -286,8 +289,6 @@
         // Refreshing some items and things
         FrogUI.refreshModalThemesList();
         FrogVersionsUI.refreshVersionsListModal();
-        // Creating neccesary dirs if not exists
-        FrogUtils.createNeccesaryDirs();
         // Set launcher version in 'About Launcher'
         $("#launcher-version").text(LAUNCHER_VERSION);
         // Delete old temporary mods

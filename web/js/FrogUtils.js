@@ -33,6 +33,7 @@ class FrogUtils {
         });
       }
     });
+    
     if (
       !fs.existsSync(
         path.join(mainConfig.selectedBaseDirectory, "launcher_profiles.json")
@@ -42,11 +43,6 @@ class FrogUtils {
         path.join(mainConfig.selectedBaseDirectory, "launcher_profiles.json"),
         "{}"
       );
-    }
-    if (!fs.existsSync(path.join(mainConfig.selectedBaseDirectory, "cache"))) {
-      fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory, "cache"), {
-        recursive: true,
-      });
     }
     if (!fs.existsSync(path.join(__appData, "logs"))) {
       fs.mkdirSync(path.join(__appData, "logs"), { recursive: true });

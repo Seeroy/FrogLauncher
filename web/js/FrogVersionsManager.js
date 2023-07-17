@@ -236,14 +236,19 @@ class FrogVersionsManager {
           "forge-" + item.replaceAll(/\./gim, "\\.") + ".*",
           "gim"
         );
-        var rdir = fs.readdirSync(
-          path.join(mainConfig.selectedBaseDirectory, "cache")
-        );
-        rdir.forEach(function (dr) {
-          if (dr.match(chkRegex) != null) {
-            directories.push("Forge " + item);
-          }
-        });
+        var cachePath = path.join(mainConfig.selectedBaseDirectory, "cache");
+        if (fs.existsSync(cachePath)) {
+          var rdir = fs.readdirSync(
+            path.join(mainConfig.selectedBaseDirectory, "cache")
+          );
+          rdir.forEach(function (dr) {
+            if (dr.match(chkRegex) != null) {
+              directories.push("Forge " + item);
+            }
+          });
+        } else {
+          var rdir = [];
+        }
       });
       return directories;
     } else {
