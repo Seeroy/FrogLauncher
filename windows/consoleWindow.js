@@ -32,4 +32,12 @@ exports.create = (cb = function () {}) => {
   consoleWindowObject.once("ready-to-show", () => {
     cb();
   });
+
+  consoleWindowObject.on("closed", function () {
+    consoleWindowObject = null;
+  });
+
+  consoleWindowObject.on("close", function () {
+    consoleWindowObject = null;
+  });
 };

@@ -97,7 +97,13 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("close-main-window", () => {
-    app.quit();
+    if(consoleWindowObject != null){
+      consoleWindowObject.close();
+      consoleWindowObject = null; 
+    }
+    mainWindowObject = null;
+    client.destroy();
+    app.exit(0);
   });
   ipcMain.on("hide-main-window", () => {
     mainWindowObject.minimize();

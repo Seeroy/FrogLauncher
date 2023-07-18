@@ -20,7 +20,7 @@ exports.default = function (category = "", text) {
 exports.inverse = function (text) {
   // console.log с обратным цветом
   console.log(this.getLogTimestamp(), colors.inverse(text));
-  if (typeof consoleWindowObject !== "undefined") {
+  if (typeof consoleWindowObject !== "undefined" && consoleWindowObject != null) {
     consoleWindowObject.webContents.send("user-console-log", text);
   }
   fs.appendFileSync(
