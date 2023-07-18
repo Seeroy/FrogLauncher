@@ -42,6 +42,7 @@ class FrogStartManager {
       },
       overrides: {
         gameDirectory: rootDirectory,
+        maxSockets: 4,
       },
     };
     return launch_arguments;
@@ -72,6 +73,7 @@ class FrogStartManager {
       },
       overrides: {
         gameDirectory: rootDirectory,
+        maxSockets: 4,
       },
     };
     return launch_arguments;
@@ -265,7 +267,84 @@ class FrogStartManager {
     );
   }
 
-  // Fabric start process
+  // Quilt start process
+  static startQuilt(version, memory) {
+    this.prepareUIToStart(true);
+    var startArguments, quiltStarter;
+    var authData = FrogAccountManager.generateAuthCredetinals(selectedAccount);
+    FrogUI.changeBottomControlsStatus(
+      false,
+      false,
+      true,
+      "Проверка установки Quilt"
+    );
+    // Get version of Quilt
+    FrogVersionsManager.getVersionByShortName(
+      selectedGameVersion,
+      (gameData) => {
+        // Is Quilt installed?
+        if (gameData.installed == true) {
+          FrogUI.changeBottomControlsStatus(
+            false,
+            false,
+            true,
+            "Генерация аргументов"
+          );
+          // Generating arguments and starting
+          var qInfo = FrogVersionsManager.getQuiltDirectoryByVersion(version);
+          this.getFinalJavaPath(version, (finalJP) => {
+            startArguments = this.compileFabricArguments(
+              mainConfig.selectedBaseDirectory,
+              version,
+              authData,
+              memory,
+              finalJP,
+              qInfo["directoryName"]
+            );
+            FrogUI.changeBottomControlsStatus(false, true, true);
+            quiltStarter = new FrogQuiltStarter(startArguments);
+            quiltStarter.launch();
+          });
+        } else {
+          // Creting necessary dirs
+          fs.mkdirSync(
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "versions",
+              "quilt-loader-" +
+                modloadersMyInfo.quilt.latestLoaderVersion +
+                "-" +
+                version
+            ),
+            { recursive: true }
+          );
+          // Downloading Quilt JSON
+          FrogDownloadManager.downloadByURL(
+            modloadersMyInfo.quilt.versions[version],
+            path.join(
+              mainConfig.selectedBaseDirectory,
+              "versions",
+              "quilt-loader-" +
+                modloadersMyInfo.quilt.latestLoaderVersion +
+                "-" +
+                version,
+              FrogUtils.getFilenameFromURL(
+                modloadersMyInfo.quilt.versions[version]
+              )
+            ),
+            (dlRes) => {
+              // Restarting startQuilt process after success download
+              if (dlRes == true) {
+                FrogStartManager.startQuilt(version, memory);
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+
+  // FabricSodium start process
   static startFabricSodium(version, memory) {
     this.prepareUIToStart(true);
     var startArguments, fabricStarter;
@@ -422,6 +501,7 @@ class FrogStartManager {
       // Status changed to `stopped`
       if (mainConfig.disappearOnStart == true) {
         FrogBackendCommunicator.appearMainWindow();
+        FrogVersionsUI.refreshVersionsListModal(lastVersionsFilters, lastVanillaShowType);
       }
       this.prepareUIToStart(false);
       if (mainConfig.enableDiscordPresence == true) {
@@ -517,6 +597,12 @@ class FrogStartManager {
                   mainConfig.selectedMemorySize + "G"
                 );
                 break;
+              case "quilt":
+                this.startQuilt(
+                  versionInfo.version,
+                  mainConfig.selectedMemorySize + "G"
+                );
+                break;
               case "fabricsodiumiris":
                 this.startFabricSodium(
                   versionInfo.version,
@@ -576,7 +662,10 @@ class FrogStartManager {
         fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
         removed.push(dr);
       }
-      if (dr.match(/sodium-fabric-.*\.jar/gim) != null && !removed.includes(dr)) {
+      if (
+        dr.match(/sodium-fabric-.*\.jar/gim) != null &&
+        !removed.includes(dr)
+      ) {
         fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
         removed.push(dr);
       }

@@ -108,6 +108,15 @@ class FrogUI {
     var memt_boundings = $("#memTooltip")[0].getBoundingClientRect();
     $("#memTooltip").css("top", memtb_boundings.y + 4);
     $("#memTooltip").css("left", memtb_boundings.x + memt_boundings.width + 8);
+
+    var svs_boundings = $("#show-version-selector")[0].getBoundingClientRect();
+    var fan_boundings = $("#fabricapi-notify")[0].getBoundingClientRect();
+    $("#fabricapi-notify").css("width", svs_boundings.width);
+    $("#fabricapi-notify").css(
+      "top",
+      svs_boundings.y - fan_boundings.height - 44
+    );
+    $("#fabricapi-notify").css("left", svs_boundings.x);
   };
 
   static applyTheme = (theme, withBlackScreenAnim = false) => {

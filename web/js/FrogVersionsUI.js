@@ -124,6 +124,12 @@ class FrogVersionsUI {
     ).replaceAll(/\$2/gim, versionDisplayname);
     $("#show-version-selector").html(versionHTML);
     mainConfig.lastSelectedVersion = shortName;
+    if(versionData.type == "fabric" && mainConfig.autoInstallFabricAPI == true || versionData.type == "fabricsodiumiris"){
+      $("#fabricapi-notify").removeClass("hidden");
+      FrogUI.refreshAbsoluteElementsPositions();
+    } else {
+      $("#fabricapi-notify").addClass("hidden");
+    }
     selectedGameVersion = shortName;
     FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
   }

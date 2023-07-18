@@ -5,7 +5,7 @@ const SODIUM_LIST_URL = "https://api.modrinth.com/v2/project/sodium/version";
 const IRIS_LIST_URL = "https://api.modrinth.com/v2/project/iris/version";
 const FABRIC_API_LIST_URL =
   "https://api.modrinth.com/v2/project/fabric-api/version";
-const MODLOADERS_INFO_URL = "http://froglauncher.seeroycloud.tk/data.json";
+const MODLOADERS_INFO_URL = "http://froglauncher.seeroy.ru/data.json";
 var modloadersMyInfo;
 
 class FrogVersionsManager {
@@ -29,7 +29,7 @@ class FrogVersionsManager {
         if (
           (element.type == "release" && releases == true) ||
           (element.type == "snapshot" && snapshots == true) ||
-          (others == true)
+          others == true
         ) {
           var versionItem = {
             version: element.id,
@@ -102,103 +102,128 @@ class FrogVersionsManager {
     return suppVers;
   }
 
+  static getQuiltAvailableVersions() {
+    var suppVers = [];
+    for (const [key, value] of Object.entries(
+      modloadersMyInfo.quilt.versions
+    )) {
+      suppVers.push(key);
+    }
+    return suppVers;
+  }
+
   static getAllVersionsList(cb) {
     var releases = [];
     var installedVersions = this.getInstalledVersionsList();
-    this.getVanillaReleases((vanilla_releases) => {
-      vanilla_releases.forEach((vanilla_release) => {
-        var vversionItem = {
-          shortName: "vanilla-" + vanilla_release.version,
-          version: vanilla_release.version,
-          type: "vanilla",
-          releaseType: vanilla_release.type,
-          installed: installedVersions.includes(vanilla_release.version),
-        };
-        releases.push(vversionItem);
-      });
-      this.getForgeReleases((forge_releases) => {
-        for (const [key, value] of Object.entries(forge_releases)) {
-          var fversionItem = {
-            shortName: "forge-" + key,
-            version: key,
-            url: value,
-            type: "forge",
-            installed: installedVersions.includes("Forge " + key),
+    this.getVanillaReleases(
+      (vanilla_releases) => {
+        vanilla_releases.forEach((vanilla_release) => {
+          var vversionItem = {
+            shortName: "vanilla-" + vanilla_release.version,
+            version: vanilla_release.version,
+            type: "vanilla",
+            releaseType: vanilla_release.type,
+            installed: installedVersions.includes(vanilla_release.version),
           };
-          releases.push(fversionItem);
-        }
-        for (const [key2, value2] of Object.entries(
-          modloadersMyInfo.optifine
-        )) {
-          if (
-            typeof forge_releases[key2] !== "undefined" &&
-            forge_releases[key2] != null
-          ) {
-            var foversionItem = {
-              shortName: "forgeoptifine-" + key2,
-              version: key2,
-              forgeUrl: forge_releases[key2],
-              ofUrl: value2,
-              type: "forgeoptifine",
-              installed: installedVersions.includes("Forge " + key2),
+          releases.push(vversionItem);
+        });
+        this.getForgeReleases((forge_releases) => {
+          for (const [key, value] of Object.entries(forge_releases)) {
+            var fversionItem = {
+              shortName: "forge-" + key,
+              version: key,
+              url: value,
+              type: "forge",
+              installed: installedVersions.includes("Forge " + key),
             };
-            releases.push(foversionItem);
+            releases.push(fversionItem);
           }
-        }
-        var fabric_versions = this.getFabricAvailableVersions();
-        fabric_versions.forEach((fabric_version) => {
-          var fbversionItem = {
-            shortName: "fabric-" + fabric_version,
-            version: fabric_version,
-            type: "fabric",
-            installed: installedVersions.includes("Fabric " + fabric_version),
-          };
-          releases.push(fbversionItem);
-          var fbsiversionItem = {
-            shortName: "fabricsodiumiris-" + fabric_version,
-            version: fabric_version,
-            type: "fabricsodiumiris",
-            installed: installedVersions.includes(
-              "FabricSodiumIris " + fabric_version
-            ),
-          };
-          releases.push(fbsiversionItem);
-        });
-        releases.sort(function (a, b) {
-          // MinecraftVersionSorter by TheRolf
-          // https://gist.github.com/TheRolfFR/7e193d30c2a21e19bbebecf4f5fcbd1b
-          const aSplit = a.version.split(".").map((s) => parseInt(s));
-          const bSplit = b.version.split(".").map((s) => parseInt(s));
-
-          if (aSplit.includes(NaN) || bSplit.includes(NaN)) {
-            return String(a).localeCompare(String(b)); // compare as strings
+          for (const [key2, value2] of Object.entries(
+            modloadersMyInfo.optifine
+          )) {
+            if (
+              typeof forge_releases[key2] !== "undefined" &&
+              forge_releases[key2] != null
+            ) {
+              var foversionItem = {
+                shortName: "forgeoptifine-" + key2,
+                version: key2,
+                forgeUrl: forge_releases[key2],
+                ofUrl: value2,
+                type: "forgeoptifine",
+                installed: installedVersions.includes("Forge " + key2),
+              };
+              releases.push(foversionItem);
+            }
           }
+          var fabric_versions = this.getFabricAvailableVersions();
+          fabric_versions.forEach((fabric_version) => {
+            var fbversionItem = {
+              shortName: "fabric-" + fabric_version,
+              version: fabric_version,
+              type: "fabric",
+              installed: installedVersions.includes("Fabric " + fabric_version),
+            };
+            releases.push(fbversionItem);
+            var fbsiversionItem = {
+              shortName: "fabricsodiumiris-" + fabric_version,
+              version: fabric_version,
+              type: "fabricsodiumiris",
+              installed: installedVersions.includes(
+                "FabricSodiumIris " + fabric_version
+              ),
+            };
+            releases.push(fbsiversionItem);
+          });
+          var quilt_versions = this.getQuiltAvailableVersions();
+          quilt_versions.forEach((quilt_version) => {
+            var qbversionItem = {
+              shortName: "quilt-" + quilt_version,
+              version: quilt_version,
+              type: "quilt",
+              installed: installedVersions.includes("Quilt " + quilt_version),
+            };
+            releases.push(qbversionItem);
+          });
+          releases.sort(function (a, b) {
+            // MinecraftVersionSorter by TheRolf
+            // https://gist.github.com/TheRolfFR/7e193d30c2a21e19bbebecf4f5fcbd1b
+            const aSplit = a.version.split(".").map((s) => parseInt(s));
+            const bSplit = b.version.split(".").map((s) => parseInt(s));
 
-          const upper = Math.min(aSplit.length, bSplit.length);
-          let i = 0;
-          let result = 0;
-          while (i < upper && result == 0) {
+            if (aSplit.includes(NaN) || bSplit.includes(NaN)) {
+              return String(a).localeCompare(String(b)); // compare as strings
+            }
+
+            const upper = Math.min(aSplit.length, bSplit.length);
+            let i = 0;
+            let result = 0;
+            while (i < upper && result == 0) {
+              result =
+                aSplit[i] == bSplit[i] ? 0 : aSplit[i] < bSplit[i] ? -1 : 1; // each number
+              ++i;
+            }
+
+            if (result != 0) return result;
+
             result =
-              aSplit[i] == bSplit[i] ? 0 : aSplit[i] < bSplit[i] ? -1 : 1; // each number
-            ++i;
-          }
+              aSplit.length == bSplit.length
+                ? 0
+                : aSplit.length < bSplit.length
+                ? -1
+                : 1; // longer length wins
 
-          if (result != 0) return result;
-
-          result =
-            aSplit.length == bSplit.length
-              ? 0
-              : aSplit.length < bSplit.length
-              ? -1
-              : 1; // longer length wins
-
-          return result;
+            return result;
+          });
+          releases.reverse();
+          gameVersions = releases;
+          cb(releases);
         });
-        releases.reverse();
-        gameVersions = releases;
-        cb(releases);
-      });
-    }, true, true, true);
+      },
+      true,
+      true,
+      true
+    );
   }
 
   static generateVersionDisplayname(version) {
@@ -211,6 +236,8 @@ class FrogVersionsManager {
         return "Версия ForgeOptiFine " + version.version;
       case "fabric":
         return "Версия Fabric " + version.version;
+      case "quilt":
+        return "Версия Quilt " + version.version;
       case "fabricsodiumiris":
         return "Версия FabricSodiumIris " + version.version;
     }
@@ -227,6 +254,12 @@ class FrogVersionsManager {
           if (fabParse != false) {
             directories.push("Fabric " + fabParse["version"]);
             directories.push("FabricSodiumIris " + fabParse["version"]);
+          } else {
+            directories.push(item);
+          }
+          var quiParse = FrogVersionsManager.quiltLoaderStringParse(item);
+          if (quiParse != false) {
+            directories.push("Quilt " + quiParse["version"]);
           } else {
             directories.push(item);
           }
@@ -262,21 +295,28 @@ class FrogVersionsManager {
     var retValue = false;
     switch (versionType) {
       case "vanilla":
-        this.getVanillaReleases((vanilla_releases) => {
-          vanilla_releases.forEach((vanilla_release) => {
-            if (vanilla_release.version == version) {
-              retValue = {
-                shortName: "vanilla-" + vanilla_release.version,
-                version: vanilla_release.version,
-                url: vanilla_release.manifestURL,
-                releaseType: vanilla_release.type,
-                type: "vanilla",
-                installed: installedVersions.includes(vanilla_release.version),
-              };
-            }
-          });
-          cb(retValue);
-        }, true, true, true);
+        this.getVanillaReleases(
+          (vanilla_releases) => {
+            vanilla_releases.forEach((vanilla_release) => {
+              if (vanilla_release.version == version) {
+                retValue = {
+                  shortName: "vanilla-" + vanilla_release.version,
+                  version: vanilla_release.version,
+                  url: vanilla_release.manifestURL,
+                  releaseType: vanilla_release.type,
+                  type: "vanilla",
+                  installed: installedVersions.includes(
+                    vanilla_release.version
+                  ),
+                };
+              }
+            });
+            cb(retValue);
+          },
+          true,
+          true,
+          true
+        );
         break;
       case "forge":
         this.getForgeReleases((forge_releases) => {
@@ -338,6 +378,20 @@ class FrogVersionsManager {
         });
         cb(retValue);
         break;
+      case "quilt":
+        var quilt_versions = this.getQuiltAvailableVersions();
+        quilt_versions.forEach((quilt_version) => {
+          if (quilt_version == version) {
+            retValue = {
+              shortName: "quilt-" + quilt_version,
+              version: quilt_version,
+              type: "quilt",
+              installed: installedVersions.includes("Quilt " + quilt_version),
+            };
+          }
+        });
+        cb(retValue);
+        break;
       case "fabricsodiumiris":
         var fabric_versions = this.getFabricAvailableVersions();
         fabric_versions.forEach((fabric_version) => {
@@ -368,6 +422,17 @@ class FrogVersionsManager {
     }
   }
 
+  static quiltLoaderStringParse(name) {
+    if (name.match(/quilt\-loader/gim) != null) {
+      return {
+        name: "Quilt",
+        version: name.split("-").slice(-1),
+      };
+    } else {
+      return false;
+    }
+  }
+
   static isFabricDirectoryMatches(directory, version) {
     var flsp = this.fabricLoaderStringParse(directory);
     return flsp.version == version;
@@ -384,6 +449,44 @@ class FrogVersionsManager {
     );
     rdir.forEach((element) => {
       if (element.match(fabRegex) != null) {
+        dirName = {
+          directoryName: element,
+          fullDirectoryPath: path.join(
+            mainConfig.selectedBaseDirectory,
+            "versions",
+            element
+          ),
+          jarName: element + ".jar",
+          fullJarPath: path.join(
+            mainConfig.selectedBaseDirectory,
+            "versions",
+            element,
+            element + ".jar"
+          ),
+          versionJsonName: element + ".json",
+          fullVersionJsonPath: path.join(
+            mainConfig.selectedBaseDirectory,
+            "versions",
+            element,
+            element + ".json"
+          ),
+        };
+      }
+    });
+    return dirName;
+  }
+
+  static getQuiltDirectoryByVersion(version) {
+    var rdir = fs.readdirSync(
+      path.join(mainConfig.selectedBaseDirectory, "versions")
+    );
+    var dirName = false;
+    var quiRegex = new RegExp(
+      "quilt-loader.*" + version.replaceAll(/\./gim, "\\.") + ".*",
+      "gim"
+    );
+    rdir.forEach((element) => {
+      if (element.match(quiRegex) != null) {
         dirName = {
           directoryName: element,
           fullDirectoryPath: path.join(

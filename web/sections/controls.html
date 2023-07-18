@@ -45,6 +45,10 @@
   </div>
 </div>
 
+<div class="floating-notify h-2 font-semibold hidden" id="fabricapi-notify">
+  Внимание: Мод FabricAPI устанавливается <span class="font-bold">автоматически</span>, это поведение можно изменить в настройках лаунчера
+</div>
+
 <div
   class="users-select-modal hidden no-transition flex-col items-center justify-center bg-primary-1100 drop-modal"
 ></div>
@@ -133,7 +137,6 @@
     top: 0;
     bottom: 0;
     height: max-content;
-    width: max-content;
     padding: 8px;
     border-radius: 12px;
     width: 224px;
@@ -171,5 +174,21 @@
     width: 170px;
     font-weight: 500;
     font-size: 14pt !important;
+  }
+
+  .floating-notify {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: max-content;
+    width: max-content;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 11pt;
+    z-index: 4;
+    background: #3498db;
+    opacity: 0.9;
   }
 </style>

@@ -1,4 +1,5 @@
 var downloadTasks;
+var downloadsID = {};
 const DOWNLOAD_ITEM =
   '<div class="download-item flex items-center p-2 rounded" id="$3"> <p class="font-semibold grow text-white">$1</p> <div class="w-full rounded-full h-1.5 bg-gray-700" style="max-width: 290px;"> <div class="bg-primary-600 h-1.5 rounded-full" style="width: $2%" ></div> </div> <span class="text-white ml-2 percent-number">$2%</span> </div>';
 
@@ -232,7 +233,13 @@ class FrogDownloadManager {
 
   static handleDownloadStatus(e) {
     var downloadPercent = Math.round((e.current * 100) / e.total);
-    var encName = encodeURIComponent(e.name).replaceAll(/\./g, "");
+    var encName;
+    if(typeof downloadsID[e.name] !== "undefined"){
+      encName = downloadsID[e.name];
+    } else {
+      encName = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
+      downloadsID[e.name] = encName;
+    }
     if (e.total > 100 && e.current > 0) {
       if (downloadPercent < 100) {
         if ($(".downloads-container .downloads-list #" + encName).length == 0) {

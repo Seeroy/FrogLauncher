@@ -9,7 +9,6 @@ const openExternal = require("open");
 const request = require("request");
 const decompress = require("decompress");
 const { Client } = require("minecraft-launcher-core");
-const launcher = new Client();
 const { globSync } = require("glob");
 const package = require("./../package.json");
 const machineUuid = require("machine-uuid");

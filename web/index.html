@@ -27,6 +27,7 @@
     <script src="./js/starters/FrogVanillaStarter.js"></script>
     <script src="./js/starters/FrogGeneralStarter.js"></script>
     <script src="./js/starters/FrogForgeOptiStarter.js"></script>
+    <script src="./js/starters/FrogQuiltStarter.js"></script>
     <script src="./js/starters/FrogForgeStarter.js"></script>
     <script src="./js/starters/FrogFabricStarter.js"></script>
     <script src="./js/starters/FrogFabricSodiumStarter.js"></script>
@@ -273,10 +274,6 @@
             mainConfig.lastSelectedAccount = "none";
           }
         }
-        // Applying values from config
-        if (mainConfig.lastSelectedVersion != "none") {
-          FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
-        }
         if (mainConfig.openConsoleOnStart == true) {
           FrogBackendCommunicator.onOpenConsoleWindow();
         }
@@ -329,6 +326,13 @@
           );
         }
       }, 500);
+
+      setTimeout(() => {
+        // Applying values from config
+        if (mainConfig.lastSelectedVersion != "none") {
+          FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
+        }
+      }, 900);
 
       // Evt for notifications list clear button
       $("#clear-notifications-list").click(function () {

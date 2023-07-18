@@ -67,8 +67,16 @@
             >folder_open</span
           >
         </button>
+      </div>
 
-        <!-- Command line args setup -->
+      <div class="flex items-center my-3">
+        <span class="text-white text-lg mr-2"
+          >Автоматически устанавливать мод FabricAPI для версий Fabric</span
+        >
+        <label class="switch">
+          <input type="checkbox" id="autoFabricAPICheckbox" />
+          <span class="slider round"></span>
+        </label>
       </div>
     </div>
 
@@ -446,6 +454,10 @@
       $("#openConsoleOnStartCheckbox").prop("checked", true);
     }
 
+    if (mainConfig.autoInstallFabricAPI == true) {
+      $("#autoFabricAPICheckbox").prop("checked", true);
+    }
+
     if (mainConfig.enableDiscordPresence == true) {
       $("#discordrpcCheckbox").prop("checked", true);
     }
@@ -497,6 +509,9 @@
     mainConfig.enableDiscordPresence = $("#discordrpcCheckbox").is(":checked");
     mainConfig.enableDownloadManager = $("#downmanagerCheckbox").is(":checked");
     mainConfig.disappearOnStart = $("#disappearOnStartCheckbox").is(":checked");
+    mainConfig.autoInstallFabricAPI = $("#autoFabricAPICheckbox").is(
+      ":checked"
+    );
     if (mainConfig.enableDownloadManager == true) {
       $(".downloads-container").removeClass("disabled");
     } else {

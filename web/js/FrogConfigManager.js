@@ -6,6 +6,10 @@ class FrogConfigManager {
         parse.enableSounds = true;
         this.writeMainConfig(parse);
       }
+      if(typeof parse.autoInstallFabricAPI === "undefined"){
+        parse.autoInstallFabricAPI = true;
+        this.writeMainConfig(parse);
+      }
       return parse;
     } else {
       return false;

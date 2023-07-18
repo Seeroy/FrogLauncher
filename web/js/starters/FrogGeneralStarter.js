@@ -1,5 +1,6 @@
 class FrogGeneralStarter {
   static launchGeneral(options, displayName) {
+    var launcher = new Client();
     FrogBackendCommunicator.logBrowserConsole(
       "[S]",
       "Trying to start",

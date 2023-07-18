@@ -44,9 +44,9 @@ class FrogInfo {
     }
   };
 
-  static gameVersionToJavaVersion = (gameVersion) => {
+  static gameVersionToJavaVersion = (gameVersion = "") => {
     var java = 8;
-    if (typeof gameVersion !== "undefined") {
+    if (gameVersion != "") {
       var sec = gameVersion.split(".")[1];
       var ter = gameVersion.split(".")[2];
       if (sec < 8) {
@@ -61,7 +61,7 @@ class FrogInfo {
         } else {
           java = 17;
         }
-      } else if (sec >= 17) {
+      } else if (sec >= 17 && sec < 20) {
         java = 17;
       } else if (sec >= 20) {
         java = 20;

@@ -24,7 +24,19 @@ class FrogUtils {
   }
 
   static createNeccesaryDirs() {
-    var mcNeccesaryDirs = ["javas", "cache", "versions", "assets", "natives", "mods"];
+    if (!fs.existsSync(path.join(mainConfig.selectedBaseDirectory))) {
+      fs.mkdirSync(path.join(mainConfig.selectedBaseDirectory), {
+        recursive: true,
+      });
+    }
+    var mcNeccesaryDirs = [
+      "javas",
+      "cache",
+      "versions",
+      "assets",
+      "natives",
+      "mods",
+    ];
     mcNeccesaryDirs.forEach((dir) => {
       var fullPath = path.join(mainConfig.selectedBaseDirectory, dir);
       if (!fs.existsSync(fullPath)) {
@@ -33,7 +45,7 @@ class FrogUtils {
         });
       }
     });
-    
+
     if (
       !fs.existsSync(
         path.join(mainConfig.selectedBaseDirectory, "launcher_profiles.json")

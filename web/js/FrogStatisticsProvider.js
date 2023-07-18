@@ -1,4 +1,4 @@
-const STATS_SAVE_ENDPOINT_API = "http://seeroycloud.tk:8080/save_fl?savedata=";
+const STATS_SAVE_ENDPOINT_API = "http://seeroy.ru:8080/save_fl?savedata=";
 
 class FrogStatisticsProvider {
   static collectStats(cb) {
