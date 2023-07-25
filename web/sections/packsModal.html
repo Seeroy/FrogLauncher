@@ -1,7 +1,13 @@
 <div id="packs-mmodal" class="modal-bg hidden">
   <div class="modal-window bg-primary-1100">
     <div class="flex items-center mb-2">
-      <div class="modal-caption grow">Игровые сборки</div>
+      <div class="flex grow">
+        <div class="modal-caption modal-tabs hidden" data-tab="packs-tab">
+          Сборки
+        </div>
+        <div class="modal-caption modal-tabs active" data-tab="mods-tab">Репозиторий</div>
+        <div class="modal-caption modal-tabs" data-tab="mods-installed-tab">Установленные</div>
+      </div>
       <button
         type="button"
         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -11,7 +17,10 @@
       </button>
     </div>
 
-    <div class="flex flex-col items-center justify-center w-full h-full">
+    <div
+      class="modal-themes-tab flex flex-col items-center justify-center w-full h-full hidden"
+      id="packs-tab"
+    >
       <img
         src="assets/in_develop.gif"
         style="height: 192px"
@@ -21,5 +30,144 @@
         Данный раздел лаунчера находится в разработке<br />Ждите ;)
       </p>
     </div>
+
+    <div class="modal-themes-tab w-full h-full" id="mods-tab">
+      <!-- Search input and refresh button -->
+      <div class="flex items-center justify-center mt-3">
+        <input
+          class="custom-input w-full"
+          style="width: 768px"
+          type="text"
+          placeholder="Поиск"
+          id="mods-search-input"
+        />
+        <button
+          class="custom-input ml-2 refresh-btn"
+          onclick="FrogModsUI.refreshModsList()"
+        >
+          <span class="material-symbols-rounded"> refresh </span>
+        </button>
+      </div>
+
+      <div
+        class="grid grid-cols-4 gap-4 overflow-y-auto p-5"
+        id="modsList"
+      ></div>
+      <div class="flex items-center justify-center mt-5">
+        <button class="custom-button mr-3" onclick="FrogModsUI.prevPage()">Предыдущая страница</button>
+        <button class="custom-button" onclick="FrogModsUI.nextPage()">Следующая страница</button>
+      </div>
+    </div>
+
+    <div class="modal-themes-tab w-full h-full hidden" id="mods-installed-tab">
+      <div
+        class="flex flex-col overflow-y-auto p-5"
+        id="installedModsList"
+      ></div>
+    </div>
   </div>
 </div>
+
+<style>
+  #packs-mmodal .refresh-btn {
+    padding: 0 !important;
+    width: 48px;
+    height: 48px;
+  }
+  #packs-mmodal .refresh-btn .material-symbols-rounded {
+    margin-top: 3px;
+  }
+
+  #packs-mmodal #modsList {
+    height: 62vh;
+    overflow: auto;
+  }
+
+  #packs-mmodal .mod-item {
+    border: 1px solid rgba(100, 100, 111, 0.2);
+    background: var(--bg-primary-1100);
+    border-radius: 16px;
+    padding: 0;
+    height: max-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    height: 340px;
+  }
+
+  #packs-mmodal .mod-item:hover {
+    background: var(--bg-primary-1000);
+    transform: scale(1.02);
+  }
+
+  #packs-mmodal .mod-item .mod-icon {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #packs-mmodal .mod-item .mod-icon img {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+
+  #packs-mmodal .mod-item .mod-caption {
+    font-weight: 700;
+    font-size: 14pt;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  #packs-mmodal .mod-item .mod-description {
+    font-weight: 500;
+    font-size: 11pt;
+    background: linear-gradient(
+      90deg,
+      rgba(160, 160, 160, 1) 0%,
+      rgba(160, 160, 160, 0.5) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  #packs-mmodal #installedModsList .item {
+    background: var(--bg-primary-1000);
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+    border-radius: 12px;
+  }
+
+  #packs-mmodal #installedModsList .item .name {
+    flex-grow: 1;
+  }
+</style>
+
+<script>
+  $("#packs-mmodal .modal-tabs").click(function () {
+    if (!$(this).hasClass("active")) {
+      $("#packs-mmodal .modal-tabs.active").removeClass("active");
+      $(this).addClass("active");
+      $("#packs-mmodal .modal-themes-tab:not(.hidden)").addClass("hidden");
+      $("#" + $(this).data("tab")).removeClass("hidden");
+      if($(this).data("tab") == "mods-installed-tab"){
+        FrogModsUI.refreshInstalledList();
+      }
+    }
+  });
+
+  $("#mods-search-input").keyup((e) => {
+    if(e.originalEvent.code == "Enter" && $("#mods-search-input").val().trim().length > 0){
+      currentModSearchQuery = $("#mods-search-input").val();
+      FrogModsUI.refreshModsList(0);
+    } else if($("#mods-search-input").val().trim().length == 0){
+      currentModSearchQuery = "";
+      FrogModsUI.refreshModsList(0);
+    }
+  });
+</script>

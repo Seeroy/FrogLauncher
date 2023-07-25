@@ -6,7 +6,8 @@ const ERRORS_DESCRIPTIONS = [
   "Не удалось выделить необходимое количество памяти для Java<br>Попробуйте уменьшить количество памяти в настройках лаунчера",
   "Похоже потерялся исполняемый JAR-файл игры <br>Попробуйте перезапустить лаунчер",
   "Лаунчер не может найти исполняемый файл Java!<br>Если вы используете автоматическое определение версии Java, то пожалуйста свяжитесь с разработчиком для исправления ошибки",
-  "Возможно конфигурация или файлы игры повреждены или созданы более новой версией игры. Рекомендуем переустановить игру начисто, сменив в настройках лаунчера путь к папке"
+  "Возможно конфигурация или файлы игры повреждены или созданы более новой версией игры. Рекомендуем переустановить игру начисто, сменив в настройках лаунчера путь к папке",
+  "Попробуйте перезапустить игру ещё раз, если не поможет - рекомендуется полная переустановка игры"
 ];
 
 const ERRORS_MESSAGES = {
@@ -20,7 +21,8 @@ const ERRORS_MESSAGES = {
   "The system cannot find the path specified": ERRORS_DESCRIPTIONS[4],
   "at java.base/java.io.Reader.<init>": ERRORS_DESCRIPTIONS[5],
   "requires version 17 or later of": ERRORS_DESCRIPTIONS[0],
-  "java.io.IOException: error reading": ERRORS_DESCRIPTIONS[5]
+  "java.io.IOException: error reading": ERRORS_DESCRIPTIONS[5],
+  "ava.lang.NoClassDefFoundError: com/mojang/authlib/properties/PropertyMap": ERRORS_DESCRIPTIONS[6]
 };
 
 class FrogErrorsParser {

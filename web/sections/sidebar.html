@@ -12,13 +12,13 @@
     </div>
     <div
       class="sidebar-item flex items-center"
-      data-tooltip="Сборки"
+      data-tooltip="Модификации"
       data-modal="packs"
     >
       <span class="material-symbols-rounded"> grid_view </span>
     </div>
     <div
-      class="sidebar-item flex items-center"
+      class="sidebar-item flex items-center hidden"
       data-tooltip="Сервера"
       data-modal="servers"
     >
@@ -73,11 +73,12 @@
   .sidebar .sidebar-item {
     margin: 8px 0;
     color: white;
-  }
-
-  .sidebar .sidebar-item {
     padding: 10px;
     border-radius: 50%;
+  }
+
+  .sidebar .sidebar-item.active {
+    box-shadow: 0px 0px 8px 4px var(--bg-primary-900);
   }
 
   .sb-tooltip {

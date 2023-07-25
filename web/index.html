@@ -12,6 +12,8 @@
     <script src="./js/FrogDownloadManager.js"></script>
     <script src="./js/FrogAnimatedBackgrounds.js"></script>
     <script src="./js/FrogDiscordPresence.js"></script>
+    <script src="./js/FrogModsManager.js"></script>
+    <script src="./js/FrogModsUI.js"></script>
     <script src="./js/FrogAccountUI.js"></script>
     <script src="./js/FrogVersionsUI.js"></script>
     <script src="./js/FrogBackendCommunicator.js"></script>
@@ -29,8 +31,14 @@
     <script src="./js/starters/FrogForgeOptiStarter.js"></script>
     <script src="./js/starters/FrogQuiltStarter.js"></script>
     <script src="./js/starters/FrogForgeStarter.js"></script>
+    <script src="./js/starters/FrogLegacyForgeStarter.js"></script>
     <script src="./js/starters/FrogFabricStarter.js"></script>
     <script src="./js/starters/FrogFabricSodiumStarter.js"></script>
+    <!-- Compilers classes -->
+    <script src="./js/compilers/FrogFabricCompiler.js"></script>
+    <script src="./js/compilers/FrogForgeCompiler.js"></script>
+    <script src="./js/compilers/FrogLegacyForgeCompiler.js"></script>
+    <script src="./js/compilers/FrogVanillaCompiler.js"></script>
     <!-- Custom CSS -->
     <link href="./css/main.css" rel="stylesheet" />
     <link href="./css/toasts.css" rel="stylesheet" />
@@ -251,14 +259,14 @@
     FrogUI.loadSection(".modals", "addMSAccountModal");
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
-
-    FrogStatisticsProvider.collectStats((stats) => {
-      FrogStatisticsProvider.sendStats(stats, () => {});
-    });
+    FrogUI.loadSection(".modals", "modViewerModal");
 
     FrogVersionsManager.refreshMyModloadersInfo(() => {
       // Refreshing some items
       setTimeout(() => {
+        FrogStatisticsProvider.collectStats((stats) => {
+          FrogStatisticsProvider.sendStats(stats, () => {});
+        });
         // Refreshing accounts information
         FrogAccountUI.refreshAccountsDropdown();
         if (
@@ -286,6 +294,7 @@
         // Refreshing some items and things
         FrogUI.refreshModalThemesList();
         FrogVersionsUI.refreshVersionsListModal();
+        FrogModsUI.refreshModsList();
         // Set launcher version in 'About Launcher'
         $("#launcher-version").text(LAUNCHER_VERSION);
         // Delete old temporary mods
@@ -324,6 +333,15 @@
           FrogAnimatedBackgrounds.startAnimationByName(
             mainConfig.selectedBackground
           );
+        }
+        if (window.localStorage.getItem("fln") == null) {
+          FrogNotifyModal.create(
+            "Извините...",
+            "У вас могут возникнуть проблемы с поддержкой устаревших версий Forge ниже 1.12.2<br>Мы приносим свои извинения работаем над исправлением данной проблемы",
+            "Понятно",
+            "warning"
+          );
+          window.localStorage.setItem("fln", true);
         }
       }, 500);
 

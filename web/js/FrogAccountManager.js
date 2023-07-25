@@ -108,21 +108,13 @@ class FrogAccountManager {
     });
   }
 
-  static generateAuthCredetinals(account) {
+  static generateAuthCredetinals(account, cb) {
     if (account.type == "local") {
-      return {
-        access_token: "null",
-        client_token: "null",
-        uuid: account.uuid,
-        name: account.nickname,
-        user_properties: "{}",
-        meta: {
-          type: "mojang",
-          demo: false,
-        },
-      };
+      Authenticator.getAuth(account.nickname).then((authData) => {
+        cb(authData);
+      });
     } else if (account.type == "microsoft") {
-      return account.authorizationData;
+      cb(account.authorizationData);
     }
   }
 

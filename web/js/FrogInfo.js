@@ -53,7 +53,7 @@ class FrogInfo {
         java = 8;
       } else if (sec >= 8 && sec <= 11) {
         java = 8;
-      } else if (sec >= 12 && sec <= 15) {
+      } else if (sec > 12 && sec <= 15) {
         java = 11;
       } else if (sec == 16) {
         if (ter <= 4) {

@@ -1,4 +1,4 @@
-const NEWS_LOAD_URL = "http://froglauncher.seeroycloud.tk/news.json";
+const NEWS_LOAD_URL = "http://froglauncher.seeroy.ru/news.json";
 const NEWS_CARD_BASE =
   '<div class="news-item big animate__animated animate__fadeIn animate__fast" style="animation-delay: $5s"> <div class="news-icon">$4</div> <div class="news-caption">$1</div> <div class="news-description"> $2 </div> <div class="news-additional"> $3 </div> </div>';
 const NEWS_RELOAD_INTERVAL = 1000 * 60 * 60; // every 1 hour

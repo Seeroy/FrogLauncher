@@ -5,7 +5,7 @@ const SODIUM_LIST_URL = "https://api.modrinth.com/v2/project/sodium/version";
 const IRIS_LIST_URL = "https://api.modrinth.com/v2/project/iris/version";
 const FABRIC_API_LIST_URL =
   "https://api.modrinth.com/v2/project/fabric-api/version";
-const MODLOADERS_INFO_URL = "http://froglauncher.seeroy.ru/data.json";
+const MODLOADERS_INFO_URL = "http://froglauncher.seeroy.ru/datav2.json";
 var modloadersMyInfo;
 
 class FrogVersionsManager {
@@ -46,6 +46,15 @@ class FrogVersionsManager {
   static getForgeReleases(cb) {
     var fversions = {};
     Object.entries(modloadersMyInfo.forge).forEach((entry) => {
+      const [key, value] = entry;
+      fversions[key] = value;
+    });
+    cb(fversions);
+  }
+
+  static getLegacyForgeReleases(cb) {
+    var fversions = {};
+    Object.entries(modloadersMyInfo.forgeLegacy).forEach((entry) => {
       const [key, value] = entry;
       fversions[key] = value;
     });
@@ -118,25 +127,15 @@ class FrogVersionsManager {
     this.getVanillaReleases(
       (vanilla_releases) => {
         vanilla_releases.forEach((vanilla_release) => {
-          var vversionItem = {
-            shortName: "vanilla-" + vanilla_release.version,
-            version: vanilla_release.version,
-            type: "vanilla",
-            releaseType: vanilla_release.type,
-            installed: installedVersions.includes(vanilla_release.version),
-          };
-          releases.push(vversionItem);
+          releases.push(
+            FrogVanillaCompiler.compileDataFromRaw(installedVersions, vanilla_release)
+          );
         });
         this.getForgeReleases((forge_releases) => {
           for (const [key, value] of Object.entries(forge_releases)) {
-            var fversionItem = {
-              shortName: "forge-" + key,
-              version: key,
-              url: value,
-              type: "forge",
-              installed: installedVersions.includes("Forge " + key),
-            };
-            releases.push(fversionItem);
+            releases.push(
+              FrogForgeCompiler.compileDataFromRaw(installedVersions, key, "forge", value)
+            );
           }
           for (const [key2, value2] of Object.entries(
             modloadersMyInfo.optifine
@@ -145,45 +144,70 @@ class FrogVersionsManager {
               typeof forge_releases[key2] !== "undefined" &&
               forge_releases[key2] != null
             ) {
-              var foversionItem = {
-                shortName: "forgeoptifine-" + key2,
-                version: key2,
-                forgeUrl: forge_releases[key2],
-                ofUrl: value2,
-                type: "forgeoptifine",
-                installed: installedVersions.includes("Forge " + key2),
-              };
-              releases.push(foversionItem);
+              releases.push(
+                FrogForgeCompiler.compileDataFromRaw(installedVersions, 
+                  key2,
+                  "forgeoptifine",
+                  forge_releases[key2],
+                  value2
+                )
+              );
             }
           }
           var fabric_versions = this.getFabricAvailableVersions();
           fabric_versions.forEach((fabric_version) => {
-            var fbversionItem = {
-              shortName: "fabric-" + fabric_version,
-              version: fabric_version,
-              type: "fabric",
-              installed: installedVersions.includes("Fabric " + fabric_version),
-            };
-            releases.push(fbversionItem);
-            var fbsiversionItem = {
-              shortName: "fabricsodiumiris-" + fabric_version,
-              version: fabric_version,
-              type: "fabricsodiumiris",
-              installed: installedVersions.includes(
-                "FabricSodiumIris " + fabric_version
-              ),
-            };
-            releases.push(fbsiversionItem);
+            releases.push(
+              FrogFabricCompiler.compileDataFromRaw(installedVersions, 
+                fabric_version,
+                "fabric",
+                "Fabric"
+              )
+            );
+            releases.push(
+              FrogFabricCompiler.compileDataFromRaw(installedVersions, 
+                fabric_version,
+                "fabricsodiumiris",
+                "FabricSodiumIris"
+              )
+            );
           });
           var quilt_versions = this.getQuiltAvailableVersions();
           quilt_versions.forEach((quilt_version) => {
-            var qbversionItem = {
-              shortName: "quilt-" + quilt_version,
-              version: quilt_version,
-              type: "quilt",
-              installed: installedVersions.includes("Quilt " + quilt_version),
-            };
-            releases.push(qbversionItem);
+            releases.push(
+              FrogFabricCompiler.compileDataFromRaw(installedVersions, 
+                quilt_version,
+                "quilt",
+                "Quilt"
+              )
+            );
+          });
+          this.getLegacyForgeReleases((leg_forge_releases) => {
+            for (const [key, value] of Object.entries(leg_forge_releases)) {
+              releases.push(
+                FrogLegacyForgeCompiler.compileDataFromRaw(installedVersions, 
+                  key,
+                  "legacyforge",
+                  value
+                )
+              );
+            }
+            for (const [key2, value2] of Object.entries(
+              modloadersMyInfo.optifine
+            )) {
+              if (
+                typeof leg_forge_releases[key2] !== "undefined" &&
+                leg_forge_releases[key2] != null 
+              ) {
+                releases.push(
+                  FrogLegacyForgeCompiler.compileDataFromRaw(installedVersions, 
+                    key2,
+                    "legacyforgeoptifine",
+                    leg_forge_releases[key2],
+                    value2
+                  )
+                );
+              }
+            }
           });
           releases.sort(function (a, b) {
             // MinecraftVersionSorter by TheRolf
@@ -232,6 +256,10 @@ class FrogVersionsManager {
         return "Версия " + version.version;
       case "forge":
         return "Версия Forge " + version.version;
+      case "legacyforge":
+        return "Версия Forge " + version.version;
+      case "legacyforgeoptifine":
+        return "Версия ForgeOptiFine " + version.version;
       case "forgeoptifine":
         return "Версия ForgeOptiFine " + version.version;
       case "fabric":
@@ -263,154 +291,85 @@ class FrogVersionsManager {
           } else {
             directories.push(item);
           }
-        }
-        var chkRegex = new RegExp(
-          "forge-" + item.replaceAll(/\./gim, "\\.") + ".*",
-          "gim"
-        );
-        var cachePath = path.join(mainConfig.selectedBaseDirectory, "cache");
-        if (fs.existsSync(cachePath)) {
-          var rdir = fs.readdirSync(
-            path.join(mainConfig.selectedBaseDirectory, "cache")
-          );
-          rdir.forEach(function (dr) {
-            if (dr.match(chkRegex) != null) {
-              directories.push("Forge " + item);
+          if (
+            item.match(/Forge1.*/gm) != null &&
+            !FrogVersionsManager.isModernForgeVersion(item.split("e")[1])
+          ) {
+            directories.push("ForgeLegacy " + item.split("e")[1]);
+            if(typeof modloadersMyInfo.optifine[item.split("e")[1]] !== "undefined" && fs.existsSync(
+              path.join(
+                mainConfig.selectedBaseDirectory,
+                "cache",
+                FrogUtils.getFilenameFromURL(modloadersMyInfo.optifine[item.split("e")[1]])
+              )
+            )){
+              directories.push("ForgeOptiFineLegacy " + item.split("e")[1]);
             }
-          });
-        } else {
-          var rdir = [];
+          } else {
+            var chkRegex = new RegExp(
+              "forge-" + item.replaceAll(/\./gim, "\\.") + ".*",
+              "gim"
+            );
+            var cachePath = path.join(
+              mainConfig.selectedBaseDirectory,
+              "cache"
+            );
+            if (fs.existsSync(cachePath)) {
+              var rdir = fs.readdirSync(
+                path.join(mainConfig.selectedBaseDirectory, "cache")
+              );
+              rdir.forEach(function (dr) {
+                if (dr.match(chkRegex) != null) {
+                  directories.push("Forge " + item);
+                }
+              });
+            } else {
+              var rdir = [];
+            }
+          }
         }
       });
-      return directories;
+      var newArray = directories.filter(
+        (value, index, self) => self.indexOf(value) === index
+      );
+      return newArray;
     } else {
       return [];
     }
   }
 
   static getVersionByShortName(shortName, cb) {
-    var installedVersions = this.getInstalledVersionsList();
     var versionType = shortName.split("-")[0];
     var version = shortName.split("-")[1];
-    var retValue = false;
     switch (versionType) {
       case "vanilla":
-        this.getVanillaReleases(
-          (vanilla_releases) => {
-            vanilla_releases.forEach((vanilla_release) => {
-              if (vanilla_release.version == version) {
-                retValue = {
-                  shortName: "vanilla-" + vanilla_release.version,
-                  version: vanilla_release.version,
-                  url: vanilla_release.manifestURL,
-                  releaseType: vanilla_release.type,
-                  type: "vanilla",
-                  installed: installedVersions.includes(
-                    vanilla_release.version
-                  ),
-                };
-              }
-            });
-            cb(retValue);
-          },
-          true,
-          true,
-          true
-        );
+        FrogVanillaCompiler.getDataByVersion(version, cb);
         break;
       case "forge":
-        this.getForgeReleases((forge_releases) => {
-          for (const [key, value] of Object.entries(forge_releases)) {
-            if (key == version) {
-              retValue = {
-                shortName: "forge-" + key,
-                version: key,
-                url: value,
-                type: "forge",
-                installed: installedVersions.includes("Forge " + key),
-              };
-            }
-          }
-          cb(retValue);
-        });
+        FrogForgeCompiler.getFDataByVersion(version, cb);
         break;
       case "forgeoptifine":
-        var fres = false;
-        var ofres = false;
-        this.getForgeReleases((forge_releases) => {
-          for (const [key, value] of Object.entries(forge_releases)) {
-            if (key == version) {
-              fres = value;
-              for (const [key2, value2] of Object.entries(
-                modloadersMyInfo.optifine
-              )) {
-                if (key2 == version) {
-                  ofres = value2;
-                }
-              }
-            }
-          }
-          if (fres != false && ofres != false) {
-            cb({
-              shortName: "forgeoptifine-" + version,
-              version: version,
-              forgeUrl: fres,
-              ofUrl: ofres,
-              type: "forgeoptifine",
-              installed: installedVersions.includes("Forge " + version),
-            });
-          } else {
-            cb(false);
-          }
-        });
+        FrogForgeCompiler.getFODataByVersion(version, cb);
+        break;
+      case "legacyforge":
+        FrogLegacyForgeCompiler.getFDataByVersion(version, cb);
+        break;
+      case "legacyforgeoptifine":
+        FrogLegacyForgeCompiler.getFODataByVersion(version, cb);
         break;
       case "fabric":
-        var fabric_versions = this.getFabricAvailableVersions();
-        fabric_versions.forEach((fabric_version) => {
-          if (fabric_version == version) {
-            retValue = {
-              shortName: "fabric-" + fabric_version,
-              version: fabric_version,
-              type: "fabric",
-              installed: installedVersions.includes("Fabric " + fabric_version),
-            };
-          }
-        });
-        cb(retValue);
+        FrogFabricCompiler.getFabDataByVersion(version, cb);
         break;
       case "quilt":
-        var quilt_versions = this.getQuiltAvailableVersions();
-        quilt_versions.forEach((quilt_version) => {
-          if (quilt_version == version) {
-            retValue = {
-              shortName: "quilt-" + quilt_version,
-              version: quilt_version,
-              type: "quilt",
-              installed: installedVersions.includes("Quilt " + quilt_version),
-            };
-          }
-        });
-        cb(retValue);
+        FrogFabricCompiler.getQuiltDataByVersion(version, cb);
         break;
       case "fabricsodiumiris":
-        var fabric_versions = this.getFabricAvailableVersions();
-        fabric_versions.forEach((fabric_version) => {
-          if (fabric_version == version) {
-            retValue = {
-              shortName: "fabricsodiumiris-" + fabric_version,
-              version: fabric_version,
-              type: "fabricsodiumiris",
-              installed: installedVersions.includes(
-                "FabricSodiumIris " + fabric_version
-              ),
-            };
-          }
-        });
-        cb(retValue);
+        FrogFabricCompiler.getFabSodDataByVersion(version, cb);
         break;
     }
   }
 
+  // Fabric management functions
   static fabricLoaderStringParse(name) {
     if (name.match(/fabric\-loader/gim) != null) {
       return {
@@ -512,5 +471,11 @@ class FrogVersionsManager {
       }
     });
     return dirName;
+  }
+
+  // Forge management functions
+  static isModernForgeVersion(version) {
+    var sec = version.split(".")[1];
+    return sec > 12 ? true : false;
   }
 }

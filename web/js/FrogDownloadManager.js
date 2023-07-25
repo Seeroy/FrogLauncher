@@ -284,7 +284,7 @@ class FrogDownloadManager {
             "<span class='text-white'>Завершено</span>"
           );
           $(".downloads-container .downloads-list #" + encName)
-            .delay(5000)
+            .delay(2500)
             .queue(function () {
               animateCSSJ(
                 ".downloads-container .downloads-list #" + encName,
