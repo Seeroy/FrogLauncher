@@ -48,6 +48,7 @@ class FrogForgeCompiler {
         );
         forgeStarter = new FrogForgeStarter(startArguments, url);
         forgeStarter.prepareForLaunch(() => {
+          FrogUI.changeBottomControlsStatus(false, true, true);
           forgeStarter.launch();
         });
       });
@@ -73,6 +74,7 @@ class FrogForgeCompiler {
       forgeOptiStarter = new FrogForgeOptiStarter(startArguments, furl, ourl);
       forgeOptiStarter.prepareForLaunchStep1(() => {
         forgeOptiStarter.prepareForLaunchStep2(() => {
+          FrogUI.changeBottomControlsStatus(false, true, true);
           forgeOptiStarter.launch();
         });
       });

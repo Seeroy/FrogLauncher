@@ -7,7 +7,7 @@ const THEMES_LIST = [
   "yellow",
   "turquoise",
   "minecrafty",
-  "red",
+  "red"
 ];
 
 class FrogUI {

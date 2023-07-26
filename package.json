@@ -1,6 +1,6 @@
 {
   "name": "frogLauncher",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Yea, another Minecraft launcher based on Electron and web technologies",
   "main": "app.js",
   "scripts": {
@@ -9,6 +9,7 @@
   },
   "author": "Seeroy",
   "license": "MIT-3.0",
+  "homepage": "http://froglauncher.seeroy.ru",
   "devDependencies": {
     "electron": "^25.2.0",
     "electron-builder": "^24.4.0"
@@ -27,7 +28,7 @@
     },
     "publish": {
       "provider": "generic",
-      "url": "http://froglauncher.seeroycloud.tk/updates"
+      "url": "http://froglauncher.seeroy.ru/updates"
     },
     "nsis": {
       "installerIcon": "resources/icon.ico",

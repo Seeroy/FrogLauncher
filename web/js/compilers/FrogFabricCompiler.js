@@ -76,6 +76,7 @@ class FrogFabricCompiler {
                 FrogUI.changeBottomControlsStatus(false, true, true);
                 fabricStarter = new FrogFabricStarter(startArguments, fapiUrl);
                 fabricStarter.prepareForLaunchStep1(() => {
+                  FrogUI.changeBottomControlsStatus(false, true, true);
                   fabricStarter.launch();
                 });
               });
@@ -203,8 +204,11 @@ class FrogFabricCompiler {
                       irisUrl
                     );
                     fabricStarter.prepareForLaunchStep1(() => {
+                      FrogUI.changeBottomControlsStatus(false, true, true);
                       fabricStarter.prepareForLaunchStep2(() => {
+                        FrogUI.changeBottomControlsStatus(false, true, true);
                         fabricStarter.prepareForLaunchStep3(() => {
+                          FrogUI.changeBottomControlsStatus(false, true, true);
                           fabricStarter.launch();
                         });
                       });
@@ -255,7 +259,7 @@ class FrogFabricCompiler {
 
   static getFabSodDataByVersion(version, cb) {
     var retValue = false;
-    var fabric_versions = this.getFabricAvailableVersions();
+    var fabric_versions = FrogVersionsManager.getFabricAvailableVersions();
     fabric_versions.forEach((fabric_version) => {
       if (fabric_version == version) {
         retValue = this.compileDataFromRaw(

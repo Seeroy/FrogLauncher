@@ -43,7 +43,7 @@ class FrogConfigManager {
       selectedJava: "auto",
       selectedBaseDirectory: FrogInfo.getDefaultDotMinecraft(),
       selectedTheme: "indigo",
-      selectedBackground: 1,
+      selectedBackground: "h",
       selectedBaseFont: "default",
       lastSelectedAccount: "none",
       lastSelectedVersion: "none",
