@@ -363,14 +363,19 @@ class FrogFabricCompiler {
   }
 
   static compileDataFromRaw(installedVersions = "", version, type, searchName) {
+    var fabInstalled = false;
     if (installedVersions == "") {
       installedVersions = FrogVersionsManager.getInstalledVersionsList();
+    }
+    if(installedVersions.includes(searchName + " " + version)){
+      installedVersionsChk.splice(installedVersionsChk.indexOf(searchName + " " + version), 1);
+      fabInstalled = true;
     }
     var retValue = {
       shortName: type + "-" + version,
       version: version,
       type: type,
-      installed: installedVersions.includes(searchName + " " + version),
+      installed: fabInstalled,
     };
     return retValue;
   }

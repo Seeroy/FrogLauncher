@@ -123,18 +123,26 @@ class FrogVersionsManager {
 
   static getAllVersionsList(cb) {
     var releases = [];
-    var installedVersions = this.getInstalledVersionsList();
+    installedVersionsChk = this.getInstalledVersionsList();
     this.getVanillaReleases(
       (vanilla_releases) => {
         vanilla_releases.forEach((vanilla_release) => {
           releases.push(
-            FrogVanillaCompiler.compileDataFromRaw(installedVersions, vanilla_release)
+            FrogVanillaCompiler.compileDataFromRaw(
+              installedVersionsChk,
+              vanilla_release
+            )
           );
         });
         this.getForgeReleases((forge_releases) => {
           for (const [key, value] of Object.entries(forge_releases)) {
             releases.push(
-              FrogForgeCompiler.compileDataFromRaw(installedVersions, key, "forge", value)
+              FrogForgeCompiler.compileDataFromRaw(
+                installedVersionsChk,
+                key,
+                "forge",
+                value
+              )
             );
           }
           for (const [key2, value2] of Object.entries(
@@ -145,7 +153,8 @@ class FrogVersionsManager {
               forge_releases[key2] != null
             ) {
               releases.push(
-                FrogForgeCompiler.compileDataFromRaw(installedVersions, 
+                FrogForgeCompiler.compileDataFromRaw(
+                  installedVersionsChk,
                   key2,
                   "forgeoptifine",
                   forge_releases[key2],
@@ -157,14 +166,16 @@ class FrogVersionsManager {
           var fabric_versions = this.getFabricAvailableVersions();
           fabric_versions.forEach((fabric_version) => {
             releases.push(
-              FrogFabricCompiler.compileDataFromRaw(installedVersions, 
+              FrogFabricCompiler.compileDataFromRaw(
+                installedVersionsChk,
                 fabric_version,
                 "fabric",
                 "Fabric"
               )
             );
             releases.push(
-              FrogFabricCompiler.compileDataFromRaw(installedVersions, 
+              FrogFabricCompiler.compileDataFromRaw(
+                installedVersionsChk,
                 fabric_version,
                 "fabricsodiumiris",
                 "FabricSodiumIris"
@@ -174,7 +185,8 @@ class FrogVersionsManager {
           var quilt_versions = this.getQuiltAvailableVersions();
           quilt_versions.forEach((quilt_version) => {
             releases.push(
-              FrogFabricCompiler.compileDataFromRaw(installedVersions, 
+              FrogFabricCompiler.compileDataFromRaw(
+                installedVersionsChk,
                 quilt_version,
                 "quilt",
                 "Quilt"
@@ -184,7 +196,8 @@ class FrogVersionsManager {
           this.getLegacyForgeReleases((leg_forge_releases) => {
             for (const [key, value] of Object.entries(leg_forge_releases)) {
               releases.push(
-                FrogLegacyForgeCompiler.compileDataFromRaw(installedVersions, 
+                FrogLegacyForgeCompiler.compileDataFromRaw(
+                  installedVersionsChk,
                   key,
                   "legacyforge",
                   value
@@ -196,10 +209,11 @@ class FrogVersionsManager {
             )) {
               if (
                 typeof leg_forge_releases[key2] !== "undefined" &&
-                leg_forge_releases[key2] != null 
+                leg_forge_releases[key2] != null
               ) {
                 releases.push(
-                  FrogLegacyForgeCompiler.compileDataFromRaw(installedVersions, 
+                  FrogLegacyForgeCompiler.compileDataFromRaw(
+                    installedVersionsChk,
                     key2,
                     "legacyforgeoptifine",
                     leg_forge_releases[key2],
@@ -208,6 +222,14 @@ class FrogVersionsManager {
                 );
               }
             }
+          });
+          installedVersionsChk.forEach((version) => {
+            releases.push({
+              shortName: "3rdparty-" + version,
+              version: this.detectMinecraftVersion(version)[0],
+              type: "3rdparty",
+              installed: true,
+            });
           });
           releases.sort(function (a, b) {
             // MinecraftVersionSorter by TheRolf
@@ -268,6 +290,10 @@ class FrogVersionsManager {
         return "Версия Quilt " + version.version;
       case "fabricsodiumiris":
         return "Версия FabricSodiumIris " + version.version;
+      case "3rdparty":
+        return (
+          "Версия " + version.shortName.toString().replace(/3rdparty\-/gim, "")
+        );
     }
   }
 
@@ -296,13 +322,19 @@ class FrogVersionsManager {
             !FrogVersionsManager.isModernForgeVersion(item.split("e")[1])
           ) {
             directories.push("ForgeLegacy " + item.split("e")[1]);
-            if(typeof modloadersMyInfo.optifine[item.split("e")[1]] !== "undefined" && fs.existsSync(
-              path.join(
-                mainConfig.selectedBaseDirectory,
-                "cache",
-                FrogUtils.getFilenameFromURL(modloadersMyInfo.optifine[item.split("e")[1]])
+            if (
+              typeof modloadersMyInfo.optifine[item.split("e")[1]] !==
+                "undefined" &&
+              fs.existsSync(
+                path.join(
+                  mainConfig.selectedBaseDirectory,
+                  "cache",
+                  FrogUtils.getFilenameFromURL(
+                    modloadersMyInfo.optifine[item.split("e")[1]]
+                  )
+                )
               )
-            )){
+            ) {
               directories.push("ForgeOptiFineLegacy " + item.split("e")[1]);
             }
           } else {
@@ -366,6 +398,11 @@ class FrogVersionsManager {
       case "fabricsodiumiris":
         FrogFabricCompiler.getFabSodDataByVersion(version, cb);
         break;
+      case "3rdparty":
+        cb({
+          type: shortName.split("-")[0],
+          shortName: shortName
+        })
     }
   }
 
@@ -477,5 +514,9 @@ class FrogVersionsManager {
   static isModernForgeVersion(version) {
     var sec = version.split(".")[1];
     return sec > 12 ? true : false;
+  }
+
+  static detectMinecraftVersion(name) {
+    return name.match(/1\.\d{1,2}(\.\d{1,2})?/gim);
   }
 }

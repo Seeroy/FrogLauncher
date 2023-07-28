@@ -68,8 +68,13 @@ class FrogVanillaCompiler {
   }
 
   static compileDataFromRaw(installedVersions = "", data) {
+    var vanInstalled = false;
     if (installedVersions == "") {
       installedVersions = FrogVersionsManager.getInstalledVersionsList();
+    }
+    if(installedVersions.includes(data.version)){
+      installedVersionsChk.splice(installedVersionsChk.indexOf(data.version), 1);
+      vanInstalled = true;
     }
     var retValue = {
       shortName: "vanilla-" + data.version,

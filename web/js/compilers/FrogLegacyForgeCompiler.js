@@ -152,8 +152,17 @@ class FrogLegacyForgeCompiler {
     forgeUrl = "",
     ofUrl = ""
   ) {
+    var foInstalled = false, fInstalled = false;
     if (installedVersions == "") {
       installedVersions = FrogVersionsManager.getInstalledVersionsList();
+    }
+    if(installedVersions.includes("ForgeOptiFineLegacy " + version)){
+      installedVersionsChk.splice(installedVersionsChk.indexOf("ForgeOptiFineLegacy " + version), 1);
+      foInstalled = true;
+    }
+    if(installedVersions.includes("ForgeLegacy " + version)){
+      installedVersionsChk.splice(installedVersionsChk.indexOf("ForgeLegacy " + version), 1);
+      fInstalled = true;
     }
     if (type == "legacyforgeoptifine") {
       return {
@@ -162,7 +171,7 @@ class FrogLegacyForgeCompiler {
         forgeUrl: forgeUrl,
         ofUrl: ofUrl,
         type: "legacyforgeoptifine",
-        installed: installedVersions.includes("ForgeOptiFineLegacy " + version),
+        installed: foInstalled,
       };
     } else {
       return {
@@ -170,7 +179,7 @@ class FrogLegacyForgeCompiler {
         version: version,
         url: forgeUrl,
         type: "legacyforge",
-        installed: installedVersions.includes("ForgeLegacy " + version),
+        installed: fInstalled,
       };
     }
   }

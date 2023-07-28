@@ -125,8 +125,17 @@ class FrogForgeCompiler {
     forgeUrl = "",
     ofUrl = ""
   ) {
+    var foInstalled = false, fInstalled = false;
     if (installedVersions == "") {
       installedVersions = FrogVersionsManager.getInstalledVersionsList();
+    }
+    if(installedVersions.includes("ForgeOptiFine " + version)){
+      installedVersionsChk.splice(installedVersionsChk.indexOf("ForgeOptiFine " + version), 1);
+      foInstalled = true;
+    }
+    if(installedVersions.includes("Forge " + version)){
+      installedVersionsChk.splice(installedVersionsChk.indexOf("Forge " + version), 1);
+      fInstalled = true;
     }
     if (type == "forgeoptifine") {
       return {
@@ -135,7 +144,7 @@ class FrogForgeCompiler {
         forgeUrl: forgeUrl,
         ofUrl: ofUrl,
         type: "forgeoptifine",
-        installed: installedVersions.includes("ForgeOptiFine " + version),
+        installed: foInstalled,
       };
     } else {
       return {
@@ -143,7 +152,7 @@ class FrogForgeCompiler {
         version: version,
         url: forgeUrl,
         type: "forge",
-        installed: installedVersions.includes("Forge " + version),
+        installed: fInstalled,
       };
     }
   }

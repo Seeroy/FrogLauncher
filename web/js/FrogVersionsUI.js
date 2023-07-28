@@ -112,10 +112,17 @@ class FrogVersionsUI {
       "Changing active version to",
       shortName
     );
-    var versionData = {
-      type: shortName.split("-")[0],
-      version: shortName.split("-")[1],
-    };
+    if(shortName.match(/3rdparty\-/gi) == null){
+      var versionData = {
+        type: shortName.split("-")[0],
+        version: shortName.split("-")[1],
+      };
+    } else {
+      var versionData = {
+        type: shortName.split("-")[0],
+        shortName: shortName
+      };
+    }
     var versionDisplayname =
       FrogVersionsManager.generateVersionDisplayname(versionData);
     var versionHTML = GAME_VERSION_BTN_BASE.replaceAll(

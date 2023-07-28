@@ -183,6 +183,12 @@ class FrogStartManager {
                   mainConfig.selectedMemorySize + "G"
                 );
                 break;
+              case "3rdparty":
+                Frog3rdCompiler.start3rdParty(
+                  versionInfo,
+                  mainConfig.selectedMemorySize + "G"
+                );
+                break;
             }
           } else {
             Toaster(
