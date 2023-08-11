@@ -58,6 +58,24 @@ class FrogStartManager {
     if (changed == true && newStatus == "stopped") {
       // Status changed to `stopped`
       if (mainConfig.disappearOnStart == true) {
+
+        $(".blackscreen").removeClass("hidden");
+        setTimeout(function () {
+          animateCSS(".blackscreen", "fadeOut", true).then(() => {
+            $(".blackscreen").addClass("hidden");
+          });
+          FrogUI.refreshAbsoluteElementsPositions();
+        }, 450);
+        if (mainConfig.selectedBackground.toString().length > 2) {
+          // Nothing
+        } else if (mainConfig.selectedBackground > 0) {
+          // Nothing
+        } else {
+          FrogAnimatedBackgrounds.startAnimationByName(
+            mainConfig.selectedBackground
+          );
+        }
+
         FrogBackendCommunicator.appearMainWindow();
         FrogVersionsUI.refreshVersionsListModal(
           lastVersionsFilters,
@@ -69,9 +87,19 @@ class FrogStartManager {
         FrogDiscordPresence.setPresenceMode("menu");
       }
       this.deleteTemporaryMods();
+
     } else if (changed == true && newStatus == "starting") {
       // Status changed to `starting`
       if (mainConfig.disappearOnStart == true) {
+
+        if (mainConfig.selectedBackground.toString().length > 2) {
+          // Nothing
+        } else if (mainConfig.selectedBackground > 0) {
+          // Nothing
+        } else {
+          FrogAnimatedBackgrounds.stopBackground();
+        }
+        
         FrogBackendCommunicator.disappearMainWindow();
       }
       FrogVersionsManager.getVersionByShortName(
