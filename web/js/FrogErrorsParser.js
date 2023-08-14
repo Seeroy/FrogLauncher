@@ -22,7 +22,8 @@ const ERRORS_MESSAGES = {
   "at java.base/java.io.Reader.<init>": ERRORS_DESCRIPTIONS[5],
   "requires version 17 or later of": ERRORS_DESCRIPTIONS[0],
   "java.io.IOException: error reading": ERRORS_DESCRIPTIONS[5],
-  "ava.lang.NoClassDefFoundError: com/mojang/authlib/properties/PropertyMap": ERRORS_DESCRIPTIONS[6]
+  "ava.lang.NoClassDefFoundError: com/mojang/authlib/properties/PropertyMap": ERRORS_DESCRIPTIONS[6],
+  "Failed to start due to Error: ENOENT: no such file or directory": ERRORS_DESCRIPTIONS[6]
 };
 
 class FrogErrorsParser {

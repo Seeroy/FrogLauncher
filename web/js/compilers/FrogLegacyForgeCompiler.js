@@ -24,7 +24,7 @@ class FrogLegacyForgeCompiler {
       },
       overrides: {
         gameDirectory: rootDirectory,
-        maxSockets: 4
+        maxSockets: 4,
       },
     };
     return launch_arguments;
@@ -35,69 +35,145 @@ class FrogLegacyForgeCompiler {
     FrogStartManager.prepareUIToStart(true);
     var startArguments, legacyForgeStarter;
     FrogAccountManager.generateAuthCredetinals(selectedAccount, (authData) => {
-    FrogUI.changeBottomControlsStatus(
-      false,
-      false,
-      true,
-      "Проверка установки Forge"
-    );
-    // Get version of Forge
-    FrogVersionsManager.getVersionByShortName(
-      selectedGameVersion,
-      (gameData) => {
-        // Is Forge installed?
-        if (gameData.installed == true) {
-          FrogUI.changeBottomControlsStatus(
-            false,
-            false,
-            true,
-            "Генерация аргументов"
-          );
-          // Generating arguments and starting
-          FrogStartManager.getFinalJavaPath(version, (finalJP) => {
-            startArguments = this.compileForgeArguments(
-              mainConfig.selectedBaseDirectory,
-              version,
-              authData,
-              memory,
-              finalJP,
-              "Forge" + version
+      FrogUI.changeBottomControlsStatus(
+        false,
+        false,
+        true,
+        "Проверка установки Forge"
+      );
+      // Get version of Forge
+      FrogVersionsManager.getVersionByShortName(
+        selectedGameVersion,
+        (gameData) => {
+          // Is Forge installed?
+          if (gameData.installed == true) {
+            FrogUI.changeBottomControlsStatus(
+              false,
+              false,
+              true,
+              "Генерация аргументов"
             );
-            FrogUI.changeBottomControlsStatus(false, true, true);
-            legacyForgeStarter = new FrogLegacyForgeStarter(startArguments);
-            legacyForgeStarter.launch();
-          });
-        } else {
-          // Creting necessary dirs
-          fs.mkdirSync(
-            path.join(
-              mainConfig.selectedBaseDirectory,
-              "versions",
-              "Forge" + version
-            ),
-            { recursive: true }
-          );
-          // Downloading Fabric JSON
-          FrogDownloadManager.downloadByURL(
-            modloadersMyInfo.forgeLegacy[version],
-            path.join(
-              mainConfig.selectedBaseDirectory,
-              "versions",
-              "Forge" + version,
-              FrogUtils.getFilenameFromURL(
-                modloadersMyInfo.forgeLegacy[version]
-              )
-            ),
-            (dlRes) => {
-              // Restarting startLegacyForge process after success download
-              if (dlRes == true) {
-                this.startForge(version, memory);
+            // Generating arguments and starting
+            FrogStartManager.getFinalJavaPath(version, (finalJP) => {
+              startArguments = this.compileForgeArguments(
+                mainConfig.selectedBaseDirectory,
+                version,
+                authData,
+                memory,
+                finalJP,
+                "Forge" + version
+              );
+              FrogUI.changeBottomControlsStatus(false, true, true);
+              legacyForgeStarter = new FrogLegacyForgeStarter(startArguments);
+              legacyForgeStarter.launch();
+            });
+          } else {
+            // Creting necessary dirs
+            fs.mkdirSync(
+              path.join(
+                mainConfig.selectedBaseDirectory,
+                "versions",
+                "Forge" + version
+              ),
+              { recursive: true }
+            );
+            // Downloading JSON for Forge version
+            FrogDownloadManager.downloadByURL(
+              modloadersMyInfo.forgeLegacy[version],
+              path.join(
+                mainConfig.selectedBaseDirectory,
+                "versions",
+                "Forge" + version,
+                FrogUtils.getFilenameFromURL(
+                  modloadersMyInfo.forgeLegacy[version]
+                )
+              ),
+              (dlRes) => {
+                // Restarting startLegacyForge process after success download
+                if (dlRes == true) {
+                  this.startForge(version, memory);
+                }
               }
-            }
-          );
+            );
+          }
         }
-      }
-    );
+      );
+    });
+  }
+
+  // LegacyForgeOptiFine start process
+  static startForgeOptiFine(version, ourl, memory) {
+    FrogStartManager.prepareUIToStart(true);
+    var startArguments, legacyForgeOptiStarter;
+    FrogAccountManager.generateAuthCredetinals(selectedAccount, (authData) => {
+      FrogUI.changeBottomControlsStatus(
+        false,
+        false,
+        true,
+        "Проверка установки Forge"
+      );
+      // Get version of Forge
+      FrogVersionsManager.getVersionByShortName(
+        selectedGameVersion.replace("legacyforgeoptifine", "legacyforge"),
+        (gameDataForge) => {
+          // Is Forge installed?
+          if (gameDataForge.installed == true) {
+            FrogUI.changeBottomControlsStatus(
+              false,
+              false,
+              true,
+              "Генерация аргументов"
+            );
+            // Generating arguments and starting
+            FrogStartManager.getFinalJavaPath(version, (finalJP) => {
+              startArguments = this.compileForgeArguments(
+                mainConfig.selectedBaseDirectory,
+                version,
+                authData,
+                memory,
+                finalJP,
+                "Forge" + version
+              );
+              FrogUI.changeBottomControlsStatus(false, true, true);
+              legacyForgeOptiStarter = new FrogLegacyForgeOptiStarter(
+                startArguments,
+                ourl
+              );
+              legacyForgeOptiStarter.prepareForLaunchStep1(() => {
+                legacyForgeOptiStarter.launch();
+              });
+            });
+          } else {
+            // Creting necessary dirs
+            fs.mkdirSync(
+              path.join(
+                mainConfig.selectedBaseDirectory,
+                "versions",
+                "Forge" + version
+              ),
+              { recursive: true }
+            );
+            // Downloading JSON for Forge version
+            FrogDownloadManager.downloadByURL(
+              modloadersMyInfo.forgeLegacy[version],
+              path.join(
+                mainConfig.selectedBaseDirectory,
+                "versions",
+                "Forge" + version,
+                FrogUtils.getFilenameFromURL(
+                  modloadersMyInfo.forgeLegacy[version]
+                )
+              ),
+              (dlRes) => {
+                // Restarting startLegacyForge process after success download
+                if (dlRes == true) {
+                  this.startForgeOptiFine(version, ourl, memory);
+                }
+              }
+            );
+          }
+        }
+      );
     });
   }
 
@@ -152,16 +228,23 @@ class FrogLegacyForgeCompiler {
     forgeUrl = "",
     ofUrl = ""
   ) {
-    var foInstalled = false, fInstalled = false;
+    var foInstalled = false,
+      fInstalled = false;
     if (installedVersions == "") {
       installedVersions = FrogVersionsManager.getInstalledVersionsList();
     }
-    if(installedVersions.includes("ForgeOptiFineLegacy " + version)){
-      installedVersionsChk.splice(installedVersionsChk.indexOf("ForgeOptiFineLegacy " + version), 1);
+    if (installedVersions.includes("ForgeOptiFineLegacy " + version)) {
+      installedVersionsChk.splice(
+        installedVersionsChk.indexOf("ForgeOptiFineLegacy " + version),
+        1
+      );
       foInstalled = true;
     }
-    if(installedVersions.includes("ForgeLegacy " + version)){
-      installedVersionsChk.splice(installedVersionsChk.indexOf("ForgeLegacy " + version), 1);
+    if (installedVersions.includes("ForgeLegacy " + version)) {
+      installedVersionsChk.splice(
+        installedVersionsChk.indexOf("ForgeLegacy " + version),
+        1
+      );
       fInstalled = true;
     }
     if (type == "legacyforgeoptifine") {

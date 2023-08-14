@@ -1,6 +1,6 @@
 {
   "name": "frogLauncher",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Yea, another Minecraft launcher based on Electron and web technologies",
   "main": "app.js",
   "scripts": {
@@ -22,7 +22,7 @@
       "buildResources": "resources"
     },
     "linux": {
-      "target": ["deb"],
+      "target": ["deb", "rpm", "tar.gz"],
       "maintainer": "Seeroy",
       "vendor": "Seeroy",
       "icon": "web/assets/icon-foreground.png"
