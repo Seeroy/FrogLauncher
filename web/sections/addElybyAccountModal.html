@@ -1,0 +1,49 @@
+<div id="add-elyby-account-mmodal" class="modal-bg hidden">
+  <div class="modal-window bg-primary-1100">
+    <div class="flex items-center mb-2">
+      <div class="modal-caption grow text-sm">Добавление аккаунта Ely.by</div>
+      <button
+        type="button"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        onclick="FrogUI.goHomeSection()"
+      >
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+
+    <p>Для добавления аккаунта Ely.by введите логин и пароль</p>
+    <div class="flex flex-col mt-2">
+      <input
+        type="text"
+        class="custom-input my-2"
+        placeholder="Введите логин"
+        id="elyby-login-input"
+        disabled
+      />
+      <input
+        type="password"
+        class="custom-input my-2"
+        placeholder="Введите пароль"
+        id="elyby-password-input"
+        disabled
+      />
+      <!--<button class="custom-button my-2" disabled>Войти</button>-->
+      <span class="text-lg text-center my-3">Данный раздел находится в разработке</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  #add-elyby-account-mmodal .modal-window {
+    width: min-content;
+    height: max-content;
+  }
+
+  #add-elyby-account-mmodal input {
+    width: 512px;
+  }
+
+  #add-elyby-account-mmodal .modal-caption {
+    font-size: 14pt !important;
+  }
+</style>

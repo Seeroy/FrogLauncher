@@ -74,6 +74,14 @@ class FrogAccountUI {
     $(".new-account-modal").addClass("hidden");
   };
 
+  static newElybyAccountWizard = () => {
+    accountsConfig = FrogAccountManager.getAccounts();
+    $("#add-elyby-account-mmodal input").val("");
+    $("#add-elyby-account-mmodal .custom-button").prop("disabled", true);
+    FrogUI.showMenuModal("add-elyby-account");
+    $(".new-account-modal").addClass("hidden");
+  };
+
   static newMSAccountWizard = () => {
     accountsConfig = FrogAccountManager.getAccounts();
     FrogUI.showMenuModal("add-ms-account");

@@ -75,10 +75,7 @@
 
     <!-- Animate and icons -->
     <link href="./css/animate.min.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="./fonts/Material Symbols/stylesheet.css"
-    />
+    <link rel="stylesheet" href="./fonts/Material Symbols/stylesheet.css" />
     <title>FrogLauncher</title>
   </head>
   <body>
@@ -261,6 +258,7 @@
     FrogUI.loadSection(".modals", "serversModal");
     FrogUI.loadSection(".modals", "addLocalAccountModal");
     FrogUI.loadSection(".modals", "addMSAccountModal");
+    FrogUI.loadSection(".modals", "addElybyAccountModal");
     FrogUI.loadSection(".modals", "versionSelectorModal");
     FrogUI.loadSection(".modals", "downloadsFloating");
     FrogUI.loadSection(".modals", "modViewerModal");
@@ -298,7 +296,11 @@
         // Refreshing some items and things
         FrogUI.refreshModalThemesList();
         FrogVersionsUI.refreshVersionsListModal();
-        FrogModsUI.refreshModsList();
+        FrogModsUI.refreshModloadersList(() => {
+          FrogModsUI.refreshVersionsList(() => {
+            FrogModsUI.refreshModsList();
+          });
+        });
         // Set launcher version in 'About Launcher'
         $("#launcher-version").text(LAUNCHER_VERSION);
         // Delete old temporary mods

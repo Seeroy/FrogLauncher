@@ -1,4 +1,6 @@
 const MODRINTH_MODS_API_URL = "https://api.modrinth.com/v2/search?";
+const MODRINTH_MODLOADERS_LIST_URL = "https://api.modrinth.com/v2/tag/loader";
+const MODRINTH_VERSIONS_LIST_URL = "https://api.modrinth.com/v2/tag/game_version";
 
 class FrogModsManager {
   static getMods(
@@ -16,7 +18,7 @@ class FrogModsManager {
       offset: offset,
       limit: limit,
       index: sort,
-      facets: encodeURIComponent(facets)
+      facets: facets
     }
     query == "" && delete params.query;
     offset == "" && delete params.offset;
@@ -45,6 +47,14 @@ class FrogModsManager {
     } else {
       return false;
     }
+  }
+
+  static getModloadersList(cb){
+    $.get(MODRINTH_MODLOADERS_LIST_URL, cb);
+  }
+
+  static getVersionsList(cb){
+    $.get(MODRINTH_VERSIONS_LIST_URL, cb);
   }
 }
 
