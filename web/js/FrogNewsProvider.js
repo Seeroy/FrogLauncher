@@ -5,7 +5,7 @@ const NEWS_RELOAD_INTERVAL = 1000 * 60 * 60; // every 1 hour
 var newsRelInterval;
 
 class FrogNewsProvider {
-  static loadNews() {
+  static loadNews(cb) {
     var newsDelayAnim = 0.6;
     $.get(NEWS_LOAD_URL, function (data) {
       data.forEach(function (item) {
@@ -16,10 +16,12 @@ class FrogNewsProvider {
         );
         newsDelayAnim = newsDelayAnim + 0.2;
       });
+      cb();
     }).fail(function () {
       $("#news-place").html(
         "<span class='text-white text-2xl mc-text'>Не удалось загрузить новости :(</span>"
       );
+      cb();
     });
   }
 

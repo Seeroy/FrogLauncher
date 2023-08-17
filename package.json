@@ -1,6 +1,6 @@
 {
   "name": "frogLauncher",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Yea, another Minecraft launcher based on Electron and web technologies",
   "main": "app.js",
   "scripts": {

@@ -12,6 +12,7 @@ class FrogForgeStarter {
       forgeFilename
     );
     if (!fs.existsSync(forgePath)) {
+      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogDownloadManager.downloadByURL(
         this.downloadURL,
         forgePath,

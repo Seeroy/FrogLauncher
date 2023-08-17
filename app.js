@@ -115,6 +115,7 @@ app.whenReady().then(() => {
 
   ipcMain.on("appear-main-window", () => {
     mainWindowObject.show();
+    mainWindowObject.focus();
   });
 
   ipcMain.on("focus-fix", () => {

@@ -1,5 +1,7 @@
 const THEME_ITEM_CODE =
-  '<div class="new-theme-item" data-theme="$2" onclick="FrogUI.applyTheme(' + "'$2'" + ', true); FrogUI.refreshModalThemesList();"> <div class="clr-1 $2-theme-color"></div> <div class="clr-2 $2-theme-color-darker"></div> <div class="main $2-theme-color-bg w-full"> <div class="name w-full mc-text">$1</div> <div class="example $2-theme-color">A</div> </div> </div>';
+  '<div class="new-theme-item" data-theme="$2" onclick="FrogUI.applyTheme(' +
+  "'$2'" +
+  ', true); FrogUI.refreshModalThemesList();"> <div class="clr-1 $2-theme-color"></div> <div class="clr-2 $2-theme-color-darker"></div> <div class="main $2-theme-color-bg w-full"> <div class="name w-full mc-text">$1</div> <div class="example $2-theme-color">A</div> </div> </div>';
 const THEMES_LIST = [
   "indigo",
   "blue",
@@ -7,7 +9,7 @@ const THEMES_LIST = [
   "yellow",
   "turquoise",
   "minecrafty",
-  "red"
+  "red",
 ];
 
 class FrogUI {
@@ -95,10 +97,7 @@ class FrogUI {
     $(".new-account-modal").css("left", usmb_boundings.x);
 
     var odm_boundings = $(".open-directories-modal")[0].getBoundingClientRect();
-    $(".open-directories-modal").css(
-      "right",
-      16
-    );
+    $(".open-directories-modal").css("right", 16);
     $(".open-directories-modal").css(
       "top",
       usmb_boundings.y - odm_boundings.height - 24
@@ -199,9 +198,11 @@ class FrogUI {
     if (showProgressBar == true) {
       $(".controls .progress-cont").removeClass("hidden");
       $(".controls .progress-cont .progress").removeClass("hidden");
+      $(".controls #progress-badge").removeClass("hidden");
     } else {
       $(".controls .progress-cont").addClass("hidden");
       $(".controls .progress-cont .progress").addClass("hidden");
+      $(".controls #progress-badge").addClass("hidden");
     }
     if (showProgressDesc == true) {
       $(".controls .progress-cont").removeClass("hidden");
@@ -210,27 +211,33 @@ class FrogUI {
       $(".controls .progress-cont").addClass("hidden");
       $(".controls .progress-cont .progress-desc").addClass("hidden");
     }
-    $(".controls .progress-cont .progress-desc").text(progressDescText);
+    if(showProgressDesc == true && showProgressBar == false){
+      $(".controls .progress-cont .progress-desc .spinner").removeClass("hidden");
+    } else {
+      $(".controls .progress-cont .progress-desc .spinner").addClass("hidden");
+    }
+    $(".controls .progress-cont .progress-desc .text").text(progressDescText);
   }
 
   static setBottomProgressBar(progress) {
     if (!$(".controls .progress-cont .progress").hasClass("hidden")) {
       $(".controls .progress-cont .progress div").css("width", progress + "%");
+      $("#progress-badge span.progress-txt").text(progress + "%");
     }
   }
 
   static setBottomProgressDescription(text) {
     if (!$(".controls .progress-cont .progress-desc").hasClass("hidden")) {
-      $(".controls .progress-cont .progress-desc").text(text);
+      $(".controls .progress-cont .progress-desc .text").text(text);
     }
   }
 
   static showDownloadManager(show) {
     if (show == true && $(".downloads-container").hasClass("hidden")) {
       $(".downloads-container").removeClass("hidden");
-      animateCSSJ(".downloads-container", "fadeInDown", true);
+      animateCSSJ(".downloads-container", "fadeInRight", true);
     } else if (show == false && !$(".downloads-container").hasClass("hidden")) {
-      animateCSSJ(".downloads-container", "fadeOutUp", true).then(() => {
+      animateCSSJ(".downloads-container", "fadeOutRight", true).then(() => {
         $(".downloads-container").addClass("hidden");
       });
     }

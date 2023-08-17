@@ -31,11 +31,13 @@ class FrogVersionsUI {
         ) {
           if (
             filters[1] == "all" ||
-            (filters[1] == "forge" && version.type == "forge" || version.type == "legacyforge") ||
+            (filters[1] == "forge" && version.type == "forge") ||
+            version.type == "legacyforge" ||
             (filters[1] == "fabric" && version.type == "fabric") ||
             (filters[1] == "vanilla" && version.type == "vanilla") ||
             (filters[1] == "forgeoptifine" &&
-              version.type == "forgeoptifine" || version.type == "legacyforgeoptifine") ||
+              version.type == "forgeoptifine") ||
+            version.type == "legacyforgeoptifine" ||
             (filters[1] == "fabricsodiumiris" &&
               version.type == "fabricsodiumiris")
           ) {
@@ -112,7 +114,7 @@ class FrogVersionsUI {
       "Changing active version to",
       shortName
     );
-    if(shortName.match(/3rdparty\-/gi) == null){
+    if (shortName.match(/3rdparty\-/gi) == null) {
       var versionData = {
         type: shortName.split("-")[0],
         version: shortName.split("-")[1],
@@ -120,7 +122,7 @@ class FrogVersionsUI {
     } else {
       var versionData = {
         type: shortName.split("-")[0],
-        shortName: shortName
+        shortName: shortName,
       };
     }
     var versionDisplayname =
@@ -131,8 +133,15 @@ class FrogVersionsUI {
     ).replaceAll(/\$2/gim, versionDisplayname);
     $("#show-version-selector").html(versionHTML);
     mainConfig.lastSelectedVersion = shortName;
-    if(versionData.type == "fabric" && mainConfig.autoInstallFabricAPI == true || versionData.type == "fabricsodiumiris"){
+    if (
+      (versionData.type == "fabric" &&
+        mainConfig.autoInstallFabricAPI == true) ||
+      versionData.type == "fabricsodiumiris"
+    ) {
       $("#fabricapi-notify").removeClass("hidden");
+      setTimeout(() => {
+        $("#fabricapi-notify").addClass("hidden");
+      }, 5000);
       FrogUI.refreshAbsoluteElementsPositions();
     } else {
       $("#fabricapi-notify").addClass("hidden");

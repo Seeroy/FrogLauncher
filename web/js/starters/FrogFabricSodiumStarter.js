@@ -26,6 +26,7 @@ class FrogFabricSodiumStarter {
       fabricApiFilename
     );
     if (!fs.existsSync(fabricApiPath)) {
+      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogDownloadManager.downloadByURL(
         this.fabricApiDownloadURL,
         fabricApiPath,
@@ -68,6 +69,7 @@ class FrogFabricSodiumStarter {
       sodiumFilename
     );
     if (!fs.existsSync(sodiumPath)) {
+      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogDownloadManager.downloadByURL(
         this.sodiumDownloadURL,
         sodiumPath,
@@ -110,6 +112,7 @@ class FrogFabricSodiumStarter {
       irisFilename
     );
     if (!fs.existsSync(irisPath)) {
+      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogDownloadManager.downloadByURL(
         this.irisDownloadURL,
         irisPath,

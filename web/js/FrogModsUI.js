@@ -1,13 +1,15 @@
 const MOD_ITEM =
-  '<div class="mod-item" data-displayed-id="$4"> <div class="mod-icon"><img src="$3"></div> <div class="mod-caption">$1</div> <div class="mod-description"> $2 </div> <div class="mod-stats"> <div class="badge"> <span class="material-symbols-rounded">download</span> <span class="ml-2">$5</span> </div> $6 </div> </div> </div>';
+  '<div class="mod-item" data-displayed-id="$4"> <div class="mod-icon"><img src="$3"></div> <div class="mod-caption">$1</div> <div class="mod-description"> $2 </div> <div class="mod-stats"> <div class="badge"> <span class="material-symbols-rounded">download</span> <span class="ml-2">$5</span> </div> $6 </div> </div>';
 const MOD_VIEWER_ICON = '<img class="mod-icon" src="$1">';
 const MOD_VIEWER_GALLERY_ITEM =
   '<img src="$1" class="my-2" style="width: 50vw;">';
 const MAX_DESC_LENGTH = 64;
 const INSTALLED_MOD_ITEM =
-  '<div class="item"> <div class="name">$1</div><button class="custom-button" onclick="FrogModsManager.deleteMod(' +
-  "'$1'" +
+  '<div class="item"> <div class="name flex items-center"><img src="$2" style="height: 32px;"><span class="ml-3">$1</span></div><button class="custom-button" onclick="FrogModsManager.deleteMod(' +
+  "'$3'" +
   '); FrogModsUI.refreshInstalledList();">Удалить</button> </div>';
+const MOD_ITEM_SKELETON =
+  '<div class="mod-item"> <div class="mod-icon"> <div class="flex items-center justify-center w-full bg-gray-300 rounded dark:bg-gray-700 p-3"> <svg class="w-8 h-8 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18"> <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/> </svg> </div> </div> <div class="mod-caption"><div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48" style="margin-top: 0.28rem; margin-bottom: 0.28rem;"></div></div> <div class="mod-description"><div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px]" style="margin-top: 0.28rem; margin-bottom: 0.28rem;"></div></div> <div class="mod-stats"> <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-48" style="width: 280px; margin-top: 0.28rem; margin-bottom: 0.28rem;"></div> </div></div>';
 
 var currentModsOffset = 0;
 var currentModsLimit = 16;
@@ -59,13 +61,19 @@ class FrogModsUI {
   }
 
   static refreshModsList(offset = 0) {
+    $("#packs-mmodal #modsList").html("");
+    for (var i = 0; i < 16; i++) {
+      $("#packs-mmodal #modsList").append(MOD_ITEM_SKELETON);
+    }
     FrogModsManager.getMods(
       (mods) => {
         currentDisplayedMods = mods.hits;
         $("#packs-mmodal #modsList").html("");
         maxLimits = mods.total_hits;
-        if(mods.hits.length == 0){
-          $("#packs-mmodal #modsList").append("<span class='text-2xl' style='margin-top: 25vh'>Мы ничего не нашли ;(</span>");
+        if (mods.hits.length == 0) {
+          $("#packs-mmodal #modsList").append(
+            "<span class='text-2xl' style='margin-top: 25vh'>Мы ничего не нашли ;(</span>"
+          );
         }
         mods.hits.forEach((mod, i) => {
           var description = mod.description;
@@ -93,7 +101,6 @@ class FrogModsUI {
         $("#packs-mmodal #modsList .mod-item").click((evt) => {
           var currentModOpened =
             currentDisplayedMods[$(evt.currentTarget).data("displayed-id")];
-          console.log(currentModOpened);
           this.loadModIntoViewer(currentModOpened);
           FrogUI.showMenuModal("mod-viewer");
         });
@@ -110,9 +117,27 @@ class FrogModsUI {
     $("#packs-mmodal #installedModsList").html("");
     var installedMods = FrogModsManager.getInstalledMods();
     installedMods.forEach((mod) => {
-      $("#packs-mmodal #installedModsList").append(
-        INSTALLED_MOD_ITEM.replaceAll(/\$1/gim, mod)
-      );
+      if (
+        typeof mainConfig.installedModsCache !== "undefined" &&
+        typeof mainConfig.installedModsCache[mod] !== "undefined"
+      ) {
+        $("#packs-mmodal #installedModsList").append(
+          INSTALLED_MOD_ITEM.replaceAll(
+            /\$1/gim,
+            mainConfig.installedModsCache[mod].name +
+              " " +
+              mainConfig.installedModsCache[mod].version
+          )
+            .replaceAll(/\$2/gim, mainConfig.installedModsCache[mod].icon)
+            .replaceAll(/\$3/gim, mod)
+        );
+      } else {
+        $("#packs-mmodal #installedModsList").append(
+          INSTALLED_MOD_ITEM.replaceAll(/\$1/gim, mod)
+            .replaceAll(/\$2/gim, "")
+            .replaceAll(/\$3/gim, mod)
+        );
+      }
     });
   }
 
@@ -168,6 +193,19 @@ class FrogModsUI {
         "#mod-viewer-mmodal .mod-version-selector-fill option:selected"
       ).data("dlurl");
       var mdfn = FrogUtils.getFilenameFromURL(mdlurl);
+      if (typeof mainConfig.installedModsCache === "undefined") {
+        mainConfig.installedModsCache = {};
+      }
+      if (typeof mainConfig.installedModsCache[mdfn] === "undefined") {
+        mainConfig.installedModsCache[mdfn] = {
+          name: $("#mod-viewer-mmodal .mod-name-fill").eq(0).text(),
+          version: $(
+            "#mod-viewer-mmodal .mod-version-selector-fill option:selected"
+          ).text(),
+          icon: $("#mod-viewer-mmodal .mod-icon-fill .mod-icon").attr("src"),
+        };
+        FrogConfigManager.writeMainConfig(mainConfig);
+      }
       FrogUI.goHomeSection();
       FrogDownloadManager.downloadByURL(
         mdlurl,

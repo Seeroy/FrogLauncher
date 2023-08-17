@@ -7,6 +7,7 @@ class FrogGeneralStarter {
         FrogUtils.getFilenameFromURL(modloadersMyInfo.authlibInjector)
       );
       if (!fs.existsSync(authInjPath)) {
+        FrogUI.changeBottomControlsStatus(false, true, true);
         FrogDownloadManager.downloadByURL(
           modloadersMyInfo.authlibInjector,
           authInjPath,
@@ -26,6 +27,7 @@ class FrogGeneralStarter {
 
   static proceedToLaunch(options, displayName) {
     var launcher = new Client();
+    FrogUI.changeBottomControlsStatus(false, false, true);
     FrogBackendCommunicator.logBrowserConsole(
       "[S]",
       "Trying to start",

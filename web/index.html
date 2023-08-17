@@ -119,6 +119,9 @@
     <div class="dragbar">
       <div class="dragzone"></div>
       <div class="actions">
+        <div class="btn" onclick="$('.downloads-container').removeClass('hidden')">
+          <span class="material-symbols-rounded">download</span>
+        </div>
         <div
           class="btn"
           data-drawer-target="drawer-toasts-list"
@@ -248,9 +251,6 @@
         $(".blackscreen").addClass("hidden");
       });
     }, 450);
-    setTimeout(function () {
-      FrogUI.hidePreloader(); // Hiding preloader
-    }, 700);
 
     // Loading modals
     FrogUI.loadSection(".modals", "settingsModal");
@@ -285,6 +285,7 @@
             mainConfig.lastSelectedAccount = "none";
           }
         }
+        // Opening console if needed
         if (mainConfig.openConsoleOnStart == true) {
           FrogBackendCommunicator.onOpenConsoleWindow();
         }
@@ -311,7 +312,9 @@
           FrogOOBEWizard.startOOBE();
         }
         // Loading news
-        FrogNewsProvider.loadNews();
+        FrogNewsProvider.loadNews(() => {
+          $("#news-loading-indicator").addClass("hidden");
+        });
         FrogNewsProvider.setNewsReloadInterval();
         // Binding small easter egg
         FrogUtils.bindEasters();
@@ -341,15 +344,6 @@
             mainConfig.selectedBackground
           );
         }
-        /*if (window.localStorage.getItem("fln") == null) {
-          FrogNotifyModal.create(
-            "Извините...",
-            "У вас могут возникнуть проблемы с поддержкой устаревших версий Forge ниже 1.12.2<br>Мы приносим свои извинения работаем над исправлением данной проблемы",
-            "Понятно",
-            "warning"
-          );
-          window.localStorage.setItem("fln", true);
-        }*/
       }, 500);
 
       setTimeout(() => {
@@ -357,6 +351,7 @@
         if (mainConfig.lastSelectedVersion != "none") {
           FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
         }
+        FrogUI.hidePreloader(); // Hiding preloader
       }, 900);
 
       // Evt for notifications list clear button

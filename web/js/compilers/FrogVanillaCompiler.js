@@ -23,7 +23,7 @@ class FrogVanillaCompiler {
       },
       overrides: {
         gameDirectory: rootDirectory,
-        maxSockets: 4,
+        maxSockets: 2,
       },
     };
     return launch_arguments;
@@ -34,7 +34,6 @@ class FrogVanillaCompiler {
     FrogStartManager.prepareUIToStart(true);
     var startArguments, vanillaStarter;
     FrogAccountManager.generateAuthCredetinals(selectedAccount, (authData) => {
-      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogStartManager.getFinalJavaPath(version, (finalJP) => {
         startArguments = this.compileVanillaArguments(
           mainConfig.selectedBaseDirectory,

@@ -48,10 +48,10 @@ class FrogAccountManager {
         nickname
       );
       Toaster(
-        "Добавлен новый локальный аккаунт <p class='mc-text'>" +
+        "<span class='text-md text-gray-400'>Добавлен новый локальный аккаунт</span><p class='text-lg mc-text'>" +
           nickname +
           "</p>",
-        3000,
+        5000,
         false,
         "success"
       );
@@ -71,10 +71,10 @@ class FrogAccountManager {
       (data) => {
         if (typeof data !== "undefined") {
           if (typeof data.errorMessage !== "undefined") {
-            Toaster(
-              "Ошибка добавления аккаунта Ely.by<br>" + data.errorMessage,
-              5000,
-              false,
+            FrogNotifyModal.create(
+              "<span class='text-md text-gray-400' style='margin-top: -40px;'>Ошибка добавления аккаунта Ely.by</span>",
+              data.errorMessage,
+              "Понятно",
               "error"
             );
             cb();
@@ -92,19 +92,19 @@ class FrogAccountManager {
             accountsList.push(newAccount);
             this.saveAccounts(accountsList);
             Toaster(
-              "Добавлен новый аккаунт Ely.by <p class='mc-text'>" +
+              "<span class='text-md text-gray-400'>Добавлен новый аккаунт Ely.by</span><p class='text-lg mc-text'>" +
                 data.selectedProfile.name +
                 "</p>",
-              3000,
+              5000,
               false,
               "success"
             );
           }
         } else {
-          Toaster(
-            "Ошибка добавления аккаунта Ely.by<br>Server error: data empty",
-            5000,
-            false,
+          FrogNotifyModal.create(
+            "<span class='text-md text-gray-400' style='margin-top: -40px;'>Ошибка добавления аккаунта Ely.by</span>",
+            "Server error: data empty",
+            "Понятно",
             "error"
           );
         }
@@ -140,10 +140,10 @@ class FrogAccountManager {
           nickname
         );
         Toaster(
-          "Добавлен новый аккаунт Microsoft/Mojang <p class='mc-text'>" +
+          "<span class='text-md text-gray-400'>Добавлен новый аккаунт Microsoft</span><p class='text-lg mc-text'>" +
             nickname +
             "</p>",
-          3000,
+          5000,
           false,
           "success"
         );

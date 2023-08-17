@@ -1,7 +1,7 @@
 var downloadTasks;
 var downloadsID = {};
 const DOWNLOAD_ITEM =
-  '<div class="download-item flex items-center p-2 rounded" id="$3"> <p class="font-semibold grow text-white">$1</p> <div class="w-full rounded-full h-1.5 bg-gray-700" style="max-width: 290px;"> <div class="bg-primary-600 h-1.5 rounded-full" style="width: $2%" ></div> </div> <span class="text-white ml-2 percent-number">$2%</span> </div>';
+  '<div class="download-item flex flex-col items-center p-2 rounded" id="$3"> <div class="flex items-center w-full text-zone"> <span class="material-symbols-rounded text-white mr-2">download</span> <p class="font-semibold grow text-white">$1</p> </div> <div class="flex items-center w-full progress-zone"> <div class="w-full rounded-full h-1.5 bg-gray-700" > <div class="bg-primary-600 h-1.5 rounded-full" style="width: $2%" ></div> </div> <span class="text-white ml-2 percent-number">$2%</span> </div> </div>';
 
 class FrogDownloadManager {
   static downloadJava(version, cb) {
@@ -77,7 +77,7 @@ class FrogDownloadManager {
           false,
           false,
           true,
-          "Распаковка Java..."
+          "Распаковка Java"
         );
         FrogBackendCommunicator.logBrowserConsole(
           "[DL]",
@@ -234,7 +234,7 @@ class FrogDownloadManager {
   static handleDownloadStatus(e) {
     var downloadPercent = Math.round((e.current * 100) / e.total);
     var encName;
-    if(typeof downloadsID[e.name] !== "undefined"){
+    if (typeof downloadsID[e.name] !== "undefined") {
       encName = downloadsID[e.name];
     } else {
       encName = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
@@ -280,11 +280,31 @@ class FrogDownloadManager {
               encName +
               " .percent-number"
           ).remove();
-          $(".downloads-container .downloads-list #" + encName).append(
-            "<span class='text-white'>Завершено</span>"
-          );
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .progress-zone"
+          ).hide();
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .text-zone .material-symbols-rounded"
+          ).text("done");
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .text-zone .material-symbols-rounded"
+          ).removeClass("text-white");
+          $(
+            ".downloads-container .downloads-list #" +
+              encName +
+              " .text-zone .material-symbols-rounded"
+          ).addClass("text-green-600");
+          var dEl = document.getElementById(encName);
+          $(".downloads-container .downloads-list #" + encName).remove();
+          $(".downloads-container .downloads-list")[0].appendChild(dEl);
           $(".downloads-container .downloads-list #" + encName)
-            .delay(2500)
+            .delay(500)
             .queue(function () {
               animateCSSJ(
                 ".downloads-container .downloads-list #" + encName,
@@ -301,9 +321,14 @@ class FrogDownloadManager {
 
   static handleProgressStatus(e) {
     var percent = Math.round((e.task * 100) / e.total);
-    FrogUI.setBottomProgressDescription(
-      "Скачивание " + e.type + " (" + e.task + " из " + e.total + ")"
-    );
+    FrogUI.changeBottomControlsStatus(false, false, true);
+    if (e.task == 0 && e.total > 0) {
+      FrogUI.setBottomProgressDescription("Проверяем элементы " + e.type);
+    } else {
+      FrogUI.setBottomProgressDescription(
+        "Скачивание " + e.type + " (" + e.task + " из " + e.total + ")"
+      );
+    }
     FrogUI.setBottomProgressBar(percent);
   }
 }

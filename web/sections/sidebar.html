@@ -18,7 +18,7 @@
       <span class="material-symbols-rounded"> grid_view </span>
     </div>
     <div
-      class="sidebar-item flex items-center hidden"
+      class="sidebar-item flex items-center"
       data-tooltip="Сервера"
       data-modal="servers"
     >
@@ -78,7 +78,7 @@
   }
 
   .sidebar .sidebar-item.active {
-    box-shadow: 0px 0px 8px 4px var(--bg-primary-900);
+    box-shadow: 0px 0px 32px 2px var(--bg-primary-900);
   }
 
   .sb-tooltip {
@@ -121,7 +121,7 @@
     tooltipX = sbItemBoundings.x + sbItemBoundings.width + 16;
     tooltipY = sbItemBoundings.y + 3;
     $("body").append(
-      "<div class='sb-tooltip bg-primary-700 animate__animated animate__zoomIn animate__faster' style='top: " +
+      "<div class='sb-tooltip bg-primary-700 animate__animated animate__fadeIn animate__faster' style='top: " +
         tooltipY +
         "px; left: " +
         tooltipX +

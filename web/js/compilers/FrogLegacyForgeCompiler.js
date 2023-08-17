@@ -20,11 +20,11 @@ class FrogLegacyForgeCompiler {
       javaPath: javaPath,
       memory: {
         max: maxMemory,
-        min: "1500M",
+        min: "1G",
       },
       overrides: {
         gameDirectory: rootDirectory,
-        maxSockets: 4,
+        maxSockets: 2,
       },
     };
     return launch_arguments;
@@ -134,7 +134,6 @@ class FrogLegacyForgeCompiler {
                 finalJP,
                 "Forge" + version
               );
-              FrogUI.changeBottomControlsStatus(false, true, true);
               legacyForgeOptiStarter = new FrogLegacyForgeOptiStarter(
                 startArguments,
                 ourl

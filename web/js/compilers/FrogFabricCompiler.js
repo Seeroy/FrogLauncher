@@ -20,11 +20,11 @@ class FrogFabricCompiler {
       javaPath: javaPath,
       memory: {
         max: maxMemory,
-        min: "1500M",
+        min: "1G",
       },
       overrides: {
         gameDirectory: rootDirectory,
-        maxSockets: 4,
+        maxSockets: 2,
       }
     };
     return launch_arguments;
@@ -73,10 +73,8 @@ class FrogFabricCompiler {
                   finalJP,
                   fabInfo["directoryName"]
                 );
-                FrogUI.changeBottomControlsStatus(false, true, true);
                 fabricStarter = new FrogFabricStarter(startArguments, fapiUrl);
                 fabricStarter.prepareForLaunchStep1(() => {
-                  FrogUI.changeBottomControlsStatus(false, true, true);
                   fabricStarter.launch();
                 });
               });
@@ -196,7 +194,6 @@ class FrogFabricCompiler {
                       finalJP,
                       fabInfo["directoryName"]
                     );
-                    FrogUI.changeBottomControlsStatus(false, true, true);
                     fabricStarter = new FrogFabricSodiumStarter(
                       startArguments,
                       fapiUrl,
@@ -204,11 +201,8 @@ class FrogFabricCompiler {
                       irisUrl
                     );
                     fabricStarter.prepareForLaunchStep1(() => {
-                      FrogUI.changeBottomControlsStatus(false, true, true);
                       fabricStarter.prepareForLaunchStep2(() => {
-                        FrogUI.changeBottomControlsStatus(false, true, true);
                         fabricStarter.prepareForLaunchStep3(() => {
-                          FrogUI.changeBottomControlsStatus(false, true, true);
                           fabricStarter.launch();
                         });
                       });
@@ -307,7 +301,6 @@ class FrogFabricCompiler {
                 finalJP,
                 qInfo["directoryName"]
               );
-              FrogUI.changeBottomControlsStatus(false, true, true);
               quiltStarter = new FrogQuiltStarter(startArguments);
               quiltStarter.launch();
             });

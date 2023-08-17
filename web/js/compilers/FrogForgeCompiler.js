@@ -20,11 +20,11 @@ class FrogForgeCompiler {
       javaPath: javaPath,
       memory: {
         max: maxMemory,
-        min: "1500M",
+        min: "1G",
       },
       overrides: {
         gameDirectory: rootDirectory,
-        maxSockets: 4,
+        maxSockets: 2,
       },
     };
     return launch_arguments;
@@ -36,7 +36,6 @@ class FrogForgeCompiler {
     var startArguments, forgeStarter;
     var forgeFilename = FrogUtils.getFilenameFromURL(url);
     FrogAccountManager.generateAuthCredetinals(selectedAccount, (authData) => {
-      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogStartManager.getFinalJavaPath(version, (finalJP) => {
         startArguments = this.compileForgeArguments(
           mainConfig.selectedBaseDirectory,
@@ -48,7 +47,6 @@ class FrogForgeCompiler {
         );
         forgeStarter = new FrogForgeStarter(startArguments, url);
         forgeStarter.prepareForLaunch(() => {
-          FrogUI.changeBottomControlsStatus(false, true, true);
           forgeStarter.launch();
         });
       });
@@ -61,7 +59,6 @@ class FrogForgeCompiler {
     var startArguments, forgeOptiStarter;
     var forgeFilename = FrogUtils.getFilenameFromURL(furl);
     FrogAccountManager.generateAuthCredetinals(selectedAccount, (authData) => {
-    FrogUI.changeBottomControlsStatus(false, true, true);
     FrogStartManager.getFinalJavaPath(version, (finalJP) => {
       startArguments = this.compileForgeArguments(
         mainConfig.selectedBaseDirectory,
@@ -74,7 +71,6 @@ class FrogForgeCompiler {
       forgeOptiStarter = new FrogForgeOptiStarter(startArguments, furl, ourl);
       forgeOptiStarter.prepareForLaunchStep1(() => {
         forgeOptiStarter.prepareForLaunchStep2(() => {
-          FrogUI.changeBottomControlsStatus(false, true, true);
           forgeOptiStarter.launch();
         });
       });

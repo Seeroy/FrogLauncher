@@ -54,6 +54,7 @@ class FrogConfigManager {
       eulaAccepted: false,
       oobeFinished: false,
       disappearOnStart: true,
+      installedModsCache: {}
     };
     this.writeMainConfig(defaultCfg);
     return defaultCfg;

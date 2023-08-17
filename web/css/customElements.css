@@ -60,3 +60,7 @@
 svg.animate-spin path:first-child {
   color: transparent !important;
 }
+
+svg.animate-spin {
+  fill: white;
+}

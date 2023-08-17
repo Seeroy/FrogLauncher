@@ -36,7 +36,7 @@ class FrogStartManager {
 
   static prepareUIToStart(prepare = true) {
     if (prepare == true) {
-      FrogUI.changeBottomControlsStatus(false, true, true);
+      FrogUI.changeBottomControlsStatus(false, false, true);
       FrogUI.showDownloadManager(true);
     } else {
       FrogUI.changeBottomControlsStatus(true, false, false);
@@ -58,7 +58,6 @@ class FrogStartManager {
     if (changed == true && newStatus == "stopped") {
       // Status changed to `stopped`
       if (mainConfig.disappearOnStart == true) {
-
         $(".blackscreen").removeClass("hidden");
         setTimeout(function () {
           animateCSS(".blackscreen", "fadeOut", true).then(() => {
@@ -75,23 +74,23 @@ class FrogStartManager {
             mainConfig.selectedBackground
           );
         }
-
-        FrogBackendCommunicator.appearMainWindow();
+        
         FrogVersionsUI.refreshVersionsListModal(
           lastVersionsFilters,
           lastVanillaShowType
         );
+        setTimeout(() => {
+          FrogBackendCommunicator.appearMainWindow();
+        }, 100);
       }
       this.prepareUIToStart(false);
       if (mainConfig.enableDiscordPresence == true) {
         FrogDiscordPresence.setPresenceMode("menu");
       }
       this.deleteTemporaryMods();
-
     } else if (changed == true && newStatus == "starting") {
       // Status changed to `starting`
       if (mainConfig.disappearOnStart == true) {
-
         if (mainConfig.selectedBackground.toString().length > 2) {
           // Nothing
         } else if (mainConfig.selectedBackground > 0) {
@@ -99,7 +98,7 @@ class FrogStartManager {
         } else {
           FrogAnimatedBackgrounds.stopBackground();
         }
-        
+
         FrogBackendCommunicator.disappearMainWindow();
       }
       FrogVersionsManager.getVersionByShortName(
@@ -151,6 +150,7 @@ class FrogStartManager {
 
   static startSelectedVersion() {
     if (selectedAccount != null && selectedGameVersion != null) {
+      FrogUI.changeBottomControlsStatus(false, false, true);
       gameStatus = "stopped";
       FrogVersionsManager.getVersionByShortName(
         selectedGameVersion,
@@ -252,36 +252,24 @@ class FrogStartManager {
   }
 
   // Delete all temporary files from `mods` (this file is stored in `cache` directory)
-  static deleteTemporaryMods() {
-    var removed = [];
-    var rdir = fs.readdirSync(
-      path.join(mainConfig.selectedBaseDirectory, "mods")
+  static deleteTemporaryMods(cb = () => {}) {
+    fs.readdir(
+      path.join(mainConfig.selectedBaseDirectory, "cache"),
+      (err, cacheRdir) => {
+        cacheRdir.forEach((cacheItem) => {
+          var modsCacheItem = path.join(
+            mainConfig.selectedBaseDirectory,
+            "mods",
+            cacheItem
+          );
+          fs.exists(modsCacheItem, (res) => {
+            if (res == true) {
+              fs.unlink(modsCacheItem, () => {});
+            }
+          });
+        });
+        cb();
+      }
     );
-    rdir.forEach(function (dr) {
-      if (dr.match(/OptiFine_1.*\.jar/gim) != null && !removed.includes(dr)) {
-        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
-        removed.push(dr);
-      }
-      if (dr.match(/fabric-0.*\.jar/gim) != null && !removed.includes(dr)) {
-        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
-        removed.push(dr);
-      }
-      if (dr.match(/fabric-api-0.*\.jar/gim) != null && !removed.includes(dr)) {
-        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
-        removed.push(dr);
-      }
-      if (
-        dr.match(/sodium-fabric-.*\.jar/gim) != null &&
-        !removed.includes(dr)
-      ) {
-        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
-        removed.push(dr);
-      }
-      if (dr.match(/iris-.*\.jar/gim) != null && !removed.includes(dr)) {
-        fs.unlinkSync(path.join(mainConfig.selectedBaseDirectory, "mods", dr));
-        removed.push(dr);
-      }
-    });
-    return true;
   }
 }

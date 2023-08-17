@@ -18,6 +18,7 @@ class FrogLegacyForgeOptiStarter {
     );
     FrogStartManager.deleteTemporaryMods();
     if (!fs.existsSync(ofPath)) {
+      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogDownloadManager.downloadByURL(this.ofDownloadURL, ofPath, (dlRes) => {
         if (dlRes == true) {
           fs.copyFileSync(ofPath, ofPathDest);

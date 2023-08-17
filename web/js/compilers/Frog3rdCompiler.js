@@ -23,7 +23,7 @@ class Frog3rdCompiler {
       },
       overrides: {
         gameDirectory: rootDirectory,
-        maxSockets: 4,
+        maxSockets: 2,
       },
     };
     return launch_arguments;
@@ -34,7 +34,6 @@ class Frog3rdCompiler {
     FrogStartManager.prepareUIToStart(true);
     var startArguments, rdStarter;
     FrogAccountManager.generateAuthCredetinals(selectedAccount, (authData) => {
-      FrogUI.changeBottomControlsStatus(false, true, true);
       FrogStartManager.getFinalJavaPath(FrogVersionsManager.detectMinecraftVersion(versionInfo.shortName)[0], (finalJP) => {
         startArguments = this.compile3rdArguments(
           mainConfig.selectedBaseDirectory,

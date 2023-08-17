@@ -1,6 +1,4 @@
-<div
-  class="downloads-container flex flex-col bg-primary-1100 p-3 rounded-lg hidden"
->
+<div class="downloads-container flex flex-col bg-primary-1100 p-3 hidden">
   <div class="flex items-center">
     <p class="mc-text text-2xl text-white m-3 mx-2 grow">Менеджер загрузок</p>
     <button
@@ -18,33 +16,35 @@
 <style>
   .downloads-container {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 16px;
+    right: 0px;
+    top: 0;
+    bottom: 0;
     height: max-content;
 
-    max-height: 65vh;
-    width: 70vw;
-    margin: 0 auto;
-    z-index: 3;
+    height: 70vh;
+    width: 38vw;
+    margin: auto 0;
+    z-index: 15;
+    opacity: 0.87;
+
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    overflow: hidden;
   }
 
   .downloads-container .download-item {
     margin-top: 2px;
     margin-bottom: 2px;
+    max-width: 38vw;
+    overflow: hidden;
+  }
+
+  .downloads-container .download-item .text-zone p {
+    text-overflow: ellipsis;
   }
 
   .downloads-container .bg-gray-200 {
     width: 256px;
-  }
-
-  .downloads-container.minimized {
-    width: max-content !important;
-    opacity: 0.43;
-  }
-
-  .downloads-container.minimized .downloads-list {
-    display: none !important;
   }
 
   .downloads-container.disabled {
@@ -54,10 +54,6 @@
 
 <script>
   $(".downloads-container .minimize-btn").click(() => {
-    if ($(".downloads-container").hasClass("minimized")) {
-      $(".downloads-container").removeClass("minimized");
-    } else {
-      $(".downloads-container").addClass("minimized");
-    }
+    $(".downloads-container").addClass("hidden");
   });
 </script>
