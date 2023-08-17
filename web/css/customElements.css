@@ -55,3 +55,8 @@
   background: var(--bg-primary-1100) !important;
   border-radius: 2px;
 }
+
+/* Styling loader */
+svg.animate-spin path:first-child {
+  color: transparent !important;
+}

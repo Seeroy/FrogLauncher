@@ -1,11 +1,18 @@
 const ACCOUNTS_LIST_ITEM_BASE =
   '<div class="flex p-2 rounded-lg user-item" onclick="FrogAccountUI.changeActiveAccount(' +
   "'$1'" +
-  ')"> <div class="flex items-center h-8"> <img src="https://minotar.net/avatar/$1/24" /> </div> <div class="ml-2 text-sm text-white"> <div>$1</div> <p class="text-xs font-normal text-gray-400">$2</p> </div> <div class="grow"></div> <button type="button" class="font-medium rounded-lg text-sm text-center border-gray-600 text-red-500 hover:text-white" onclick="FrogAccountUI.deleteAccountAndRefresh(' +
+  ', `base`)"> <div class="flex items-center h-8"> <img src="https://minotar.net/avatar/$1/24" /> </div> <div class="ml-2 text-sm text-white"> <div>$1</div> <p class="text-xs font-normal text-gray-400">$2</p> </div> <div class="grow"></div> <button type="button" class="font-medium rounded-lg text-sm text-center border-gray-600 text-red-500 hover:text-white" onclick="FrogAccountUI.deleteAccountAndRefresh(' +
+  "'$1'" +
+  ')"><span class="material-symbols-rounded" style="margin-top: 3px;">delete</span></button> </div>';
+  const ACCOUNTS_LIST_ITEM_BASE_EL =
+  '<div class="flex p-2 rounded-lg user-item" onclick="FrogAccountUI.changeActiveAccount(' +
+  "'$1'" +
+  ', `elyby`)"> <div class="flex items-center h-8"> <img src="assets/icons/elyby.png" /> </div> <div class="ml-2 text-sm text-white"> <div>$1</div> <p class="text-xs font-normal text-gray-400">$2</p> </div> <div class="grow"></div> <button type="button" class="font-medium rounded-lg text-sm text-center border-gray-600 text-red-500 hover:text-white" onclick="FrogAccountUI.deleteAccountAndRefresh(' +
   "'$1'" +
   ')"><span class="material-symbols-rounded" style="margin-top: 3px;">delete</span></button> </div>';
 const ACCOUNTS_LIST_ITEM_LOCAL = "Локальный аккаунт";
 const ACCOUNTS_LIST_ITEM_MS = "Аккаунт Microsoft";
+const ACCOUNTS_LIST_ITEM_EL = "Аккаунт Ely.by";
 const ACCOUNTS_LIST_ITEM_NEW =
   '<div class="flex p-2 rounded-lg user-item" onclick="FrogAccountUI.newAccountWizard()"> <div class="flex items-center h-8"> <span class="material-symbols-rounded text-white" style="font-size: 24px;">add</span> </div> <div class="ml-2 text-sm text-white"> <div>Добавить аккаунт</div> <p class="text-xs font-normal text-gray-400">Добавить новый аккаунт</p> </div> </div>';
 const USER_SELECT_BTN_BASE =
@@ -23,12 +30,24 @@ class FrogAccountUI {
           "Changing active account to",
           nickname
         );
-        $("#show-users-select").html(
-          USER_SELECT_BTN_BASE.replaceAll(
-            /\$1/gim,
-            "https://minotar.net/avatar/" + nickname + "/24"
-          ).replaceAll(/\$2/gim, nickname)
-        );
+
+        var accType = FrogAccountManager.getAccountByName(nickname).type;
+        if(accType != "elyby"){
+          $("#show-users-select").html(
+            USER_SELECT_BTN_BASE.replaceAll(
+              /\$1/gim,
+              "https://minotar.net/avatar/" + nickname + "/24"
+            ).replaceAll(/\$2/gim, nickname)
+          );
+        } else {
+          $("#show-users-select").html(
+            USER_SELECT_BTN_BASE.replaceAll(
+              /\$1/gim,
+              "assets/icons/elyby.png"
+            ).replaceAll(/\$2/gim, nickname)
+          );
+        }
+
         mainConfig.lastSelectedAccount = nickname;
         selectedAccount = FrogAccountManager.getAccountByName(nickname);
         FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
@@ -47,12 +66,19 @@ class FrogAccountUI {
             account.nickname
           ).replaceAll(/\$2/gim, ACCOUNTS_LIST_ITEM_LOCAL)
         );
-      } else {
+      } else if (account.type == "microsoft") {
         $(".users-select-modal").append(
           ACCOUNTS_LIST_ITEM_BASE.replaceAll(
             /\$1/gim,
             account.nickname
           ).replaceAll(/\$2/gim, ACCOUNTS_LIST_ITEM_MS)
+        );
+      } else if (account.type == "elyby") {
+        $(".users-select-modal").append(
+          ACCOUNTS_LIST_ITEM_BASE_EL.replaceAll(
+            /\$1/gim,
+            account.nickname
+          ).replaceAll(/\$2/gim, ACCOUNTS_LIST_ITEM_EL)
         );
       }
     });

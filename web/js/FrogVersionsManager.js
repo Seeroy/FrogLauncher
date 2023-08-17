@@ -224,9 +224,15 @@ class FrogVersionsManager {
             }
           });
           installedVersionsChk.forEach((version) => {
+            var detectVer = this.detectMinecraftVersion(version);
+            if(detectVer != null){
+              detectVer = detectVer[0];
+            } else {
+              detectVer = "";
+            }
             releases.push({
               shortName: "3rdparty-" + version,
-              version: this.detectMinecraftVersion(version)[0],
+              version: detectVer,
               type: "3rdparty",
               installed: true,
             });

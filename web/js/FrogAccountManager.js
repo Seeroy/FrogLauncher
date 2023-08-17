@@ -65,6 +65,57 @@ class FrogAccountManager {
     }
   }
 
+  static addElybyAccount(cb, login, password) {
+    var randClientUUID = crypto.randomUUID();
+    FrogElybyManager.loginAccount(
+      (data) => {
+        if (typeof data !== "undefined") {
+          if (typeof data.errorMessage !== "undefined") {
+            Toaster(
+              "Ошибка добавления аккаунта Ely.by<br>" + data.errorMessage,
+              5000,
+              false,
+              "error"
+            );
+            cb();
+          } else {
+            var accountsList = this.getAccounts();
+            var newAccount = {
+              id: accountsList.length,
+              type: "elyby",
+              nickname: data.selectedProfile.name,
+              added: Date.now(),
+              clientToken: randClientUUID,
+              accessToken: data.accessToken,
+              userUUID: data.selectedProfile.id,
+            };
+            accountsList.push(newAccount);
+            this.saveAccounts(accountsList);
+            Toaster(
+              "Добавлен новый аккаунт Ely.by <p class='mc-text'>" +
+                data.selectedProfile.name +
+                "</p>",
+              3000,
+              false,
+              "success"
+            );
+          }
+        } else {
+          Toaster(
+            "Ошибка добавления аккаунта Ely.by<br>Server error: data empty",
+            5000,
+            false,
+            "error"
+          );
+        }
+        cb();
+      },
+      login,
+      password,
+      randClientUUID
+    );
+  }
+
   static addMicrosoftAccount(cb) {
     var authManager = new Auth("select_account");
     authManager.launch("raw").then(async (xboxManager) => {
@@ -115,6 +166,45 @@ class FrogAccountManager {
       });
     } else if (account.type == "microsoft") {
       cb(account.authorizationData);
+    } else if (account.type == "elyby") {
+      FrogElybyManager.validateAccessToken((valResult) => {
+        if (valResult == false) {
+          FrogElybyManager.refreshAuthToken(
+            (refreshResult) => {
+              var accountNeedToBeFixed = -1;
+              accountsConfig.forEach((faccount, i) => {
+                if (faccount.nickname == account.nickname) {
+                  accountNeedToBeFixed = i;
+                }
+              });
+              if (accountNeedToBeFixed != -1) {
+                accountsConfig[accountNeedToBeFixed].accessToken =
+                  refreshResult.accessToken;
+                accountsConfig[accountNeedToBeFixed].uuid =
+                  refreshResult.selectedProfile.id;
+                accountsConfig[accountNeedToBeFixed].name =
+                  refreshResult.selectedProfile.name;
+                this.saveAccounts(accountsConfig);
+              }
+              cb({
+                access_token: accountsConfig[accountNeedToBeFixed].accessToken,
+                client_token: accountsConfig[accountNeedToBeFixed].clientToken,
+                uuid: accountsConfig[accountNeedToBeFixed].userUUID,
+                name: accountsConfig[accountNeedToBeFixed].nickname,
+              });
+            },
+            account.accessToken,
+            account.clientToken
+          );
+        } else {
+          cb({
+            access_token: account.accessToken,
+            client_token: account.clientToken,
+            uuid: account.userUUID,
+            name: account.nickname,
+          });
+        }
+      }, account.accessToken);
     }
   }
 

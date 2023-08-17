@@ -25,7 +25,7 @@ class FrogFabricCompiler {
       overrides: {
         gameDirectory: rootDirectory,
         maxSockets: 4,
-      },
+      }
     };
     return launch_arguments;
   }
