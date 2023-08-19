@@ -21,8 +21,14 @@
       class="sidebar-item flex items-center"
       data-tooltip="Сервера"
       data-modal="servers"
+      onclick="FrogServersUI.serversListViewed()"
     >
       <span class="material-symbols-rounded"> dns </span>
+      <div
+      class="absolute inline-flex items-center justify-center w-2 h-2 font-bold text-white bg-red-500 rounded-full hidden"
+      style="top: 40vh; right: 18px"
+      id="new-servers-badge"
+    ></div>
     </div>
     <div
       class="sidebar-item flex items-center"

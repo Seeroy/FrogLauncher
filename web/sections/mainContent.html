@@ -1,26 +1,4 @@
 <div class="content p-5">
-  <div id="update-notify" class="rounded-lg hidden">
-    <img src="assets/backgrounds/update_bg.png" />
-    <div class="flex items-center justify-center w-full ml-5">
-      <span class="material-symbols-rounded text-white">update</span>
-      <p class="ml-3 text-xl text-white grow">Доступно новое обновление!</p>
-      <button
-        type="button"
-        onclick="FrogBackendCommunicator.installUpdate()"
-        class="text-black bg-white hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none install-btn hidden"
-      >
-        Установить
-      </button>
-      <button
-        type="button"
-        onclick="$('#update-notify').addClass('hidden')"
-        class="text-black bg-white hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none ml-3 nt-btn hidden"
-      >
-        Нет, спасибо
-      </button>
-    </div>
-  </div>
-
   <div class="flex flex-col w-full h-full my-3">
     <div
       class="news-item w-full my-3 flex items-center animate__animated animate__fadeInDown animate__delay_cst"
@@ -155,16 +133,3 @@
     color: rgb(210, 210, 210);
   }
 </style>
-
-<script>
-  // Handling updates
-  ipcRenderer.once("update-available", () => {
-    $("#update-notify").removeClass("hidden");
-    $("#update-notify p.grow").text("Скачиваем новое обновление...");
-  });
-  ipcRenderer.once("update-downloaded", () => {
-    $("#update-notify p.grow").text("Обновление готово к установке!");
-    $("#update-notify .install-btn").removeClass("hidden");
-    $("#update-notify .nt-btn").removeClass("hidden");
-  });
-</script>

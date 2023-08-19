@@ -265,6 +265,20 @@ class FrogUI {
       FrogConfigManager.writeMainConfig(mainConfig);
     }
   }
+
+  static refreshUIDisablers(){
+    if(localStorage.disableAnimations == 'true'){
+      $("html").addClass("no-animation");
+    } else {
+      $("html").removeClass("no-animation");
+    }
+  
+    if(localStorage.disableBlur == 'true'){
+      $("html").addClass("no-blur");
+    } else {
+      $("html").removeClass("no-blur");
+    }
+  }
 }
 
 const animateCSS = (element, animation, fast = true, prefix = "animate__") =>

@@ -1,5 +1,18 @@
 class FrogGeneralStarter {
   static launchGeneral(options, displayName) {
+    if(typeof options.customArgs != "object"){
+      options.customArgs = [];
+    }
+    if(typeof options.customLaunchArgs != "object"){
+      options.customLaunchArgs = [];
+    }
+    if(selectedServerFromList !=  ""){
+      options.customLaunchArgs.push("--server");
+      options.customLaunchArgs.push(selectedServerFromList.split(":")[0]);
+      options.customLaunchArgs.push("--port");
+      options.customLaunchArgs.push(selectedServerFromList.split(":")[1]);
+      selectedServerFromList = "";
+    }
     if (selectedAccount.type == "elyby") {
       var authInjPath = path.join(
         mainConfig.selectedBaseDirectory,
@@ -12,12 +25,12 @@ class FrogGeneralStarter {
           modloadersMyInfo.authlibInjector,
           authInjPath,
           () => {
-            options.customArgs = ['-javaagent:' + authInjPath.replace(/\\/, "/") + '=ely.by'];
+            options.customArgs.push("-javaagent:" + authInjPath.replace(/\\/, "/") + "=ely.by");
             this.proceedToLaunch(options, displayName);
           }
         );
       } else {
-        options.customArgs = ['-javaagent:' + authInjPath.replace(/\\/, "/") + '=ely.by'];
+        options.customArgs.push("-javaagent:" + authInjPath.replace(/\\/, "/") + "=ely.by");
         this.proceedToLaunch(options, displayName);
       }
     } else {

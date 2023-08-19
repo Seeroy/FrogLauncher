@@ -58,13 +58,7 @@ class FrogStartManager {
     if (changed == true && newStatus == "stopped") {
       // Status changed to `stopped`
       if (mainConfig.disappearOnStart == true) {
-        $(".blackscreen").removeClass("hidden");
-        setTimeout(function () {
-          animateCSS(".blackscreen", "fadeOut", true).then(() => {
-            $(".blackscreen").addClass("hidden");
-          });
-          FrogUI.refreshAbsoluteElementsPositions();
-        }, 450);
+        FrogUI.refreshAbsoluteElementsPositions();
         if (mainConfig.selectedBackground.toString().length > 2) {
           // Nothing
         } else if (mainConfig.selectedBackground > 0) {
@@ -74,14 +68,13 @@ class FrogStartManager {
             mainConfig.selectedBackground
           );
         }
-        
+
         FrogVersionsUI.refreshVersionsListModal(
           lastVersionsFilters,
           lastVanillaShowType
         );
-        setTimeout(() => {
-          FrogBackendCommunicator.appearMainWindow();
-        }, 100);
+        animateCSSJ("html", "fadeIn", false);
+        FrogBackendCommunicator.appearMainWindow();
       }
       this.prepareUIToStart(false);
       if (mainConfig.enableDiscordPresence == true) {
@@ -90,17 +83,6 @@ class FrogStartManager {
       this.deleteTemporaryMods();
     } else if (changed == true && newStatus == "starting") {
       // Status changed to `starting`
-      if (mainConfig.disappearOnStart == true) {
-        if (mainConfig.selectedBackground.toString().length > 2) {
-          // Nothing
-        } else if (mainConfig.selectedBackground > 0) {
-          // Nothing
-        } else {
-          FrogAnimatedBackgrounds.stopBackground();
-        }
-
-        FrogBackendCommunicator.disappearMainWindow();
-      }
       FrogVersionsManager.getVersionByShortName(
         selectedGameVersion,
         (gameInfo) => {
@@ -118,6 +100,23 @@ class FrogStartManager {
         "Запускаем игру, подождите"
       );
       FrogUI.showDownloadManager(false);
+      setTimeout(() => {
+        if (mainConfig.disappearOnStart == true) {
+          if (gameStatus == "starting" || gameStatus == "started") {
+            if (mainConfig.selectedBackground.toString().length > 2) {
+              // Nothing
+            } else if (mainConfig.selectedBackground > 0) {
+              // Nothing
+            } else {
+              FrogAnimatedBackgrounds.stopBackground();
+            }
+
+            animateCSSJ("html", "fadeOut", true).then(() => {
+              FrogBackendCommunicator.disappearMainWindow();
+            });
+          }
+        }
+      }, 2000);
     } else if (changed == true && newStatus == "started") {
       // Status changed to `started`
       FrogVersionsManager.getVersionByShortName(

@@ -24,7 +24,9 @@
     <script src="./js/FrogLauncherStory.js"></script>
     <script src="./js/FrogErrorsParser.js"></script>
     <script src="./js/FrogNewsProvider.js"></script>
+    <script src="./js/FrogUpdateHandler.js"></script>
     <script src="./js/FrogElybyManager.js"></script>
+    <script src="./js/FrogServersUI.js"></script>
     <script src="./js/toaster.js"></script>
     <!-- Starters classes -->
     <script src="./js/starters/FrogVanillaStarter.js"></script>
@@ -119,7 +121,10 @@
     <div class="dragbar">
       <div class="dragzone"></div>
       <div class="actions">
-        <div class="btn" onclick="$('.downloads-container').removeClass('hidden')">
+        <div
+          class="btn"
+          onclick="$('.downloads-container').removeClass('hidden')"
+        >
           <span class="material-symbols-rounded">download</span>
         </div>
         <div
@@ -218,12 +223,16 @@
     selectedGameVersion,
     installedVersionsChk,
     anyDownloading = false,
-    gameStatus = "stopped";
+    serversListSave,
+    gameStatus = "stopped",
+    selectedServerFromList = "";
 
-  const DEFAULT_SOUNDS_VOL = 0.6;
+  const DEFAULT_SOUNDS_VOL = 0.5;
   const __appData = ipcRenderer.sendSync("get-appdata-path");
 
   $(document).ready(function () {
+    // Binding update handler
+    FrogUpdateHandler.bindUpdate();
     // Loading config or creating if not exists
     mainConfig = FrogConfigManager.readMainConfig();
     if (mainConfig == false) {
@@ -264,6 +273,8 @@
     FrogUI.loadSection(".modals", "downloadsFloating");
     FrogUI.loadSection(".modals", "modViewerModal");
 
+    FrogUI.refreshUIDisablers();
+
     FrogVersionsManager.refreshMyModloadersInfo(() => {
       // Refreshing some items
       setTimeout(() => {
@@ -301,6 +312,9 @@
         FrogModsUI.refreshModloadersList(() => {
           FrogModsUI.refreshVersionsList(() => {
             FrogModsUI.refreshModsList();
+            FrogServersUI.onLauncherStart(() => {
+              FrogServersUI.loadServersList();
+            });
           });
         });
         // Set launcher version in 'About Launcher'

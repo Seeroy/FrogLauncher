@@ -129,6 +129,27 @@
           </div>
         </li>
       </ul>
+
+      <div class="flex items-center my-3">
+        <span class="text-white text-lg mr-2"
+          >Отключить анимации</span
+        >
+        <label class="switch">
+          <input type="checkbox" id="disableAnimationsCheckbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div class="flex items-center my-3">
+        <span class="text-white text-lg mr-2"
+          >Отключить размытие</span
+        >
+        <label class="switch">
+          <input type="checkbox" id="disableBlurCheckbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
     </div>
   </div>
 </div>
@@ -195,6 +216,32 @@
 </style>
 
 <script>
+  if(localStorage.disableAnimations == 'true'){
+    $("#disableAnimationsCheckbox").attr("checked", "checked");
+  }
+
+  if(localStorage.disableBlur == 'true'){
+    $("#disableBlurCheckbox").attr("checked", "checked");
+  }
+
+  $("#disableBlurCheckbox").change(function () {
+    if($(this).is(":checked")){
+      localStorage.setItem("disableBlur", "true");
+    } else {
+      localStorage.setItem("disableBlur", "false");
+    }
+    FrogUI.refreshUIDisablers()
+  })
+
+  $("#disableAnimationsCheckbox").change(function () {
+    if($(this).is(":checked")){
+      localStorage.setItem("disableAnimations", "true");
+    } else {
+      localStorage.setItem("disableAnimations", "false");
+    }
+    FrogUI.refreshUIDisablers()
+  })
+
   $("#themes-mmodal .modal-tabs").click(function () {
     if (!$(this).hasClass("active")) {
       $("#themes-mmodal .modal-tabs.active").removeClass("active");

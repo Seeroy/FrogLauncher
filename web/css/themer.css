@@ -37,3 +37,14 @@ html.font-mc *:not(.material-symbols-rounded) {
 html.font-gt *:not(.material-symbols-rounded) {
   font-family: "Golos Text" !important;
 }
+
+html.no-animation *{
+  transition: 0.01s !important;
+  animation-duration: 0.01s !important;
+  animation-delay: 0.01s !important;
+}
+
+html.no-blur * {
+  backdrop-filter: none;
+  filter: none;
+}

@@ -11,15 +11,72 @@
       </button>
     </div>
 
-    <div class="flex flex-col items-center justify-center w-full h-full">
-      <img
-        src="assets/in_develop.gif"
-        style="height: 192px"
-        class="mb-3 rounded-lg"
-      />
-      <p class="mc-text text-2xl text-center">
-        Данный раздел лаунчера находится в разработке<br />Ждите ;)
-      </p>
-    </div>
+    <div class="flex flex-col items-center grow w-full" id="serversList"></div>
   </div>
 </div>
+
+<style>
+  #servers-mmodal #serversList {
+    overflow: auto;
+    margin: 6px 0;
+  }
+
+  #servers-mmodal .server-item-v2 {
+    width: 90%;
+    height: max-content;
+    border: 1px solid rgba(165, 165, 176, 0.25);
+    background: transparent;
+    border-radius: 16px;
+    padding: 10px;
+    margin: 8px 0;
+  }
+
+  #servers-mmodal .server-item-v2 .caption {
+    font-weight: 700;
+    font-size: 16pt;
+    color: white;
+  }
+
+  #servers-mmodal .server-item-v2 .description {
+    font-weight: 500;
+    font-size: 11pt;
+    color: rgba(210, 210, 210, 0.8);
+  }
+
+  #servers-mmodal .server-item-v2 .ip,
+  #servers-mmodal .server-item-v2 .version {
+    width: max-content;
+    height: 32px;
+    background: rgba(32, 32, 43, 0.55);
+    padding: 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px 0;
+  }
+
+  #servers-mmodal .server-item-v2 .ip *,
+  #servers-mmodal .server-item-v2 .version * {
+    font-size: 9pt;
+    color: rgb(230, 230, 230, 0.8);
+  }
+
+  #servers-mmodal .server-item-v2 .copy-btn,
+  #servers-mmodal .server-item-v2 .play-btn {
+    margin: 0 8px;
+  }
+
+  #servers-mmodal .server-item-v2 .copy-btn .material-symbols-rounded,
+  #servers-mmodal .server-item-v2 .play-btn .material-symbols-rounded {
+    font-size: 21pt;
+    color: rgb(85, 85, 85);
+    cursor: pointer;
+    margin: 16px;
+  }
+
+  #servers-mmodal .server-item-v2 .copy-btn .material-symbols-rounded:hover,
+  #servers-mmodal .server-item-v2 .play-btn .material-symbols-rounded:hover {
+    color: rgb(240, 240, 240);
+  }
+</style>
