@@ -37,10 +37,8 @@ class FrogStartManager {
   static prepareUIToStart(prepare = true) {
     if (prepare == true) {
       FrogUI.changeBottomControlsStatus(false, false, true);
-      FrogUI.showDownloadManager(true);
     } else {
       FrogUI.changeBottomControlsStatus(true, false, false);
-      FrogUI.showDownloadManager(false);
     }
   }
 
@@ -87,7 +85,7 @@ class FrogStartManager {
         selectedGameVersion,
         (gameInfo) => {
           FrogDiscordPresence.setPresenceMode(
-            "loading",
+            "playing",
             gameInfo.version,
             gameInfo.type
           );
@@ -99,7 +97,6 @@ class FrogStartManager {
         true,
         "Запускаем игру, подождите"
       );
-      FrogUI.showDownloadManager(false);
       setTimeout(() => {
         if (mainConfig.disappearOnStart == true) {
           if (gameStatus == "starting" || gameStatus == "started") {
@@ -119,23 +116,12 @@ class FrogStartManager {
       }, 2000);
     } else if (changed == true && newStatus == "started") {
       // Status changed to `started`
-      FrogVersionsManager.getVersionByShortName(
-        selectedGameVersion,
-        (gameInfo) => {
-          FrogDiscordPresence.setPresenceMode(
-            "playing",
-            gameInfo.version,
-            gameInfo.type
-          );
-        }
-      );
       FrogUI.changeBottomControlsStatus(
         false,
         false,
         true,
         "Игра запущена успешно!"
       );
-      FrogUI.showDownloadManager(false);
     } else if (changed == true && newStatus == "stopping") {
       // Status changed to `stopping`
       FrogUI.changeBottomControlsStatus(

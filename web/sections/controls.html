@@ -62,11 +62,10 @@
           </svg>
           <span class="sr-only">Loading...</span>
         </div>
-        <p class="text"></p>
+        <p class="text grow"></p>
+        <p class="filename"></p>
       </div>
-      <div class="w-full rounded-full h-2.5 bg-gray-700 progress mt-2">
-        <div class="bg-primary-600 h-2.5 rounded-full" style="width: 0%"></div>
-      </div>
+      <div class="w-full rounded-full h-2.5 progress mt-2"></div>
     </div>
     <div id="progress-badge" class="flex items-center justify-center">
       <div role="status" class="mr-3">
@@ -271,5 +270,15 @@
     background: var(--bg-primary-700);
     width: max-content;
     height: max-content;
+  }
+
+  .progress,
+  .progress * {
+    transition: 0s !important;
+    animation-duration: 0s !important;
+  }
+
+  .controls .progress.w-full {
+    background: rgba(85,85,85,0.55);
   }
 </style>

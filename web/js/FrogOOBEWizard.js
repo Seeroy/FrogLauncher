@@ -19,9 +19,6 @@ class FrogOOBEWizard {
 
   static finishOOBE() {
     mainConfig.oobeFinished = true;
-    mainConfig.enableDownloadManager = $(
-      ".oobeWizard #downmanagerOobeCheckbox"
-    ).is(":checked");
     mainConfig.enableDiscordPresence = $(
       ".oobeWizard #discordrpcOobeCheckbox"
     ).is(":checked");

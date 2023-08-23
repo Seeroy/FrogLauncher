@@ -95,14 +95,6 @@
       </div>
 
       <div class="flex items-center my-3">
-        <span class="text-white text-lg mr-2">Включить Менеджер загрузок</span>
-        <label class="switch">
-          <input type="checkbox" id="downmanagerCheckbox" />
-          <span class="slider round"></span>
-        </label>
-      </div>
-
-      <div class="flex items-center my-3">
         <span class="text-white text-lg mr-2"
           >Включить Discord Rich Presence</span
         >
@@ -470,10 +462,6 @@
       $("#disappearOnStartCheckbox").prop("checked", true);
     }
 
-    if (mainConfig.enableDownloadManager == true) {
-      $("#downmanagerCheckbox").prop("checked", true);
-    }
-
     // Handle game directory selection
     ipcRenderer.on("get-gd-result", (event, arg) => {
       if (arg != false) {
@@ -507,7 +495,6 @@
       "#interfaceSoundsCheckbox"
     ).is(":checked");
     mainConfig.enableDiscordPresence = $("#discordrpcCheckbox").is(":checked");
-    mainConfig.enableDownloadManager = $("#downmanagerCheckbox").is(":checked");
     mainConfig.disappearOnStart = $("#disappearOnStartCheckbox").is(":checked");
     mainConfig.autoInstallFabricAPI = $("#autoFabricAPICheckbox").is(
       ":checked"

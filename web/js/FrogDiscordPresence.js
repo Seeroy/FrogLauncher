@@ -9,13 +9,13 @@ class FrogDiscordPresence {
               start: Date.now(),
             },
             assets: {
-              large_image: "icon1024",
+              large_image: "frog_temp",
               large_text: "FrogLauncher",
             },
             buttons: [
               {
                 label: "Я тоже такой хочу",
-                url: "https://github.com/seeroy/FrogLauncher",
+                url: "https://froglauncher.seeroy.ru",
               },
             ],
           });
@@ -25,13 +25,13 @@ class FrogDiscordPresence {
             details: "Запускает Minecraft",
             state: this.gameTypeToDisplayname(gameType) + " " + gameVersion,
             assets: {
-              large_image: "icon1024",
+              large_image: "frog_warm",
               large_text: "FrogLauncher",
             },
             buttons: [
               {
                 label: "Я тоже такой хочу",
-                url: "https://github.com/seeroy/FrogLauncher",
+                url: "https://froglauncher.seeroy.ru",
               },
             ],
           });
@@ -44,13 +44,13 @@ class FrogDiscordPresence {
               start: Date.now(),
             },
             assets: {
-              large_image: "icon1024",
+              large_image: "frog_warm",
               large_text: "FrogLauncher",
             },
             buttons: [
               {
                 label: "Я тоже такой хочу",
-                url: "https://github.com/seeroy/FrogLauncher",
+                url: "https://froglauncher.seeroy.ru",
               },
             ],
           });

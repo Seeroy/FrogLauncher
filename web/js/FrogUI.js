@@ -213,6 +213,7 @@ class FrogUI {
     }
     if(showProgressDesc == true && showProgressBar == false){
       $(".controls .progress-cont .progress-desc .spinner").removeClass("hidden");
+      $(".controls .progress-cont .progress-desc .filename").text("");
     } else {
       $(".controls .progress-cont .progress-desc .spinner").addClass("hidden");
     }
@@ -221,7 +222,7 @@ class FrogUI {
 
   static setBottomProgressBar(progress) {
     if (!$(".controls .progress-cont .progress").hasClass("hidden")) {
-      $(".controls .progress-cont .progress div").css("width", progress + "%");
+      $(".controls .progress-cont .progress").css("background", 'linear-gradient(90deg, var(--bg-primary-600) ' + progress + '%, rgba(85,85,85,0.55) ' + progress + '%)');
       $("#progress-badge span.progress-txt").text(progress + "%");
     }
   }
@@ -229,17 +230,6 @@ class FrogUI {
   static setBottomProgressDescription(text) {
     if (!$(".controls .progress-cont .progress-desc").hasClass("hidden")) {
       $(".controls .progress-cont .progress-desc .text").text(text);
-    }
-  }
-
-  static showDownloadManager(show) {
-    if (show == true && $(".downloads-container").hasClass("hidden")) {
-      $(".downloads-container").removeClass("hidden");
-      animateCSSJ(".downloads-container", "fadeInRight", true);
-    } else if (show == false && !$(".downloads-container").hasClass("hidden")) {
-      animateCSSJ(".downloads-container", "fadeOutRight", true).then(() => {
-        $(".downloads-container").addClass("hidden");
-      });
     }
   }
 

@@ -231,104 +231,27 @@ class FrogDownloadManager {
     }
   }
 
-  static handleDownloadStatus(e) {
+  static handleDownloadStatusV2(e) {
     var downloadPercent = Math.round((e.current * 100) / e.total);
-    var encName;
-    if (typeof downloadsID[e.name] !== "undefined") {
-      encName = downloadsID[e.name];
+    if (e.total > 1024 * 1024) {
+      FrogUI.changeBottomControlsStatus(
+        false,
+        true,
+        true,
+        "Скачиваем " + e.name
+      );
+      FrogUI.setBottomProgressBar(downloadPercent);
     } else {
-      encName = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-      downloadsID[e.name] = encName;
-    }
-    if (e.total > 100 && e.current > 0) {
-      if (downloadPercent < 100) {
-        if ($(".downloads-container .downloads-list #" + encName).length == 0) {
-          $(".downloads-container .downloads-list").prepend(
-            DOWNLOAD_ITEM.replaceAll(/\$1/gim, e.name)
-              .replaceAll(/\$2/gim, downloadPercent)
-              .replaceAll(/\$3/gim, encName)
-          );
-        } else {
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .rounded-full div"
-          ).css("width", downloadPercent + "%");
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .percent-number"
-          ).text(downloadPercent + "%");
-        }
+      if ($(".controls .progress-cont .progress").hasClass("hidden")) {
+        FrogUI.changeBottomControlsStatus(
+          false,
+          false,
+          true,
+          "Скачиваем " + e.name
+        );
       } else {
-        if (
-          $(".downloads-container .downloads-list #" + encName).data(
-            "completed"
-          ) != "completed"
-        ) {
-          $(".downloads-container .downloads-list #" + encName).data(
-            "completed",
-            "completed"
-          );
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .rounded-full"
-          ).remove();
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .percent-number"
-          ).remove();
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .progress-zone"
-          ).hide();
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .text-zone .material-symbols-rounded"
-          ).text("done");
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .text-zone .material-symbols-rounded"
-          ).removeClass("text-white");
-          $(
-            ".downloads-container .downloads-list #" +
-              encName +
-              " .text-zone .material-symbols-rounded"
-          ).addClass("text-green-600");
-          var dEl = document.getElementById(encName);
-          $(".downloads-container .downloads-list #" + encName).remove();
-          $(".downloads-container .downloads-list")[0].appendChild(dEl);
-          $(".downloads-container .downloads-list #" + encName)
-            .delay(500)
-            .queue(function () {
-              animateCSSJ(
-                ".downloads-container .downloads-list #" + encName,
-                "fadeOut",
-                false
-              ).then(() => {
-                $(this).remove();
-              });
-            });
-        }
+        FrogUI.setBottomProgressDescription("Скачиваем " + e.name);
       }
     }
-  }
-
-  static handleProgressStatus(e) {
-    var percent = Math.round((e.task * 100) / e.total);
-    FrogUI.changeBottomControlsStatus(false, false, true);
-    if (e.task == 0 && e.total > 0) {
-      FrogUI.setBottomProgressDescription("Проверяем элементы " + e.type);
-    } else {
-      FrogUI.setBottomProgressDescription(
-        "Скачивание " + e.type + " (" + e.task + " из " + e.total + ")"
-      );
-    }
-    FrogUI.setBottomProgressBar(percent);
   }
 }

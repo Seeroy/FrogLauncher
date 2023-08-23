@@ -13,6 +13,7 @@ class FrogGeneralStarter {
       options.customLaunchArgs.push(selectedServerFromList.split(":")[1]);
       selectedServerFromList = "";
     }
+    options.overrides.maxSockets = 1;
     if (selectedAccount.type == "elyby") {
       var authInjPath = path.join(
         mainConfig.selectedBaseDirectory,
@@ -66,10 +67,7 @@ class FrogGeneralStarter {
       FrogStartManager.parseStartStatus("mclc-start-evt");
     });
     launcher.on("download-status", function (e) {
-      FrogDownloadManager.handleDownloadStatus(e);
-    });
-    launcher.on("progress", function (e) {
-      FrogDownloadManager.handleProgressStatus(e);
+      FrogDownloadManager.handleDownloadStatusV2(e);
     });
   }
 }

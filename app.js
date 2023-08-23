@@ -4,6 +4,7 @@ const { autoUpdater } = require("electron-updater");
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
+var spawn = require("child_process").spawn;
 fs.mkdirSync(path.join(app.getPath("userData"), "logs"), { recursive: true });
 
 var pjson = require("./package.json");
@@ -97,13 +98,19 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("close-main-window", () => {
-    if(consoleWindowObject != null){
+    if (consoleWindowObject != null) {
       consoleWindowObject.close();
-      consoleWindowObject = null; 
+      consoleWindowObject = null;
     }
+    mainWindowObject.close();
     mainWindowObject = null;
     client.destroy();
     app.exit(0);
+    if (process.platform == "win32") {
+      setTimeout(() => {
+        spawn("taskkill", ["/im", "FrogLauncher.exe", "/f", "/t"]);
+      }, 500);
+    }
   });
   ipcMain.on("hide-main-window", () => {
     mainWindowObject.minimize();

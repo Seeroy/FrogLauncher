@@ -48,7 +48,6 @@ class FrogConfigManager {
       lastSelectedAccount: "none",
       lastSelectedVersion: "none",
       openConsoleOnStart: false,
-      enableDownloadManager: true,
       enableDiscordPresence: true,
       launcherStoryViewed: false,
       eulaAccepted: false,

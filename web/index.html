@@ -123,12 +123,6 @@
       <div class="actions">
         <div
           class="btn"
-          onclick="$('.downloads-container').removeClass('hidden')"
-        >
-          <span class="material-symbols-rounded">download</span>
-        </div>
-        <div
-          class="btn"
           data-drawer-target="drawer-toasts-list"
           data-drawer-show="drawer-toasts-list"
           data-drawer-backdrop="false"
@@ -270,7 +264,6 @@
     FrogUI.loadSection(".modals", "addMSAccountModal");
     FrogUI.loadSection(".modals", "addElybyAccountModal");
     FrogUI.loadSection(".modals", "versionSelectorModal");
-    FrogUI.loadSection(".modals", "downloadsFloating");
     FrogUI.loadSection(".modals", "modViewerModal");
 
     FrogUI.refreshUIDisablers();
@@ -328,6 +321,9 @@
         // Loading news
         FrogNewsProvider.loadNews(() => {
           $("#news-loading-indicator").addClass("hidden");
+          FrogNewsProvider.loadUpdates(() => {
+            $("#updates-loading-indicator").addClass("hidden");
+          });
         });
         FrogNewsProvider.setNewsReloadInterval();
         // Binding small easter egg
