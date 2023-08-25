@@ -1,5 +1,7 @@
 class FrogDiscordPresence {
   static setPresenceMode(mode, gameVersion = "", gameType = "") {
+    return;
+    // THIS CODE IS DEPRECATED NOW
     if (mainConfig.enableDiscordPresence == true) {
       switch (mode) {
         case "menu":
@@ -75,6 +77,8 @@ class FrogDiscordPresence {
   }
 
   static stopPresence() {
+    return;
+    // THIS CODE IS DEPRECATED NOW
     ipcRenderer.send("stop-discord-rpc");
   }
 }

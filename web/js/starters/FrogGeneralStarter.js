@@ -13,6 +13,13 @@ class FrogGeneralStarter {
       options.customLaunchArgs.push(selectedServerFromList.split(":")[1]);
       selectedServerFromList = "";
     }
+    if(mainConfig.storeGameResInRoot == false){
+      if(typeof options.version.custom !== "undefined"){
+        options.overrides.gameDirectory = path.join(mainConfig.selectedBaseDirectory, "versions", options.version.custom);
+      } else {
+        options.overrides.gameDirectory = path.join(mainConfig.selectedBaseDirectory, "versions", options.version.number);
+      }
+    }
     options.overrides.maxSockets = 1;
     if (selectedAccount.type == "elyby") {
       var authInjPath = path.join(

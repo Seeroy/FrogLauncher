@@ -19,9 +19,6 @@ class FrogOOBEWizard {
 
   static finishOOBE() {
     mainConfig.oobeFinished = true;
-    mainConfig.enableDiscordPresence = $(
-      ".oobeWizard #discordrpcOobeCheckbox"
-    ).is(":checked");
     mainConfig.eulaAccepted = true;
     FrogConfigManager.writeAndRefreshMainConfig(mainConfig);
     FrogBackendCommunicator.restartLauncher();

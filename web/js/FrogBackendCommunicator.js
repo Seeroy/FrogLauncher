@@ -17,6 +17,8 @@ class FrogBackendCommunicator {
   }
 
   static installUpdate() {
+    mainConfig.lastShutdownIsGraceful = true;
+    FrogConfigManager.writeMainConfig(mainConfig);
     ipcRenderer.send("install-update");
   }
 
@@ -29,6 +31,8 @@ class FrogBackendCommunicator {
   }
 
   static restartLauncher() {
+    mainConfig.lastShutdownIsGraceful = true;
+    FrogConfigManager.writeMainConfig(mainConfig);
     ipcRenderer.send("restart-launcher");
   }
 
@@ -41,6 +45,9 @@ class FrogBackendCommunicator {
   };
 
   static onCloseMainWindow = () => {
+    mainConfig.lastShutdownIsGraceful = true;
+    FrogConfigManager.writeMainConfig(mainConfig);
+
     ipcRenderer.send("close-main-window");
     FrogBackendCommunicator.logBrowserConsole(
       "Executed `onCloseMainWindow` on",

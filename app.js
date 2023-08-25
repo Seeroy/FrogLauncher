@@ -10,12 +10,7 @@ fs.mkdirSync(path.join(app.getPath("userData"), "logs"), { recursive: true });
 var pjson = require("./package.json");
 const APPVER = pjson.version; // Версия из package.json
 
-// Модуль для Discord Rich Presence
-const DISCORD_APP_ID = "1129749846241333378";
 const DEFAULT_USER_AGENT = "Seeroy/FrogLauncher " + APPVER;
-var rpc = require("discord-rpc");
-const client = new rpc.Client({ transport: "ipc" });
-client.login({ clientId: DISCORD_APP_ID }).catch(console.error);
 
 // Создаём глобальные переменные для хранения BrowserWindow
 global.mainWindowObject;
@@ -104,14 +99,9 @@ app.whenReady().then(() => {
     }
     mainWindowObject.close();
     mainWindowObject = null;
-    client.destroy();
     app.exit(0);
-    if (process.platform == "win32") {
-      setTimeout(() => {
-        spawn("taskkill", ["/im", "FrogLauncher.exe", "/f", "/t"]);
-      }, 500);
-    }
   });
+
   ipcMain.on("hide-main-window", () => {
     mainWindowObject.minimize();
   });
@@ -164,16 +154,5 @@ app.whenReady().then(() => {
     } else {
       event.sender.send("get-bg-result", false);
     }
-  });
-
-  ipcMain.on("set-discord-rpc", (event, data) => {
-    client.request("SET_ACTIVITY", {
-      pid: process.pid,
-      activity: data,
-    });
-  });
-
-  ipcMain.on("stop-discord-rpc", (event, data) => {
-    client.destroy();
   });
 });

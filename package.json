@@ -1,11 +1,12 @@
 {
   "name": "frogLauncher",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Yea, another Minecraft launcher based on Electron and web technologies",
   "main": "app.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder build --win --publish never"
+    "build-win": "electron-builder build --win --publish never",
+    "build-linux": "electron-builder build --linux --publish never"
   },
   "author": "Seeroy",
   "license": "MIT-3.0",
@@ -65,7 +66,6 @@
   "dependencies": {
     "colors": "^1.4.0",
     "decompress": "^4.2.1",
-    "discord-rpc": "^4.0.1",
     "electron-root-path": "^1.1.0",
     "electron-updater": "^6.1.1",
     "glob": "^10.3.3",

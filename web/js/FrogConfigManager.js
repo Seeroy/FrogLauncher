@@ -43,19 +43,19 @@ class FrogConfigManager {
       selectedJava: "auto",
       selectedBaseDirectory: FrogInfo.getDefaultDotMinecraft(),
       selectedTheme: "indigo",
-      selectedBackground: "h",
+      selectedBackground: "3",
       selectedBaseFont: "default",
       lastSelectedAccount: "none",
       lastSelectedVersion: "none",
       openConsoleOnStart: false,
-      enableDiscordPresence: true,
       launcherStoryViewed: false,
       eulaAccepted: false,
       oobeFinished: false,
       disappearOnStart: true,
-      installedModsCache: {}
+      installedModsCache: {},
+      storeGameResInRoot: true
     };
-    this.writeMainConfig(defaultCfg);
+    this.writeAndRefreshMainConfig(defaultCfg);
     return defaultCfg;
   }
 }

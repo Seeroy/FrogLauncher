@@ -232,6 +232,10 @@
     if (mainConfig == false) {
       mainConfig = FrogConfigManager.writeDefaultMainConfig();
     }
+    if (typeof mainConfig.storeGameResInRoot === "undefined") {
+      mainConfig.storeGameResInRoot = true;
+      FrogConfigManager.writeMainConfig(mainConfig);
+    }
     accountsConfig = FrogAccountManager.getAccounts();
 
     // Creating neccesary dirs if not exists
@@ -333,6 +337,11 @@
           "[APP]",
           "All is ok, startup success!"
         );
+        // Check if last shutdown is graceful
+        if(typeof mainConfig.lastShutdownIsGraceful !== "undefined" && mainConfig.lastShutdownIsGraceful == false){
+          FrogNotifyModal.create("Упс", "Похоже, предыдущее завершение работы лаунчера было неожиданным. Если у вас возникнут какие-то проблемы с конфигурацией, то рекомендуем переустановить лаунчер", "Понятно", "warning");
+        }
+        mainConfig.lastShutdownIsGraceful = false;
       }, 250);
 
       setTimeout(function () {
@@ -362,6 +371,7 @@
           FrogVersionsUI.changeActiveVersion(mainConfig.lastSelectedVersion);
         }
         FrogUI.hidePreloader(); // Hiding preloader
+        FrogUI.refreshAbsoluteElementsPositions(); // Refreshing absolute elements positions
       }, 900);
 
       // Evt for notifications list clear button

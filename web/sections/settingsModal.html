@@ -69,6 +69,16 @@
         </button>
       </div>
 
+      <!-- Game resources store select -->
+      <p class="my-3">
+        Где хранить ресурсы игры (папки saves, resourcepacks и др.)
+      </p>
+      <select class="custom-input" id="gameResStoreSelect">
+        <option value="root">В общей папке игры</option>
+        <option value="ver">Отдельно для каждой версии игры</option>
+      </select>
+
+      <!-- Fabric API auto-install switch -->
       <div class="flex items-center my-3">
         <span class="text-white text-lg mr-2"
           >Автоматически устанавливать мод FabricAPI для версий Fabric</span
@@ -96,16 +106,6 @@
 
       <div class="flex items-center my-3">
         <span class="text-white text-lg mr-2"
-          >Включить Discord Rich Presence</span
-        >
-        <label class="switch">
-          <input type="checkbox" id="discordrpcCheckbox" />
-          <span class="slider round"></span>
-        </label>
-      </div>
-
-      <div class="flex items-center my-3">
-        <span class="text-white text-lg mr-2"
           >Скрывать лаунчер при запуске игры</span
         >
         <label class="switch">
@@ -125,6 +125,14 @@
       </div>
 
       <div class="grow"></div>
+
+      <button
+        type="button"
+        onclick="FrogConfigManager.writeDefaultMainConfig(); FrogBackendCommunicator.restartLauncher();"
+        class="mb-3 focus:outline-none text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700"
+      >
+        Сбросить настройки лаунчера
+      </button>
     </div>
 
     <div
@@ -429,6 +437,12 @@
       }
     }
 
+    if(mainConfig.storeGameResInRoot == true){
+      $("#gameResStoreSelect option[value='root']").prop("selected", true);
+    } else {
+      $("#gameResStoreSelect option[value='ver']").prop("selected", true);
+    }
+
     // Refreshing game path
     $("#gamePathInput").val(mainConfig.selectedBaseDirectory);
 
@@ -450,10 +464,6 @@
       $("#autoFabricAPICheckbox").prop("checked", true);
     }
 
-    if (mainConfig.enableDiscordPresence == true) {
-      $("#discordrpcCheckbox").prop("checked", true);
-    }
-
     if (mainConfig.enableSounds == true) {
       $("#interfaceSoundsCheckbox").prop("checked", true);
     }
@@ -471,19 +481,6 @@
   });
 
   function saveMainSettings() {
-    if (
-      mainConfig.enableDiscordPresence !=
-        $("#discordrpcCheckbox").is(":checked") &&
-      $("#discordrpcCheckbox").is(":checked") == false
-    ) {
-      FrogDiscordPresence.stopPresence();
-    } else if (
-      mainConfig.enableDiscordPresence !=
-        $("#discordrpcCheckbox").is(":checked") &&
-      $("#discordrpcCheckbox").is(":checked") == true
-    ) {
-      FrogDiscordPresence.setPresenceMode("menu");
-    }
     mainConfig.selectedJava = $("#javaSelect option:selected").val();
     mainConfig.selectedMemorySize = $("#memInput").val();
     mainConfig.selectedBaseDirectory = $("#gamePathInput").val();
@@ -499,6 +496,11 @@
     mainConfig.autoInstallFabricAPI = $("#autoFabricAPICheckbox").is(
       ":checked"
     );
+    if($("#gameResStoreSelect option[value='root']").is(":selected")){
+      mainConfig.storeGameResInRoot = true;
+    } else {
+      mainConfig.storeGameResInRoot = false;
+    }
     if (mainConfig.enableDownloadManager == true) {
       $(".downloads-container").removeClass("disabled");
     } else {
