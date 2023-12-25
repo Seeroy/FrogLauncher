@@ -248,8 +248,8 @@ class FrogVersionsManager {
             }
 
             const upper = Math.min(aSplit.length, bSplit.length);
-            let i = 0;
-            let result = 0;
+            var i = 0;
+            var result = 0;
             while (i < upper && result == 0) {
               result =
                 aSplit[i] == bSplit[i] ? 0 : aSplit[i] < bSplit[i] ? -1 : 1; // each number

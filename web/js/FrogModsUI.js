@@ -174,16 +174,32 @@ class FrogModsUI {
         $("#mod-viewer-mmodal .mod-version-selector-fill").append(
           "<option selected disabled>Выберите версию из списка</option>"
         );
+        var previousOptgroup = "";
         versList.forEach((versionItem) => {
-          $("#mod-viewer-mmodal .mod-version-selector-fill").append(
-            "<option value='" +
-              versionItem.id +
-              "' data-dlurl='" +
-              versionItem.files[0].url +
-              "'>" +
-              versionItem.name +
-              "</option>"
-          );
+          var newOptgroup = "<optgroup>" + versionItem.game_versions.join(", ") + "</optgroup>";
+          if(previousOptgroup !== newOptgroup){
+            // Если группа ещё не создана
+            $("#mod-viewer-mmodal .mod-version-selector-fill").append(
+                "</optgroup><optgroup label='" + versionItem.game_versions.join(", ") + "'><option value='" +
+                versionItem.id +
+                "' data-dlurl='" +
+                versionItem.files[0].url +
+                "'><p>" +
+                versionItem.name +
+                "</p></option>"
+            );
+          } else {
+            // Если группа уже создана
+            $("#mod-viewer-mmodal .mod-version-selector-fill").append(
+                "<option value='" +
+                versionItem.id +
+                "' data-dlurl='" +
+                versionItem.files[0].url +
+                "'><p>" +
+                versionItem.name +
+                "</p></option>"
+            );
+          }
         });
       }
     );
