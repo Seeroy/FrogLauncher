@@ -1,98 +1,160 @@
 <div id="mod-viewer-mmodal" class="modal-bg hidden" style="z-index: 11 !important;">
-  <div class="modal-window bg-primary-1100">
-    <div class="flex items-center mb-2">
-      <div class="modal-caption grow text-sm mod-name-fill"></div>
-      <button
-        type="button"
-        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-        onclick="FrogUI.hideMenuModal('mod-viewer')"
-      >
-        <span class="material-symbols-rounded">close</span>
-      </button>
-    </div>
-
-    <div class="h-full w-full grid gap-4 mt-2" style="height: 74vh;">
-      <div class="short-info-panel" style="height: 74vh;">
-        <div class="mod-icon mod-icon-fill"></div>
-        <div class="mod-caption mod-name-fill"></div>
-        <select
-          id="mod-versions"
-          class="mod-version-selector-fill my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-        ></select>
-        <button class="custom-button w-full my-2">Установить</button>
-        <div class="flex flex-col w-full items-start">
-          <div class="flex justify-center my-2">
-            <span class="material-symbols-rounded mr-3"> person </span>
-            <span class="mod-devname-fill"></span>
-          </div>
-          <div class="flex justify-center my-2">
-            <span class="material-symbols-rounded mr-3"> download </span>
-            <span class="mod-downloads-fill"></span>
-          </div>
-          <div class="flex justify-center my-2">
-            <span class="material-symbols-rounded mr-3"> description </span>
-            <span class="mod-license-fill"></span>
-          </div>
+    <div class="modal-window bg-primary-1100">
+        <div class="flex items-center mb-2">
+            <div class="modal-caption grow text-sm mod-name-fill"></div>
+            <button
+                    type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    onclick="FrogUI.hideMenuModal('mod-viewer')"
+            >
+                <span class="material-symbols-rounded">close</span>
+            </button>
         </div>
-        <p class="mt-2">Поддерживаемые версии игры:</p>
-        <div class="flex flex-col mod-versions-fill">
 
+        <div class="h-full w-full grid gap-4 mt-2" style="height: 74vh;">
+            <div class="short-info-panel" style="height: 74vh;">
+                <div class="mod-header">
+                    <div class="mod-icon mod-icon-fill"></div>
+                    <div class="mod-caption mod-name-fill"></div>
+                    <div class="mod-devname-fill mod-name-fill"></div>
+                </div>
+                <div class="mods-col">
+                    <div class="flex flex-col w-full items-start">
+                        <div class="flex justify-center my-2">
+                            <span class="material-symbols-rounded mr-3"> download </span>
+                            <span class="mod-downloads-fill"></span>
+                        </div>
+                        <div class="flex justify-center my-2">
+                            <span class="material-symbols-rounded mr-3"> description </span>
+                            <span class="mod-license-fill"></span>
+                        </div>
+                    </div>
+                    <div class="mods-list-v2"></div>
+                </div>
+            </div>
+            <div class="full-info-panel" style="height: 74vh;">
+                <span class="mod-description mod-desc-fill"></span>
+                <div class="flex flex-col p-3 items-center justify-center mod-gallery-fill"></div>
+            </div>
         </div>
-      </div>
-      <div class="full-info-panel" style="height: 74vh;">
-        <span class="mod-description mod-desc-fill"></span>
-        <div class="flex flex-col p-3 items-center justify-center mod-gallery-fill"></div>
-      </div>
     </div>
-  </div>
 </div>
 
 <style>
-  #mod-viewer-mmodal .short-info-panel {
-    border: 1px solid rgba(100, 100, 111, 0.2);
-    background: var(--bg-primary-1100);
-    border-radius: 16px;
-    height: 100%;
-    width: 32vw;
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-  }
+    #mod-viewer-mmodal .short-info-panel {
+        border: 1px solid rgba(100, 100, 111, 0.2);
+        background: var(--bg-primary-1100);
+        border-radius: 16px;
+        height: max-content;
+        width: 33vw;
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+    }
 
-  #mod-viewer-mmodal .short-info-panel .mod-icon {
-    border-radius: 8px;
-    height: 128px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    #mod-viewer-mmodal .short-info-panel .mod-header {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        grid-template-rows: max-content max-content;
+        gap: 1em 2em;
+        grid-auto-flow: row;
+        grid-template-areas:
+    "mod-icon-fill mod-name-fill"
+    "mod-icon-fill mod-devname-fill";
+    }
 
-  #mod-viewer-mmodal .short-info-panel .mod-caption {
-    font-weight: 700;
-    font-size: 14pt;
-    color: white;
-    margin: 0 16px;
-    text-align: center;
-  }
+    #mod-viewer-mmodal .short-info-panel .mod-header .mod-name-fill {
+        grid-area: mod-name-fill;
+        font-weight: 700;
+        font-size: 14pt;
+        color: white;
+    }
 
-  #mod-viewer-mmodal .full-info-panel {
-    border: 1px solid rgba(100, 100, 111, 0.2);
-    background: var(--bg-primary-1100);
-    border-radius: 16px;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    overflow-y: auto;
-  }
+    #mod-viewer-mmodal .short-info-panel .mod-header .mod-devname-fill {
+        align-self: stretch;
+        grid-area: mod-devname-fill;
+        font-weight: 600;
+        font-size: 12pt;
+        color: rgb(200, 200, 200);
+    }
 
-  #mod-viewer-mmodal .grid {
-    grid-template-columns: 1fr 3.4fr;
-  }
+    #mod-viewer-mmodal .short-info-panel .mod-header .mod-icon-fill {
+        justify-self: center;
+        align-self: center;
+        grid-area: mod-icon-fill;
+        height: 96px;
+        width: 96px;
+    }
 
-  #mod-viewer-mmodal .mod-versions-fill {
-    height: 25vh;
-    overflow-y: auto;
-  }
+    #mod-viewer-mmodal .full-info-panel {
+        border: 1px solid rgba(100, 100, 111, 0.2);
+        background: var(--bg-primary-1100);
+        border-radius: 16px;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        overflow-y: auto;
+    }
+
+    #mod-viewer-mmodal .grid {
+        grid-template-columns: 1fr 3.4fr;
+    }
+
+    #mod-viewer-mmodal .mods-list-v2 {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 48vh;
+    }
+
+    #mod-viewer-mmodal .mods-list-v2 .item:not(:last-child) {
+        margin-top: 8px;
+    }
+
+    #mod-viewer-mmodal .mods-list-v2 .item {
+        background: var(--bg-primary-1100);
+        border: 1px solid rgb(150, 150, 150);
+        border-radius: 8px;
+        padding: 8px;
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        grid-template-rows: max-content max-content max-content;
+        gap: 0 1.5em;
+        grid-template-areas:
+    "dl-button name"
+    "dl-button loader"
+    "dl-button version";
+    }
+
+    #mod-viewer-mmodal .mods-list-v2 .item .dl-button {
+        justify-self: center;
+        align-self: center;
+        grid-area: dl-button;
+        padding: 0;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #mod-viewer-mmodal .mods-list-v2 .item .name {
+        grid-area: name;
+        font-weight: 600;
+    }
+
+    #mod-viewer-mmodal .mods-list-v2 .item .loader {
+        grid-area: loader;
+        font-weight: 500;
+        font-size: 11pt;
+    }
+
+    #mod-viewer-mmodal .mods-list-v2 .item .version {
+        grid-area: version;
+        font-weight: 500;
+        font-size: 10pt;
+    }
 </style>

@@ -1,23 +1,23 @@
 html.minecrafty:root {
-  --bg-primary-300: linear-gradient(210deg, #ccfca2, #d7ffb7);
-  --bg-primary-400: linear-gradient(210deg, #99dd5d, #98e05d);
-  --bg-primary-500: linear-gradient(210deg, #83bd51, #6aa738);
-  --bg-primary-600: linear-gradient(210deg, #70b237, #477a1e);
-  --bg-primary-700: linear-gradient(210deg, #588b2c, #3f681d);
-  --bg-primary-800: linear-gradient(210deg, #3d5c21, #2e5210);
-  --bg-primary-900: linear-gradient(210deg, #2d500f, #294e0b);
-  --bg-primary-1000: linear-gradient(210deg, #233317, #1d310c);
-  --bg-primary-1100: linear-gradient(210deg, #0d1408, #121d09);
+  --bg-primary-300: #d7ffb7;
+  --bg-primary-400: #98e05d;
+  --bg-primary-500: #6aa738;
+  --bg-primary-600: #477a1e;
+  --bg-primary-700: #3f681d;
+  --bg-primary-800: #396416;
+  --bg-primary-900: #294e0b;
+  --bg-primary-1000: #1d310c;
+  --bg-primary-1100: #121d09;
   --bg-primary-anim: #233317;
   --bg-primary-transparent: rgba(36, 75, 21, 0.4);
 }
 
 .minecrafty-theme-color {
-  background: linear-gradient(210deg, #70b237, #477a1e);
+  background: #477a1e;
 }
 
 .minecrafty-theme-color-darker {
-  background: linear-gradient(210deg, #2d500f, #294e0b);
+  background: #294e0b;
 }
 
 .minecrafty-theme-color-bg {
