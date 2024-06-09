@@ -1,4 +1,4 @@
-const NEWS_LOAD_URL = "http://froglauncher.seeroy.ru/news.json";
+const NEWS_LOAD_URL = "http://froglauncher.seeeroy.ru/news.json";
 const UPDATES_LOAD_URL =
   "https://api.github.com/repos/Seeroy/FrogLauncher/releases";
 const UPDATE_CARD_BASE =

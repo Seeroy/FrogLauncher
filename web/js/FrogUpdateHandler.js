@@ -1,7 +1,7 @@
 const LATEST_UPDATE_YML_URL =
-  "http://froglauncher.seeroy.ru/updates/latest.yml";
+  "http://froglauncher.seeeroy.ru/updates/latest.yml";
 const LATEST_UPDATE_CHANGELOG_URL =
-  "http://froglauncher.seeroy.ru/updates/changelog.txt";
+  "http://froglauncher.seeeroy.ru/updates/changelog.txt";
 
 class FrogUpdateHandler {
   static bindUpdate() {

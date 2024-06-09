@@ -1,4 +1,4 @@
-const SERVERS_LIST_URL = "http://froglauncher.seeroy.ru/servers.json";
+const SERVERS_LIST_URL = "http://froglauncher.seeeroy.ru/servers.json";
 const SERVERS_LIST_ITEM_BASE =
   '<div class="server-item"> <div class="server-icon"> <img src="$5"> </div> <div class="server-name">$1</div> <div class="server-description">$2</div> <div class="server-version"> <span class="material-symbols-rounded" style="font-size: 10pt" >conversion_path</span > <span class="ml-3">$3</span> </div> <div class="server-ip"> <span class="material-symbols-rounded" style="font-size: 10pt" >dns</span > <span class="ml-3">$4</span> </div> <div class="server-copy-btn"> <span class="material-symbols-rounded">content_copy</span> </div> </div>';
 const SERVERS_LIST_ITEM_BASE_V2 =

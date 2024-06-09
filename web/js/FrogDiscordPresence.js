@@ -17,7 +17,7 @@ class FrogDiscordPresence {
             buttons: [
               {
                 label: "Я тоже такой хочу",
-                url: "https://froglauncher.seeroy.ru",
+                url: "https://froglauncher.seeeroy.ru",
               },
             ],
           });
@@ -33,7 +33,7 @@ class FrogDiscordPresence {
             buttons: [
               {
                 label: "Я тоже такой хочу",
-                url: "https://froglauncher.seeroy.ru",
+                url: "https://froglauncher.seeeroy.ru",
               },
             ],
           });
@@ -52,7 +52,7 @@ class FrogDiscordPresence {
             buttons: [
               {
                 label: "Я тоже такой хочу",
-                url: "https://froglauncher.seeroy.ru",
+                url: "https://froglauncher.seeeroy.ru",
               },
             ],
           });

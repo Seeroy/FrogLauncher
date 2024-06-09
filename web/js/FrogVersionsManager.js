@@ -5,7 +5,7 @@ const SODIUM_LIST_URL = "https://api.modrinth.com/v2/project/sodium/version";
 const IRIS_LIST_URL = "https://api.modrinth.com/v2/project/iris/version";
 const FABRIC_API_LIST_URL =
   "https://api.modrinth.com/v2/project/fabric-api/version";
-const MODLOADERS_INFO_URL = "http://froglauncher.seeroy.ru/datav2.json";
+const MODLOADERS_INFO_URL = "http://froglauncher.seeeroy.ru/datav2.json";
 var modloadersMyInfo;
 
 class FrogVersionsManager {
