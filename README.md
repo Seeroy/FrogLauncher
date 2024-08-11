@@ -1,8 +1,2 @@
-<div align="center">
-  <img src="web/assets/icon-foreground.png" align="center" height="64" />
-  <br>
-  
-  # FrogLauncher
-</div>
-
-> Да-да, очередной Minecraft-лаунчер на Electron.
+# ПЕРЕМЕЩЕНО СЮДА: [FrogLauncher2](https://github.com/Seeroy/FrogLauncher2)
+# MOVED HERE: [FrogLauncher2](https://github.com/Seeroy/FrogLauncher2)
